@@ -1,0 +1,145 @@
+﻿---
+import Media from '../Media.astro';
+import Screen from './Screen.astro';
+
+/**
+ * The wireframe row, then the early structure set beside the finished screen.
+ * Wireframes are drawn inside a thin outline, matching the design.
+ */
+interface Props {
+  frames: { image?: string; alt: string; caption: string }[];
+  compare: {
+    beforeImage?: string;
+    beforeAlt: string;
+    beforeLabel: string;
+    afterImage?: string;
+    afterAlt: string;
+    afterLabel: string;
+  };
+}
+
+const { frames, compare } = Astro.props;
+const PHONE = '816/1662';
+---
+
+<ul class="hk-cs-frames">
+  {
+    frames.map((frame) => (
+      <li class="hk-cs-frame">
+        <div class="hk-cs-frame-box">
+          <Media
+            src={frame.image}
+            alt={frame.alt}
+            ratio={PHONE}
+            sizes="(max-width: 900px) 45vw, 300px"
+          />
+        </div>
+        <p class="hk-cs-frame-caption">{frame.caption}</p>
+      </li>
+    ))
+  }
+</ul>
+
+<div class="hk-cs-compare hk-card">
+  <div class="hk-cs-compare-side">
+    <div class="hk-cs-frame-box is-thin">
+      <Media
+        src={compare.beforeImage}
+        alt={compare.beforeAlt}
+        ratio={PHONE}
+        sizes="(max-width: 900px) 45vw, 240px"
+      />
+    </div>
+    <p class="hk-cs-compare-label">{compare.beforeLabel}</p>
+  </div>
+
+  <div class="hk-cs-compare-side">
+    <Screen
+      src={compare.afterImage}
+      alt={compare.afterAlt}
+      width="56%"
+      sizes="(max-width: 900px) 45vw, 240px"
+    />
+    <p class="hk-cs-compare-label is-accent">{compare.afterLabel}</p>
+  </div>
+</div>
+
+<style>
+  .hk-cs-frames {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--hk-gap-sm);
+    margin: 0 0 56px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hk-cs-frame {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* The wireframe outline from the design — a drawn frame, not a photo. */
+  .hk-cs-frame-box {
+    border-radius: var(--hk-r-card-sm);
+    overflow: hidden;
+    background: var(--hk-surface-alt);
+    border: 3px solid var(--hk-wire-border);
+    position: relative;
+  }
+
+  .hk-cs-frame-box.is-thin {
+    border-width: 2px;
+    border-color: var(--hk-wire-border-2);
+    width: 56%;
+  }
+
+  .hk-cs-frame-caption {
+    font-size: var(--hk-meta-sm);
+    font-weight: 600;
+    color: var(--hk-ink-3-text);
+    text-align: center;
+  }
+
+  .hk-cs-compare {
+    padding: 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .hk-cs-compare-side {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .hk-cs-compare-label {
+    font-size: var(--hk-meta-sm);
+    font-weight: 600;
+    color: var(--hk-ink-3-text);
+    border: 1px solid var(--hk-hairline-2);
+    border-radius: var(--hk-r-pill);
+    padding: 8px 16px;
+  }
+
+  .hk-cs-compare-label.is-accent {
+    color: var(--hk-accent-text);
+    background: var(--hk-accent-soft);
+    border-color: transparent;
+  }
+
+  @media (max-width: 900px) {
+    .hk-cs-frames {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-bottom: 40px;
+    }
+    .hk-cs-compare {
+      padding: 28px;
+      gap: var(--hk-gap);
+    }
+  }
+</style>

@@ -1,0 +1,50 @@
+---
+/**
+ * The header of each chapter in the hi-fi walkthrough: a quiet label, the
+ * chapter title, and a sentence about what it covers.
+ */
+interface Props {
+  eyebrow: string;
+  heading: string;
+  body?: string;
+  /** `h2` starts a new part of the study; `h3` sits inside one. */
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { eyebrow, heading, body } = Astro.props;
+const Heading = Astro.props.headingLevel ?? 'h3';
+---
+
+<div class="hk-cs-chapter">
+  <p class="hk-eyebrow">{eyebrow}</p>
+  <Heading class="hk-cs-chapter-title">{heading}</Heading>
+  {body && <p class="hk-prose hk-cs-chapter-body">{body}</p>}
+</div>
+
+<style>
+  .hk-cs-chapter {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+
+  .hk-cs-chapter-title {
+    font-family: var(--hk-font-display);
+    font-weight: 400;
+    font-size: var(--hk-h4);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .hk-cs-chapter-body {
+    margin-top: 6px;
+    max-width: 640px;
+  }
+
+  @media (max-width: 600px) {
+    .hk-cs-chapter-title {
+      font-size: 32px;
+    }
+  }
+</style>

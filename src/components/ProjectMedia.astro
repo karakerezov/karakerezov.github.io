@@ -1,0 +1,182 @@
+---
+import site from '../data/site.json';
+import Media from './Media.astro';
+import { resolveImage } from '../lib/images';
+
+/**
+ * The picture area of a project card.
+ *
+ * A protected project gets the treatment from the design: the cover is blurred
+ * and darkened behind a veil, with a lock badge on top. The badge is real text,
+ * so it is announced to screen readers rather than being purely visual.
+ */
+interface Props {
+  cover?: string | undefined;
+  coverAlt: string;
+  isProtected?: boolean;
+  protectedBadge?: string | undefined;
+  /** True only for the single largest image above the fold. */
+  eager?: boolean;
+  sizes?: string;
+  class?: string;
+}
+
+const {
+  cover,
+  coverAlt,
+  isProtected = false,
+  protectedBadge,
+  eager = false,
+  sizes = '(max-width: 900px) 100vw, 50vw',
+  class: className,
+} = Astro.props;
+
+const badge = protectedBadge || site.a11y.protectedBadge;
+
+/**
+ * A wide mockup fills the frame. A tall phone screenshot would be cropped to a
+ * meaningless strip by the same rule, so those are shown whole and centred on
+ * the well's own background instead.
+ */
+const image = resolveImage(cover);
+const isPortrait = image ? image.height > image.width : false;
+---
+
+<div
+  class:list={['hk-well', isProtected && 'is-protected', isPortrait && 'is-portrait', className]}
+>
+  <div class="hk-well-inner">
+    <Media
+      src={cover}
+      alt={isProtected ? '' : coverAlt}
+      sizes={sizes}
+      eager={eager}
+      class="hk-well-img"
+    />
+  </div>
+
+  {
+    isProtected && (
+      <div class="hk-well-veil">
+        <span class="hk-well-badge">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <rect x="4" y="11" width="16" height="10" rx="3" />
+            <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+          </svg>
+          {badge}
+        </span>
+      </div>
+    )
+  }
+</div>
+
+<style>
+  /*
+   * The card that uses this well sets its shape through custom properties,
+   * so a breakpoint can change the height without fighting an inline style.
+   */
+  .hk-well {
+    border-radius: var(--hk-r-media);
+    overflow: hidden;
+    background: var(--hk-surface-alt);
+    position: relative;
+    height: var(--hk-well-h, auto);
+    min-height: var(--hk-well-min, 0);
+    aspect-ratio: var(--hk-well-ratio, auto);
+    flex: var(--hk-well-flex, 1 1 auto);
+  }
+
+  .hk-well.is-protected {
+    background: var(--hk-dark-well);
+  }
+
+  .hk-well-inner {
+    position: absolute;
+    inset: 0;
+    transition: var(--hk-t-media);
+  }
+
+  .hk-well-inner :global(.hk-well-img),
+  .hk-well-inner :global(.hk-placeholder) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: var(--hk-media-filter);
+  }
+
+  .is-portrait .hk-well-inner {
+    padding: 24px;
+  }
+
+  .is-portrait .hk-well-inner :global(.hk-well-img) {
+    object-fit: contain;
+    object-position: center top;
+  }
+
+  /* The card's :hover zooms the picture, not the frame. */
+  :global(.hk-project-card:hover) .hk-well-inner {
+    transform: var(--hk-zoom);
+  }
+
+  .is-protected .hk-well-inner {
+    filter: blur(3px) brightness(0.55);
+    transform: scale(1.04);
+  }
+
+  :global(.hk-project-card:hover) .is-protected .hk-well-inner {
+    transform: scale(1.04);
+  }
+
+  .hk-well-veil {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--hk-veil);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    pointer-events: none;
+  }
+
+  .hk-well-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: var(--hk-meta-sm);
+    font-weight: 600;
+    line-height: 1;
+    color: #151515;
+    background: var(--hk-badge);
+    border-radius: var(--hk-r-pill);
+    padding: 12px 20px;
+  }
+
+  :global(:root[data-theme='dark']) .hk-well-badge {
+    color: var(--hk-ink);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .hk-well-badge {
+      color: var(--hk-ink);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hk-well-inner {
+      transition: none;
+    }
+    :global(.hk-project-card:hover) .hk-well-inner {
+      transform: none;
+    }
+  }
+</style>

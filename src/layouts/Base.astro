@@ -1,0 +1,151 @@
+---
+import '../styles/global.css';
+import { getImage } from 'astro:assets';
+import site from '../data/site.json';
+import { resolveImage } from '../lib/images';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  /** Page title without the site name — that is appended automatically. */
+  title: string;
+  /** Used verbatim as <title> when the page should not carry the suffix. */
+  exactTitle?: string;
+  description: string;
+  /** Path into src/assets for the share image; falls back to the default card. */
+  ogImage?: string | undefined;
+  ogType?: 'website' | 'article' | 'profile';
+  /** JSON-LD nodes, already serialised by lib/schema.ts. */
+  jsonLd?: string | undefined;
+  /** Nav href of the current section, e.g. "/work". */
+  active?: string | undefined;
+  /** Shows a "Draft" ribbon. Only ever true while running `npm run dev`. */
+  draft?: boolean;
+  /** Keeps a page out of search results — used for the form's result pages. */
+  noindex?: boolean;
+}
+
+const {
+  title,
+  exactTitle,
+  description,
+  ogImage,
+  ogType = 'website',
+  jsonLd,
+  active,
+  draft = false,
+  noindex = false,
+} = Astro.props;
+
+const pageTitle = exactTitle ?? `${title} · ${site.name}`;
+const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', site.url).href;
+
+/**
+ * Social cards need an absolute URL to a real file. A project cover is resized
+ * to the 1200×630 card shape; anything without a cover uses the default image.
+ */
+const coverSource = resolveImage(ogImage);
+const shareImage = coverSource
+  ? (await getImage({ src: coverSource, width: 1200, height: 630, fit: 'cover', format: 'jpeg' }))
+      .src
+  : site.ogImage;
+const shareImageUrl = new URL(shareImage, site.url).href;
+---
+
+<!doctype html>
+<html lang={site.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!--
+      Applies the stored appearance before the first paint, so the page never
+      flashes light before switching to dark. Deliberately inline and blocking.
+    -->
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('hk-theme');
+          if (stored === 'dark' || stored === 'light') {
+            document.documentElement.setAttribute('data-theme', stored);
+          }
+        } catch (e) {
+          /* storage unavailable — fall back to the OS preference */
+        }
+      })();
+    </script>
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="author" content={site.name} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta name="theme-color" content="#F7F7F4" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121312" media="(prefers-color-scheme: dark)" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- The two faces used above the fold. The rest load as needed. -->
+    <link
+      rel="preload"
+      href="/fonts/instrument-serif-v5-latin_latin-ext-regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/nunito-sans-v19-regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={shareImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={shareImageUrl} />
+
+    {jsonLd && <script type="application/ld+json" set:html={jsonLd} is:inline />}
+  </head>
+
+  <body>
+    <a class="hk-skip-link" href="#main">{site.a11y.skipToContent}</a>
+
+    <Header active={active} />
+
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+
+    <Footer />
+
+    {draft && <p class="hk-draft">Draft — this project is hidden from the published site</p>}
+
+    <script>
+      import '../scripts/theme';
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* The fixed header overlaps the top of every page. */
+  main {
+    display: block;
+  }
+  main:focus {
+    outline: none;
+  }
+</style>

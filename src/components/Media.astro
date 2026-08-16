@@ -1,0 +1,75 @@
+---
+import { Image } from 'astro:assets';
+import { resolveImage } from '../lib/images';
+import Placeholder from './Placeholder.astro';
+
+/**
+ * One image slot. Give it a path and it renders a responsive, lazily loaded
+ * picture; leave the path empty (or point it at a file that doesn't exist yet)
+ * and it renders a Placeholder of exactly the same shape.
+ *
+ * Use this rather than a bare <img> so a missing file can never break a page.
+ */
+interface Props {
+  /** Path relative to src/assets, e.g. "/projects/grovia/home.png". */
+  src?: string | undefined;
+  /** Describe what the image shows. Empty string marks it as decorative. */
+  alt: string;
+  /** CSS aspect-ratio, used by the placeholder and to reserve space. */
+  ratio?: string;
+  /** Fixed height, when the design pins one. */
+  height?: string;
+  /** Widths to generate. */
+  widths?: number[];
+  /** The `sizes` attribute — how wide the image renders at each breakpoint. */
+  sizes?: string;
+  /** True for the one image above the fold on a page. */
+  eager?: boolean;
+  class?: string;
+}
+
+const {
+  src,
+  alt,
+  ratio,
+  height,
+  widths = [400, 800, 1200, 1600],
+  sizes = '(max-width: 900px) 100vw, 50vw',
+  eager = false,
+  class: className,
+} = Astro.props;
+
+const image = resolveImage(src);
+/** Never upscale: cap the generated widths at the file's own width. */
+const usableWidths = image ? widths.filter((w) => w <= image.width) : widths;
+if (image && usableWidths.length === 0) usableWidths.push(image.width);
+---
+
+{
+  image ? (
+    <Image
+      src={image}
+      alt={alt}
+      widths={usableWidths}
+      sizes={sizes}
+      loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={eager ? 'high' : 'auto'}
+      decoding={eager ? 'sync' : 'async'}
+      class:list={['hk-media-img', className]}
+      style={[ratio && `aspect-ratio:${ratio}`, height && `height:${height}`]
+        .filter(Boolean)
+        .join(';')}
+    />
+  ) : (
+    <Placeholder alt={alt} ratio={ratio} height={height} class={className} />
+  )
+}
+
+<style>
+  .hk-media-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>

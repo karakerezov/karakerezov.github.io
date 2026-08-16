@@ -1,0 +1,43 @@
+---
+/**
+ * The HK monogram, inlined so it can pick up the accent colour from the
+ * current colour scheme. The original file is a fixed teal; using
+ * `currentColor` lets it switch to the lighter dark-mode accent.
+ */
+interface Props {
+  /** Rendered height in pixels; the width follows the aspect ratio. */
+  height: number;
+  class?: string;
+}
+
+const { height, class: className } = Astro.props;
+const width = Math.round((height * 448) / 364);
+---
+
+<svg
+  class:list={['hk-logo', className]}
+  width={width}
+  height={height}
+  viewBox="0 0 448 364"
+  fill="currentColor"
+  role="img"
+  aria-hidden="true"
+  focusable="false"
+>
+  <path
+    d="M169.361,196.632h-44.455v127.681l-70.999-20.674V48.899l70.999,20.674v107.652L169.361,196.632z"
+  ></path>
+  <polygon
+    points="245.014,176.389 340.566,48.899 411.373,69.574 316.012,196.82 411.373,324.313 340.375,303.639"
+  ></polygon>
+  <polygon points="242.119,324.313 171.115,303.639 171.115,48.899 242.119,69.574"></polygon>
+</svg>
+
+<style>
+  .hk-logo {
+    display: block;
+    width: auto;
+    color: var(--hk-accent);
+    transition: color 0.2s ease;
+  }
+</style>

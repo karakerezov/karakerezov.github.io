@@ -1,0 +1,701 @@
+/**
+ * Hristo K Portfolio — global stylesheet.
+ *
+ * Three parts, in order:
+ *   1. @font-face      the ten local font files (from starter/fonts.css)
+ *   2. design tokens   light + dark custom properties (from starter/tokens.css)
+ *   3. primitives      the handful of classes used on every page
+ *
+ * Light palette values are measured from the original design and must not change.
+ * Everything else in the site references a custom property — no loose hex codes.
+ */
+
+/* ============================================================
+   1. FONTS — local files in /public/fonts, no CDN request
+   ============================================================ */
+
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/instrument-serif-v5-latin_latin-ext-regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/instrument-serif-v5-latin_latin-ext-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Nunito Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/nunito-sans-v19-regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Nunito Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/nunito-sans-v19-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Nunito Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/nunito-sans-v19-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Nunito Sans';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/nunito-sans-v19-500italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Nunito Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/nunito-sans-v19-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Nunito Sans';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/nunito-sans-v19-600italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Nunito Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/nunito-sans-v19-700.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Nunito Sans';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/nunito-sans-v19-700italic.woff2') format('woff2');
+}
+
+/* ============================================================
+   2. TOKENS
+   ============================================================ */
+
+:root {
+  color-scheme: light;
+
+  /* Palette — light. Measured from the source design. */
+  --hk-bg: #f7f7f4;
+  --hk-surface: #ffffff;
+  --hk-surface-alt: #efefeb;
+  --hk-ink: #151515;
+  /* Measured #6F6F6A lands at 4.38:1 on the #EFEFEB panels. Darkened by five
+     units so body text clears 4.5:1 on every surface — see README. */
+  --hk-ink-2: #6a6a65;
+  --hk-ink-3: #9b9b94; /* decoration only — fails AA as text */
+  --hk-ink-3-text: #6b6b65; /* WCAG-safe replacement for small meta text */
+  --hk-accent: #00909e; /* fills, borders, dots, icons, large display type */
+  --hk-accent-text: #00757f; /* WCAG-safe accent for small text — see README */
+  --hk-accent-strong: #007c88; /* accent as a background behind white text */
+  --hk-accent-strong-hover: #00646e;
+  --hk-accent-hover: #007c88;
+  --hk-on-accent: #ffffff;
+  --hk-accent-soft: rgba(0, 144, 158, 0.08);
+  --hk-accent-line: rgba(0, 144, 158, 0.24);
+  --hk-dark-well: #1e1f1e;
+  --hk-hairline: rgba(21, 21, 21, 0.08);
+  --hk-hairline-2: rgba(21, 21, 21, 0.12);
+  --hk-hairline-3: rgba(21, 21, 21, 0.18);
+  --hk-hover-tint: rgba(21, 21, 21, 0.04);
+  --hk-selection: rgba(0, 144, 158, 0.14);
+  --hk-header-scrolled: rgba(247, 247, 244, 0.82);
+  --hk-pill-fill: rgba(255, 255, 255, 0.5);
+  --hk-veil: rgba(21, 21, 21, 0.18);
+  --hk-badge: rgba(247, 247, 244, 0.92);
+  --hk-card-shadow: 0 32px 56px -40px rgba(21, 21, 21, 0.22);
+  --hk-tile-shadow: 0 24px 44px -36px rgba(21, 21, 21, 0.25);
+  --hk-drop-sm: drop-shadow(0 18px 32px rgba(21, 21, 21, 0.1));
+  --hk-drop-md: drop-shadow(0 22px 38px rgba(21, 21, 21, 0.12));
+  --hk-drop-lg: drop-shadow(0 30px 50px rgba(21, 21, 21, 0.16));
+  --hk-media-filter: none;
+  --hk-error: #b3261e;
+  --hk-error-soft: rgba(179, 38, 30, 0.08);
+  --hk-wire-border: #898989;
+  --hk-wire-border-2: #dbdbdb;
+  --hk-on-ink: #f7f7f4; /* text sitting on the solid ink button */
+
+  /* Type */
+  --hk-font-display: 'Instrument Serif', Georgia, serif;
+  --hk-font-body: 'Nunito Sans', system-ui, sans-serif;
+  --hk-h1-home: clamp(48px, 6.1vw, 88px);
+  --hk-h1-page: clamp(48px, 5.2vw, 80px);
+  --hk-h1-case: clamp(56px, 6vw, 96px);
+  --hk-h2: 48px;
+  --hk-h2-cta: clamp(40px, 4vw, 56px);
+  --hk-h2-lg: clamp(44px, 4.6vw, 64px);
+  --hk-h3: 28px;
+  --hk-h3-sm: 22px;
+  --hk-h4: 40px;
+  --hk-lead: 22px;
+  --hk-body: 18px;
+  --hk-body-sm: 15px;
+  --hk-body-xs: 14px;
+  --hk-meta: 15px;
+  --hk-meta-sm: 13px;
+
+  /* Radii */
+  --hk-r-card: 48px;
+  --hk-r-media: 32px;
+  --hk-r-card-sm: 24px;
+  --hk-r-field: 28px;
+  --hk-r-pill: 999px;
+
+  /* Space & layout */
+  --hk-shell-max: 1440px;
+  --hk-shell-pad: 64px;
+  --hk-card-pad-lg: 32px;
+  --hk-card-pad-md: 28px;
+  --hk-gap: 32px;
+  --hk-gap-sm: 24px;
+  --hk-section-pad: 80px;
+  --hk-page-top: 200px;
+  --hk-header-h: 76px;
+  --hk-content-max: 760px;
+  --hk-prose-max: 680px;
+
+  /* Motion */
+  --hk-t-card: transform 0.35s ease, box-shadow 0.35s ease;
+  --hk-t-media: transform 0.5s ease;
+  --hk-t-link: color 0.2s ease;
+  --hk-t-btn: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  --hk-t-header:
+    transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1), background 0.35s ease,
+    border-color 0.35s ease, backdrop-filter 0.35s ease;
+  --hk-lift: translateY(-4px);
+  --hk-zoom: scale(1.025);
+}
+
+/* Palette — dark. Set by the inline head script, or by OS preference. */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --hk-bg: #121312;
+  --hk-surface: #1b1c1b;
+  --hk-surface-alt: #232423;
+  --hk-ink: #f2f2ee;
+  --hk-ink-2: #a8a8a2;
+  --hk-ink-3: #8a8a84;
+  --hk-ink-3-text: #8e8e88;
+  --hk-accent: #34c5d2;
+  --hk-accent-text: #34c5d2;
+  --hk-accent-strong: #34c5d2;
+  --hk-accent-strong-hover: #6fdbe6;
+  --hk-accent-hover: #6fdbe6;
+  --hk-on-accent: #121312;
+  --hk-accent-soft: rgba(52, 197, 210, 0.12);
+  --hk-accent-line: rgba(52, 197, 210, 0.32);
+  --hk-dark-well: #0e0f0e;
+  --hk-hairline: rgba(242, 242, 238, 0.1);
+  --hk-hairline-2: rgba(242, 242, 238, 0.16);
+  --hk-hairline-3: rgba(242, 242, 238, 0.22);
+  --hk-hover-tint: rgba(242, 242, 238, 0.05);
+  --hk-selection: rgba(52, 197, 210, 0.22);
+  --hk-header-scrolled: rgba(18, 19, 18, 0.82);
+  --hk-pill-fill: rgba(242, 242, 238, 0.04);
+  --hk-veil: rgba(0, 0, 0, 0.35);
+  --hk-badge: rgba(27, 28, 27, 0.92);
+  --hk-card-shadow: 0 32px 56px -40px rgba(0, 0, 0, 0.6);
+  --hk-tile-shadow: 0 24px 44px -36px rgba(0, 0, 0, 0.65);
+  --hk-drop-sm: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.5));
+  --hk-drop-md: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.55));
+  --hk-drop-lg: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.6));
+  --hk-media-filter: brightness(0.92) contrast(1.02);
+  --hk-error: #f2b8b5;
+  --hk-error-soft: rgba(242, 184, 181, 0.1);
+  --hk-wire-border: #6b6b6b;
+  --hk-wire-border-2: #3a3b3a;
+  --hk-on-ink: #121312;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --hk-bg: #121312;
+    --hk-surface: #1b1c1b;
+    --hk-surface-alt: #232423;
+    --hk-ink: #f2f2ee;
+    --hk-ink-2: #a8a8a2;
+    --hk-ink-3: #8a8a84;
+    --hk-ink-3-text: #8e8e88;
+    --hk-accent: #34c5d2;
+    --hk-accent-text: #34c5d2;
+    --hk-accent-strong: #34c5d2;
+    --hk-accent-strong-hover: #6fdbe6;
+    --hk-accent-hover: #6fdbe6;
+    --hk-on-accent: #121312;
+    --hk-accent-soft: rgba(52, 197, 210, 0.12);
+    --hk-accent-line: rgba(52, 197, 210, 0.32);
+    --hk-dark-well: #0e0f0e;
+    --hk-hairline: rgba(242, 242, 238, 0.1);
+    --hk-hairline-2: rgba(242, 242, 238, 0.16);
+    --hk-hairline-3: rgba(242, 242, 238, 0.22);
+    --hk-hover-tint: rgba(242, 242, 238, 0.05);
+    --hk-selection: rgba(52, 197, 210, 0.22);
+    --hk-header-scrolled: rgba(18, 19, 18, 0.82);
+    --hk-pill-fill: rgba(242, 242, 238, 0.04);
+    --hk-veil: rgba(0, 0, 0, 0.35);
+    --hk-badge: rgba(27, 28, 27, 0.92);
+    --hk-card-shadow: 0 32px 56px -40px rgba(0, 0, 0, 0.6);
+    --hk-tile-shadow: 0 24px 44px -36px rgba(0, 0, 0, 0.65);
+    --hk-drop-sm: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.5));
+    --hk-drop-md: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.55));
+    --hk-drop-lg: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.6));
+    --hk-media-filter: brightness(0.92) contrast(1.02);
+    --hk-error: #f2b8b5;
+    --hk-error-soft: rgba(242, 184, 181, 0.1);
+    --hk-wire-border: #6b6b6b;
+    --hk-wire-border-2: #3a3b3a;
+    --hk-on-ink: #121312;
+  }
+}
+
+/* ============================================================
+   3. BASE
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Anchor links land below the fixed header rather than under it. */
+  scroll-padding-top: calc(var(--hk-header-h) + 24px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--hk-bg);
+  color: var(--hk-ink);
+  font-family: var(--hk-font-body);
+  font-size: var(--hk-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+}
+
+a {
+  color: var(--hk-ink);
+  text-decoration: none;
+  transition: var(--hk-t-link);
+}
+a:hover {
+  color: var(--hk-accent-text);
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+}
+
+::selection {
+  background: var(--hk-selection);
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote {
+  margin: 0;
+}
+
+:where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--hk-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ============================================================
+   4. PRIMITIVES
+   ============================================================ */
+
+.hk-skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--hk-ink);
+  color: var(--hk-bg);
+  padding: 14px 24px;
+  border-radius: 0 0 var(--hk-r-pill) 0;
+  font-size: var(--hk-meta);
+  font-weight: 600;
+}
+.hk-skip-link:focus {
+  left: 0;
+  color: var(--hk-bg);
+}
+
+.hk-shell {
+  max-width: var(--hk-shell-max);
+  margin-inline: auto;
+  padding-inline: var(--hk-shell-pad);
+}
+
+.hk-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --- Display type ------------------------------------------------ */
+
+.hk-display {
+  font-family: var(--hk-font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.hk-h1-home {
+  font-family: var(--hk-font-display);
+  font-weight: 400;
+  font-size: var(--hk-h1-home);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.hk-h1-page {
+  font-family: var(--hk-font-display);
+  font-weight: 400;
+  font-size: var(--hk-h1-page);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.hk-h2 {
+  font-family: var(--hk-font-display);
+  font-weight: 400;
+  font-size: var(--hk-h2);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.hk-lead {
+  font-size: var(--hk-lead);
+  line-height: 1.45;
+  color: var(--hk-ink-2);
+  text-wrap: pretty;
+}
+
+.hk-prose {
+  font-size: var(--hk-body);
+  line-height: 1.55;
+  color: var(--hk-ink-2);
+  text-wrap: pretty;
+}
+
+/* Small uppercase field labels (Role / Scope / Platform …) */
+.hk-eyebrow {
+  font-size: var(--hk-meta-sm);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--hk-ink-3-text);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.hk-eyebrow-accent {
+  font-size: var(--hk-meta-sm);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--hk-accent-text);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Small meta text — uses the WCAG-safe ink-3-text, never raw ink-3. */
+.hk-meta-text {
+  font-size: var(--hk-meta-sm);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--hk-ink-3-text);
+}
+
+/* --- Buttons ----------------------------------------------------- */
+
+.hk-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+  font-size: var(--hk-meta);
+  font-weight: 600;
+  line-height: 1;
+  border-radius: var(--hk-r-pill);
+  padding: 14px 24px;
+  min-height: 44px;
+  cursor: pointer;
+  transition: var(--hk-t-btn);
+  text-align: left;
+}
+
+.hk-btn-solid {
+  color: var(--hk-on-ink);
+  background: var(--hk-ink);
+  border: 1px solid var(--hk-ink);
+}
+.hk-btn-solid:hover {
+  background: var(--hk-accent-strong);
+  border-color: var(--hk-accent-strong);
+  color: var(--hk-on-accent);
+}
+
+.hk-btn-accent {
+  color: var(--hk-on-accent);
+  background: var(--hk-accent-strong);
+  border: 1px solid var(--hk-accent-strong);
+  padding: 16px 28px;
+}
+.hk-btn-accent:hover {
+  background: var(--hk-accent-strong-hover);
+  border-color: var(--hk-accent-strong-hover);
+  color: var(--hk-on-accent);
+}
+
+.hk-btn-ghost {
+  color: var(--hk-ink);
+  background: transparent;
+  border: 1px solid var(--hk-hairline-3);
+}
+.hk-btn-ghost:hover {
+  background: var(--hk-hover-tint);
+  color: var(--hk-ink);
+}
+
+/* Text link with a trailing arrow */
+.hk-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--hk-meta);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--hk-ink);
+  min-height: 44px;
+  transition: var(--hk-t-link);
+}
+.hk-link:hover {
+  color: var(--hk-accent-text);
+}
+
+/* --- Pills ------------------------------------------------------- */
+
+.hk-pill {
+  font-size: var(--hk-meta-sm);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--hk-ink-2);
+  border: 1px solid var(--hk-hairline-2);
+  background: var(--hk-pill-fill);
+  border-radius: var(--hk-r-pill);
+  padding: 8px 14px;
+}
+
+.hk-pill-lg {
+  padding: 10px 18px;
+}
+
+.hk-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* --- Cards & media ----------------------------------------------- */
+
+.hk-card {
+  background: var(--hk-surface);
+  border: 1px solid var(--hk-hairline);
+  border-radius: var(--hk-r-card);
+}
+
+.hk-card-sm {
+  background: var(--hk-surface);
+  border: 1px solid var(--hk-hairline);
+  border-radius: var(--hk-r-media);
+}
+
+/* A media well: fixed-radius box that clips its image. */
+.hk-media {
+  border-radius: var(--hk-r-media);
+  overflow: hidden;
+  background: var(--hk-surface-alt);
+  position: relative;
+}
+
+.hk-media > img,
+.hk-media > picture > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: var(--hk-media-filter);
+}
+
+/* Free-standing phone screenshots keep their own shape and drop shadow. */
+.hk-screen {
+  display: block;
+  height: auto;
+  filter: var(--hk-media-filter) var(--hk-drop-md);
+}
+
+/* --- Scroll reveal ----------------------------------------------- */
+/* Inert with JS off or when motion is reduced — content is always visible. */
+
+@media (prefers-reduced-motion: no-preference) {
+  .hk-reveal.is-armed {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.8s ease,
+      transform 0.8s ease;
+  }
+  .hk-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Lightbox (built by theme.js) -------------------------------- */
+
+.hk-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(10, 10, 10, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5vmin;
+}
+.hk-lightbox[hidden] {
+  display: none;
+}
+.hk-lightbox img {
+  max-width: 92%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: var(--hk-r-card-sm);
+}
+.hk-lightbox button {
+  position: absolute;
+  min-width: 48px;
+  min-height: 48px;
+  font-size: 32px;
+  line-height: 1;
+  color: #f2f2ee;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--hk-r-pill);
+  cursor: pointer;
+}
+.hk-lightbox [data-close] {
+  top: 3vmin;
+  right: 3vmin;
+}
+.hk-lightbox [data-prev] {
+  left: 3vmin;
+}
+.hk-lightbox [data-next] {
+  right: 3vmin;
+}
+
+/* --- Draft ribbon (development only) ------------------------------ */
+
+.hk-draft {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 90;
+  background: #f6be45;
+  color: #151515;
+  font-size: var(--hk-meta-sm);
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  padding: 12px 16px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   5. BREAKPOINTS
+   ============================================================ */
+
+@media (max-width: 1200px) {
+  :root {
+    --hk-shell-pad: 40px;
+    --hk-h2: 40px;
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --hk-shell-pad: 28px;
+    --hk-r-card: 36px;
+    --hk-r-media: 24px;
+    --hk-page-top: 140px;
+    --hk-gap: 24px;
+    --hk-section-pad: 56px;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --hk-shell-pad: 20px;
+    --hk-h2: 34px;
+    --hk-lead: 19px;
+    --hk-body: 17px;
+    --hk-r-card: 28px;
+  }
+}

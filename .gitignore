@@ -1,0 +1,31 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# environment — never commit real keys
+.env
+.env.production
+.env.local
+
+# the original design package, kept for reference but not part of the site
+astro-handoff/
+*.zip
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
+
+# editors
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.claude/ 

@@ -1,0 +1,130 @@
+﻿---
+import Screen from './Screen.astro';
+
+/**
+ * The two user flows. The second one is the idea the whole project turns on,
+ * so it gets the accent outline and a screen beside it.
+ */
+interface Props {
+  label: string;
+  steps: string[];
+  /** `plain` is the ordinary flow; `accent` is the highlighted one. */
+  tone?: 'plain' | 'accent';
+  quote?: string;
+  image?: string | undefined;
+  imageAlt?: string;
+}
+
+const { label, steps, tone = 'plain', quote, image, imageAlt = '' } = Astro.props;
+const hasAside = Boolean(quote || image);
+---
+
+<div class="hk-cs-flow" class:list={[`is-${tone}`, hasAside && 'has-aside']}>
+  <div class="hk-cs-flow-main">
+    <h3 class:list={[tone === 'accent' ? 'hk-eyebrow-accent' : 'hk-eyebrow']}>{label}</h3>
+    <ol class="hk-cs-flow-steps">
+      {
+        steps.map((step, index) => (
+          <li class="hk-cs-flow-step">
+            <span class="hk-cs-flow-node">{step}</span>
+            {index < steps.length - 1 && (
+              <span class="hk-cs-flow-arrow" aria-hidden="true">
+                →
+              </span>
+            )}
+          </li>
+        ))
+      }
+    </ol>
+    {quote && <p class="hk-cs-flow-quote">{quote}</p>}
+  </div>
+
+  {
+    image !== undefined && (
+      <div class="hk-cs-flow-aside">
+        <Screen src={image} alt={imageAlt} width="62%" sizes="(max-width: 900px) 45vw, 200px" />
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .hk-cs-flow {
+    border-radius: var(--hk-r-media);
+    padding: 40px;
+    background: var(--hk-surface);
+  }
+
+  .hk-cs-flow.is-plain {
+    border: 1px solid var(--hk-hairline);
+  }
+
+  .hk-cs-flow.is-accent {
+    border: 1px solid var(--hk-accent-line);
+  }
+
+  .hk-cs-flow.has-aside {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .hk-cs-flow-steps {
+    margin: var(--hk-gap-sm) 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hk-cs-flow-step {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hk-cs-flow-node {
+    font-size: var(--hk-body-xs);
+    font-weight: 600;
+    border-radius: var(--hk-r-pill);
+    padding: 11px 18px;
+    color: var(--hk-ink);
+    background: var(--hk-surface-alt);
+  }
+
+  .is-accent .hk-cs-flow-node {
+    color: var(--hk-accent-text);
+    background: var(--hk-accent-soft);
+  }
+
+  .hk-cs-flow-arrow {
+    font-size: var(--hk-body-xs);
+    color: var(--hk-ink-3-text);
+  }
+
+  .is-accent .hk-cs-flow-arrow {
+    color: var(--hk-accent-text);
+  }
+
+  .hk-cs-flow-quote {
+    margin-top: 28px;
+    font-family: var(--hk-font-display);
+    font-size: 26px;
+    line-height: 1.25;
+    color: var(--hk-ink);
+    max-width: 520px;
+  }
+
+  @media (max-width: 900px) {
+    .hk-cs-flow {
+      padding: 28px;
+    }
+    .hk-cs-flow.has-aside {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--hk-gap-sm);
+    }
+  }
+</style>

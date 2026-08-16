@@ -1,0 +1,55 @@
+---
+/**
+ * The filled block that sends the reader from one section of the site to the
+ * other — "Earlier visual work" on the work page, "Recent digital work" on the
+ * archive page.
+ */
+interface Props {
+  heading: string;
+  body: string;
+  cta: string;
+  href: string;
+}
+
+const { heading, body, cta, href } = Astro.props;
+---
+
+<section class="hk-transition" data-hk-reveal>
+  <div class="hk-transition-inner">
+    <div class="hk-transition-copy">
+      <h2 class="hk-h2">{heading}</h2>
+      <p class="hk-prose">{body}</p>
+    </div>
+    <a href={href} class="hk-btn hk-btn-ghost">
+      {cta}
+      <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .hk-transition-inner {
+    background: var(--hk-surface-alt);
+    border-radius: var(--hk-r-card);
+    padding: 72px 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+
+  .hk-transition-copy {
+    max-width: var(--hk-prose-max);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  @media (max-width: 900px) {
+    .hk-transition-inner {
+      padding: 48px 28px;
+      gap: 32px;
+    }
+  }
+</style>

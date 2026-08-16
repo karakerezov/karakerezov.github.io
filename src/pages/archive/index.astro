@@ -1,0 +1,25 @@
+---
+import site from '../../data/site.json';
+import Base from '../../layouts/Base.astro';
+import ArchiveIndex from '../../components/ArchiveIndex.astro';
+import { getArchiveItems } from '../../lib/content';
+import { breadcrumbSchema, graph } from '../../lib/schema';
+
+const items = await getArchiveItems();
+
+const jsonLd = graph([
+  breadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: site.archive.heading, path: '/archive' },
+  ]),
+]);
+---
+
+<Base
+  title={site.archive.heading}
+  description={site.archive.description}
+  jsonLd={jsonLd}
+  active="/archive"
+>
+  <ArchiveIndex items={items} allItems={items} active="all" />
+</Base>

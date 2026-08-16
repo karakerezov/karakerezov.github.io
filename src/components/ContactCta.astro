@@ -1,0 +1,122 @@
+---
+import site from '../data/site.json';
+import ContactCard from './ContactCard.astro';
+
+interface Props {
+  /**
+   * `band` is the filled, rounded block used on the home and about pages.
+   * `rule` is the lighter version sitting under a hairline, used at the foot
+   * of the work, archive and case-study pages.
+   */
+  variant?: 'band' | 'rule';
+  /** Detailed cards show the address under the label; compact ones show only the label. */
+  detail?: boolean;
+  /** The centred © line below the block. */
+  copyright?: boolean;
+  /** Heading level, so each page keeps a sensible outline. */
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { variant = 'rule', detail = false, copyright = true } = Astro.props;
+const Heading = Astro.props.headingLevel ?? 'h2';
+---
+
+<section class="hk-cta" class:list={[`is-${variant}`]} data-hk-reveal>
+  <div class="hk-cta-inner" class:list={[detail && 'is-detail']}>
+    <div class="hk-cta-copy">
+      <Heading class="hk-cta-heading">{site.home.contactHeading}</Heading>
+      <p class="hk-prose hk-cta-lead">{site.availability}</p>
+    </div>
+    <div class="hk-cta-cards" class:list={[detail && 'is-detail']}>
+      <ContactCard kind="email" detail={detail} />
+      {site.linkedin && <ContactCard kind="linkedin" detail={detail} />}
+    </div>
+  </div>
+  {copyright && <p class="hk-cta-copyright hk-meta-text">{site.copyrightYear}</p>}
+</section>
+
+<style>
+  .hk-cta {
+    padding-bottom: 96px;
+  }
+
+  .hk-cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+
+  /* The filled block used on the home and about pages. */
+  .is-band .hk-cta-inner {
+    background: var(--hk-surface-alt);
+    border-radius: var(--hk-r-card);
+    padding: 80px 64px;
+  }
+
+  /* The lighter variant that sits under a hairline. */
+  .is-rule .hk-cta-inner {
+    border-top: 1px solid var(--hk-hairline);
+    padding-top: 72px;
+  }
+
+  /* The detailed home-page version splits into two columns. */
+  .hk-cta-inner.is-detail {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .hk-cta-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 520px;
+  }
+
+  .hk-cta-heading {
+    font-family: var(--hk-font-display);
+    font-weight: 400;
+    font-size: var(--hk-h2-cta);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .hk-cta-lead {
+    max-width: 460px;
+  }
+
+  .hk-cta-cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .hk-cta-cards.is-detail {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+
+  .hk-cta-copyright {
+    margin-top: 48px;
+    padding-inline: 8px;
+    text-align: center;
+  }
+
+  .is-rule .hk-cta-copyright {
+    margin-top: 64px;
+  }
+
+  @media (max-width: 900px) {
+    .hk-cta-inner.is-detail {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .is-band .hk-cta-inner {
+      padding: 48px 28px;
+    }
+  }
+</style>

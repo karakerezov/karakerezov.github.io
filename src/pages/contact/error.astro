@@ -1,0 +1,20 @@
+---
+import site from '../../data/site.json';
+import Base from '../../layouts/Base.astro';
+import ContactBody from '../../components/ContactBody.astro';
+
+/**
+ * Where /api/contact sends people when the message could not be delivered.
+ * The form is shown again, with the reason at the top and the email address
+ * directly underneath, so there is always a way through.
+ */
+---
+
+<Base
+  title={site.contact.errorSummaryHeading}
+  description={site.contact.errorBody}
+  active="/contact"
+  noindex
+>
+  <ContactBody state="error" />
+</Base>

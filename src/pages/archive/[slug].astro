@@ -1,0 +1,299 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import site from '../../data/site.json';
+import Base from '../../layouts/Base.astro';
+import ContactCta from '../../components/ContactCta.astro';
+import Media from '../../components/Media.astro';
+import ProjectNav from '../../components/casestudy/ProjectNav.astro';
+import Section from '../../components/casestudy/Section.astro';
+import {
+  getArchiveItems,
+  hasBody,
+  neighbours,
+  categorySlug,
+  type ArchiveItem,
+} from '../../lib/content';
+import { creativeWorkSchema, breadcrumbSchema, graph } from '../../lib/schema';
+
+interface Props {
+  item: ArchiveItem;
+  pair: { prev: ArchiveItem; next: ArchiveItem } | null;
+}
+
+/**
+ * A detail page exists only for archive items whose Markdown file has a
+ * written body. Until then the grid tile is not a link, so no page is needed
+ * and none is generated.
+ */
+export const getStaticPaths: GetStaticPaths = async () => {
+  const all = await getArchiveItems();
+  const written = all.filter(hasBody);
+  return written.map((item, index) => ({
+    params: { slug: item.id },
+    props: { item, pair: neighbours(written, index) },
+  }));
+};
+
+const { item, pair } = Astro.props;
+const { data } = item;
+const { Content } = await render(item);
+
+const href = (id: string): string => `/archive/${id}`;
+const prev = pair ? { href: href(pair.prev.id), title: pair.prev.data.title } : undefined;
+const next = pair ? { href: href(pair.next.id), title: pair.next.data.title } : undefined;
+
+const details = [
+  { label: 'Category', value: data.category },
+  { label: 'Type', value: data.label },
+  { label: 'Client', value: data.client },
+  { label: 'Deliverables', value: data.deliverables },
+  { label: 'Year', value: data.year },
+].filter((detail) => detail.value.trim() !== '');
+
+const description = `${data.title} — ${data.label}. ${site.archive.description}`;
+
+const jsonLd = graph([
+  creativeWorkSchema({
+    name: data.title,
+    description,
+    path: href(item.id),
+    image: data.cover || undefined,
+    genre: data.label,
+    keywords: [data.category, data.label],
+  }),
+  breadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: site.archive.heading, path: '/archive' },
+    { name: data.category, path: `/archive/c/${categorySlug(data.category)}` },
+    { name: data.title, path: href(item.id) },
+  ]),
+]);
+---
+
+<Base
+  title={data.title}
+  description={description}
+  ogImage={data.cover}
+  ogType="article"
+  jsonLd={jsonLd}
+  active="/archive"
+>
+  <article class="hk-shell">
+    <section class="hk-ap-hero">
+      <p class="hk-ap-badge">{data.category}</p>
+      <h1 class="hk-ap-title">{data.title}</h1>
+      <p class="hk-lead hk-ap-lead">{site.archive.lead}</p>
+    </section>
+
+    <Section space="sm">
+      <div class="hk-ap-visual">
+        <Media
+          src={data.cover}
+          alt={data.coverAlt}
+          sizes="(max-width: 900px) 92vw, 1280px"
+          widths={[600, 1000, 1400]}
+          eager
+        />
+      </div>
+    </Section>
+
+    <Section>
+      <div class="hk-ap-note">
+        <h2 class="hk-h2">{site.archive.projectNoteHeading}</h2>
+        <div class="hk-ap-prose">
+          <Content />
+        </div>
+      </div>
+    </Section>
+
+    {
+      data.gallery.length > 0 && (
+        <Section>
+          <ul class="hk-ap-gallery">
+            {data.gallery.map((image, index) => (
+              <li class="hk-ap-gallery-item" class:list={[index === 0 && 'is-wide']}>
+                <Media
+                  src={image}
+                  alt={`${data.title} — image ${index + 1}`}
+                  ratio="4/3"
+                  sizes="(max-width: 900px) 92vw, 45vw"
+                />
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )
+    }
+
+    {
+      details.length > 0 && (
+        <Section>
+          <h2 class="hk-sr-only">{site.archive.detailsHeading}</h2>
+          <dl class="hk-ap-details hk-card-sm">
+            {details.map((detail) => (
+              <div class="hk-ap-detail">
+                <dt class="hk-eyebrow">{detail.label}</dt>
+                <dd class="hk-ap-detail-value">{detail.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </Section>
+      )
+    }
+
+    <Section space="sm">
+      <ProjectNav
+        prev={prev}
+        next={next}
+        backHref="/archive"
+        backLabel={site.archive.backToIndex}
+      />
+    </Section>
+
+    <ContactCta variant="rule" />
+  </article>
+</Base>
+
+<style>
+  .hk-ap-hero {
+    padding: var(--hk-page-top) 0 64px;
+    max-width: 900px;
+  }
+
+  .hk-ap-badge {
+    display: inline-flex;
+    font-size: var(--hk-meta-sm);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--hk-accent-text);
+    background: var(--hk-accent-soft);
+    border-radius: var(--hk-r-pill);
+    padding: 8px 16px;
+  }
+
+  .hk-ap-title {
+    margin-top: 28px;
+    font-family: var(--hk-font-display);
+    font-weight: 400;
+    font-size: clamp(44px, 4.8vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  .hk-ap-lead {
+    margin-top: 28px;
+    max-width: 640px;
+  }
+
+  .hk-ap-visual {
+    border-radius: var(--hk-r-card);
+    overflow: hidden;
+    background: var(--hk-surface-alt);
+    border: 1px solid var(--hk-hairline);
+    height: 640px;
+    position: relative;
+  }
+
+  .hk-ap-visual :global(img),
+  .hk-ap-visual :global(.hk-placeholder) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: var(--hk-media-filter);
+  }
+
+  .hk-ap-note {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .hk-ap-prose :global(p) {
+    margin: 8px 0 20px;
+    font-size: var(--hk-lead);
+    line-height: 1.45;
+    color: var(--hk-ink);
+    max-width: var(--hk-content-max);
+    text-wrap: pretty;
+  }
+
+  .hk-ap-prose :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .hk-ap-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--hk-gap-sm);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hk-ap-gallery-item {
+    border-radius: var(--hk-r-media);
+    overflow: hidden;
+    background: var(--hk-surface-alt);
+    position: relative;
+  }
+
+  .hk-ap-gallery-item.is-wide {
+    grid-column: span 2;
+  }
+
+  .hk-ap-gallery-item :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: var(--hk-media-filter);
+  }
+
+  .hk-ap-details {
+    padding: 48px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--hk-gap);
+    margin: 0;
+  }
+
+  .hk-ap-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .hk-ap-detail-value {
+    margin: 0;
+    font-size: var(--hk-meta);
+    line-height: 1.5;
+    color: var(--hk-ink);
+    font-weight: 600;
+  }
+
+  @media (max-width: 900px) {
+    .hk-ap-visual {
+      height: auto;
+      aspect-ratio: 4 / 3;
+    }
+
+    .hk-ap-note {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--hk-gap-sm);
+    }
+
+    .hk-ap-gallery {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .hk-ap-gallery-item.is-wide {
+      grid-column: span 1;
+    }
+
+    .hk-ap-details {
+      padding: 28px;
+    }
+  }
+</style>

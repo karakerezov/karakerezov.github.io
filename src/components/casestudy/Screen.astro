@@ -1,0 +1,77 @@
+---
+import { Image } from 'astro:assets';
+import { resolveImage } from '../../lib/images';
+import Placeholder from '../Placeholder.astro';
+
+/**
+ * A free-standing product screenshot — no frame, no crop, just the image with
+ * the drop shadow the design uses. Falls back to a placeholder of the same
+ * proportions when the file has not been added yet.
+ */
+interface Props {
+  src?: string | undefined;
+  alt: string;
+  /** Width as a percentage of the column, matching the design. */
+  width?: string;
+  /** Shape reserved when the image is still missing. */
+  ratio?: string;
+  /** `sm` | `md` | `lg` drop shadow. */
+  shadow?: 'sm' | 'md' | 'lg';
+  centred?: boolean;
+  sizes?: string;
+}
+
+const {
+  src,
+  alt,
+  width = '100%',
+  ratio = '816/1662',
+  shadow = 'md',
+  centred = true,
+  sizes = '(max-width: 900px) 60vw, 300px',
+} = Astro.props;
+
+const image = resolveImage(src);
+const style = [`width:${width}`, centred && 'margin-inline:auto'].filter(Boolean).join(';');
+---
+
+{
+  image ? (
+    <Image
+      src={image}
+      alt={alt}
+      widths={[300, 600, 900].filter((w) => w <= image.width)}
+      sizes={sizes}
+      loading="lazy"
+      decoding="async"
+      class:list={['hk-screen', `is-${shadow}`]}
+      style={style}
+    />
+  ) : (
+    <div class="hk-screen-slot" style={style}>
+      <Placeholder alt={alt} ratio={ratio} class="hk-screen-placeholder" />
+    </div>
+  )
+}
+
+<style>
+  .hk-screen {
+    display: block;
+    height: auto;
+    max-width: 100%;
+  }
+
+  .hk-screen.is-sm {
+    filter: var(--hk-media-filter) var(--hk-drop-sm);
+  }
+  .hk-screen.is-md {
+    filter: var(--hk-media-filter) var(--hk-drop-md);
+  }
+  .hk-screen.is-lg {
+    filter: var(--hk-media-filter) var(--hk-drop-lg);
+  }
+
+  .hk-screen-slot :global(.hk-screen-placeholder) {
+    border-radius: var(--hk-r-card-sm);
+  }
+</style>

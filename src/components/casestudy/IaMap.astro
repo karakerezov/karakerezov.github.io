@@ -1,0 +1,141 @@
+﻿---
+/**
+ * The information architecture: the product name, the five primary
+ * destinations, then the account area and the supporting flows.
+ */
+interface Props {
+  root: string;
+  primaryLabel: string;
+  primary: string[];
+  groups: { label: string; items: string[] }[];
+}
+
+const { root, primaryLabel, primary, groups } = Astro.props;
+---
+
+<div class="hk-cs-ia">
+  <p class="hk-cs-ia-root">{root}</p>
+  <span class="hk-cs-ia-stem" aria-hidden="true"></span>
+
+  <div class="hk-cs-ia-primary">
+    <h3 class="hk-eyebrow-accent">{primaryLabel}</h3>
+    <ul class="hk-cs-ia-nav">
+      {primary.map((item) => <li class="hk-cs-ia-nav-item">{item}</li>)}
+    </ul>
+  </div>
+
+  <div class="hk-cs-ia-groups">
+    {
+      groups.map((group) => (
+        <div class="hk-cs-ia-group">
+          <h3 class="hk-eyebrow-accent">{group.label}</h3>
+          <ul class="hk-cs-ia-list">
+            {group.items.map((item) => (
+              <li class="hk-cs-ia-chip">{item}</li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .hk-cs-ia {
+    background: var(--hk-surface);
+    border: 1px solid var(--hk-hairline);
+    border-radius: var(--hk-r-card);
+    padding: 56px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .hk-cs-ia-root {
+    font-size: var(--hk-meta);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--hk-on-accent);
+    background: var(--hk-accent-strong);
+    border-radius: var(--hk-r-pill);
+    padding: 14px 28px;
+  }
+
+  .hk-cs-ia-stem {
+    width: 1px;
+    height: 24px;
+    background: var(--hk-accent-line);
+  }
+
+  .hk-cs-ia-primary {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .hk-cs-ia-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hk-cs-ia-nav-item {
+    font-size: var(--hk-meta);
+    font-weight: 600;
+    color: var(--hk-ink);
+    background: var(--hk-surface-alt);
+    border-radius: var(--hk-r-pill);
+    padding: 12px 24px;
+  }
+
+  .hk-cs-ia-groups {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--hk-gap);
+    border-top: 1px solid var(--hk-hairline);
+    padding-top: 40px;
+  }
+
+  .hk-cs-ia-group {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .hk-cs-ia-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hk-cs-ia-chip {
+    font-size: var(--hk-body-xs);
+    font-weight: 600;
+    color: var(--hk-ink-2);
+    border: 1px solid var(--hk-hairline-2);
+    border-radius: var(--hk-r-pill);
+    padding: 9px 16px;
+  }
+
+  @media (max-width: 900px) {
+    .hk-cs-ia {
+      padding: 32px 24px;
+    }
+    .hk-cs-ia-groups {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--hk-gap-sm);
+    }
+  }
+</style>

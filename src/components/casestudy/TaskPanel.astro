@@ -1,0 +1,120 @@
+﻿---
+/**
+ * The low-fidelity prototype block: what was tested, and the numbered tasks
+ * people were asked to complete.
+ */
+interface Props {
+  heading: string;
+  body: string;
+  cta?: string;
+  ctaHref?: string;
+  tasks: string[];
+}
+
+const { heading, body, cta, ctaHref = '', tasks } = Astro.props;
+---
+
+<div class="hk-cs-lofi">
+  <div class="hk-cs-lofi-copy">
+    <h3 class="hk-cs-lofi-heading">{heading}</h3>
+    <p class="hk-prose">{body}</p>
+    {
+      cta && ctaHref && (
+        <a href={ctaHref} class="hk-btn hk-btn-ghost hk-cs-lofi-cta" rel="noopener" target="_blank">
+          {cta}
+          <span aria-hidden="true">→</span>
+        </a>
+      )
+    }
+  </div>
+
+  <ol class="hk-cs-lofi-tasks">
+    {
+      tasks.map((task, index) => (
+        <li class="hk-cs-lofi-task">
+          <span class="hk-cs-lofi-number" aria-hidden="true">
+            {index + 1}
+          </span>
+          <span class="hk-cs-lofi-label">{task}</span>
+        </li>
+      ))
+    }
+  </ol>
+</div>
+
+<style>
+  .hk-cs-lofi {
+    background: var(--hk-surface-alt);
+    border-radius: var(--hk-r-card);
+    padding: 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .hk-cs-lofi-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .hk-cs-lofi-heading {
+    font-family: var(--hk-font-display);
+    font-weight: 400;
+    font-size: var(--hk-h4);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+
+  .hk-cs-lofi-cta {
+    align-self: flex-start;
+  }
+
+  .hk-cs-lofi-tasks {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hk-cs-lofi-task {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--hk-surface);
+    border-radius: 20px;
+    padding: 16px 22px;
+  }
+
+  .hk-cs-lofi-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    border-radius: var(--hk-r-pill);
+    background: var(--hk-accent-soft);
+    color: var(--hk-accent-text);
+    font-size: var(--hk-meta-sm);
+    font-weight: 700;
+  }
+
+  .hk-cs-lofi-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--hk-ink);
+  }
+
+  @media (max-width: 900px) {
+    .hk-cs-lofi {
+      grid-template-columns: minmax(0, 1fr);
+      padding: 32px 24px;
+      gap: var(--hk-gap);
+    }
+  }
+</style>

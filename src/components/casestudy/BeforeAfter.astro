@@ -1,0 +1,83 @@
+---
+/**
+ * Feedback turned into decisions: each row pairs what the interface used to do
+ * with what it does now.
+ */
+interface Props {
+  rows: { before: string; after: string }[];
+  labels: { before: string; after: string };
+}
+
+const { rows, labels } = Astro.props;
+---
+
+<ul class="hk-cs-evolution">
+  {
+    rows.map((row) => (
+      <li class="hk-cs-evolution-row">
+        <div class="hk-cs-evolution-cell is-before">
+          <p class="hk-eyebrow">{labels.before}</p>
+          <p class="hk-cs-evolution-text is-muted">{row.before}</p>
+        </div>
+        <div class="hk-cs-evolution-cell is-after">
+          <p class="hk-eyebrow-accent">{labels.after}</p>
+          <p class="hk-cs-evolution-text">{row.after}</p>
+        </div>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .hk-cs-evolution {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hk-cs-evolution-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--hk-gap-sm);
+  }
+
+  .hk-cs-evolution-cell {
+    border-radius: var(--hk-r-card-sm);
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .hk-cs-evolution-cell.is-before {
+    background: var(--hk-surface-alt);
+  }
+
+  .hk-cs-evolution-cell.is-after {
+    background: var(--hk-surface);
+    border: 1px solid var(--hk-accent-line);
+  }
+
+  .hk-cs-evolution-text {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--hk-ink);
+  }
+
+  .hk-cs-evolution-text.is-muted {
+    color: var(--hk-ink-2);
+  }
+
+  @media (max-width: 900px) {
+    .hk-cs-evolution-row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
+    }
+    .hk-cs-evolution-cell {
+      padding: 20px 24px;
+    }
+  }
+</style>

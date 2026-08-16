@@ -1,0 +1,178 @@
+---
+import Screen from './Screen.astro';
+
+/**
+ * The product's own visual language — its palette, its buttons and badges, and
+ * the typeface — beside two finished product cards.
+ *
+ * These swatches are Grovia's colours, not the portfolio's, so they are passed
+ * in as content rather than referencing the site's tokens.
+ */
+interface Props {
+  labels: { colour: string; buttons: string; typography: string };
+  swatches: { hex: string; name: string }[];
+  buttons: {
+    primary: { label: string; background: string; color: string };
+    badge: { label: string; background: string; color: string };
+  };
+  typeface: { name: string; note: string };
+  cards: { image?: string; alt: string }[];
+}
+
+const { labels, swatches, buttons, typeface, cards } = Astro.props;
+---
+
+<div class="hk-cs-visual">
+  <div class="hk-cs-visual-panel hk-card-sm">
+    <div class="hk-cs-visual-group">
+      <h3 class="hk-eyebrow">{labels.colour}</h3>
+      <ul class="hk-cs-swatches">
+        {
+          swatches.map((swatch) => (
+            <li class="hk-cs-swatch" style={`background:${swatch.hex}`}>
+              <span class="hk-sr-only">
+                {swatch.name} {swatch.hex}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="hk-cs-visual-group">
+      <h3 class="hk-eyebrow">{labels.buttons}</h3>
+      <div class="hk-cs-visual-states">
+        <span
+          class="hk-cs-sample-btn"
+          style={`background:${buttons.primary.background};color:${buttons.primary.color}`}
+          >{buttons.primary.label}</span
+        >
+        <span
+          class="hk-cs-sample-badge"
+          style={`background:${buttons.badge.background};color:${buttons.badge.color}`}
+          >{buttons.badge.label}</span
+        >
+      </div>
+    </div>
+
+    <div class="hk-cs-visual-group">
+      <h3 class="hk-eyebrow">{labels.typography}</h3>
+      <div class="hk-cs-visual-type">
+        <p class="hk-cs-typeface">{typeface.name}</p>
+        <p class="hk-cs-typenote">{typeface.note}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="hk-cs-visual-cards">
+    {
+      cards.map((card) => (
+        <Screen
+          src={card.image}
+          alt={card.alt}
+          width="46%"
+          ratio="1/1"
+          shadow="sm"
+          centred={false}
+          sizes="(max-width: 900px) 40vw, 180px"
+        />
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .hk-cs-visual {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--hk-gap);
+    align-items: stretch;
+  }
+
+  .hk-cs-visual-panel {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--hk-gap);
+  }
+
+  .hk-cs-visual-group {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .hk-cs-swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hk-cs-swatch {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    /* A hairline keeps pale swatches visible on a white card. */
+    box-shadow: inset 0 0 0 1px var(--hk-hairline);
+  }
+
+  .hk-cs-visual-states {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .hk-cs-sample-btn {
+    font-size: var(--hk-meta);
+    font-weight: 700;
+    border-radius: var(--hk-r-pill);
+    padding: 14px 28px;
+  }
+
+  .hk-cs-sample-badge {
+    font-size: var(--hk-body-xs);
+    font-weight: 700;
+    border-radius: var(--hk-r-pill);
+    padding: 8px 16px;
+  }
+
+  .hk-cs-visual-type {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .hk-cs-typeface {
+    font-size: var(--hk-h3);
+    font-weight: 700;
+    color: var(--hk-ink);
+  }
+
+  .hk-cs-typenote {
+    font-size: 16px;
+    color: var(--hk-ink-2);
+  }
+
+  .hk-cs-visual-cards {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    background: var(--hk-surface-alt);
+    border-radius: var(--hk-r-media);
+    padding: var(--hk-card-pad-lg);
+  }
+
+  @media (max-width: 900px) {
+    .hk-cs-visual {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .hk-cs-visual-panel {
+      padding: 28px;
+    }
+  }
+</style>

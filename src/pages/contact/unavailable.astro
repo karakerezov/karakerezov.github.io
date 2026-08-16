@@ -1,0 +1,19 @@
+---
+import site from '../../data/site.json';
+import Base from '../../layouts/Base.astro';
+import ContactBody from '../../components/ContactBody.astro';
+
+/**
+ * Shown when the form was submitted but the mail service has no API key yet.
+ * Rather than failing quietly, the visitor is handed the email address.
+ */
+---
+
+<Base
+  title={site.contact.unavailableHeading}
+  description={site.contact.unavailableBody}
+  active="/contact"
+  noindex
+>
+  <ContactBody state="unavailable" />
+</Base>

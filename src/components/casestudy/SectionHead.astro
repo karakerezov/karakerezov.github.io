@@ -1,0 +1,58 @@
+---
+/**
+ * A section heading with an optional paragraph under it, held to a readable
+ * measure. Used at the top of most case-study sections.
+ */
+interface Props {
+  heading: string;
+  body?: string;
+  /** `h2` for a section, `h3` for something nested inside one. */
+  headingLevel?: 'h2' | 'h3';
+  /** Larger display size for the two chapter-opening headings. */
+  size?: 'default' | 'lg' | 'sm';
+  /** Space below the block. */
+  gap?: string;
+  balance?: boolean;
+}
+
+const { heading, body, size = 'default', gap = '56px', balance = false } = Astro.props;
+const Heading = Astro.props.headingLevel ?? 'h2';
+---
+
+<div class="hk-cs-head" style={`--head-gap:${gap}`}>
+  <Heading class:list={['hk-cs-heading', `is-${size}`, balance && 'is-balanced']}>{heading}</Heading
+  >
+  {body && <p class="hk-prose">{body}</p>}
+</div>
+
+<style>
+  .hk-cs-head {
+    max-width: var(--hk-content-max);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: var(--head-gap, 56px);
+  }
+
+  .hk-cs-heading {
+    font-family: var(--hk-font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    font-size: var(--hk-h2);
+    line-height: 1.05;
+  }
+
+  .hk-cs-heading.is-lg {
+    font-size: clamp(44px, 4.6vw, 64px);
+    line-height: 1;
+  }
+
+  .hk-cs-heading.is-sm {
+    font-size: clamp(36px, 4vw, 52px);
+    line-height: 1.08;
+  }
+
+  .hk-cs-heading.is-balanced {
+    text-wrap: balance;
+  }
+</style>

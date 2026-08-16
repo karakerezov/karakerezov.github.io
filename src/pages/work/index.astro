@@ -1,0 +1,64 @@
+---
+import site from '../../data/site.json';
+import Base from '../../layouts/Base.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import ProjectCardStandard from '../../components/ProjectCardStandard.astro';
+import SectionTransition from '../../components/SectionTransition.astro';
+import ContactCta from '../../components/ContactCta.astro';
+import { getProjects } from '../../lib/content';
+import { breadcrumbSchema, graph } from '../../lib/schema';
+
+const projects = await getProjects();
+
+const jsonLd = graph([
+  breadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: site.work.heading, path: '/work' },
+  ]),
+]);
+---
+
+<Base title={site.work.heading} description={site.work.description} jsonLd={jsonLd} active="/work">
+  <div class="hk-shell">
+    <PageIntro heading={site.work.heading} lead={site.work.lead} />
+
+    <section class="hk-work-index" aria-label={site.work.heading}>
+      <div class="hk-work-index-grid">
+        {projects.map((project) => <ProjectCardStandard project={project} context="index" />)}
+      </div>
+    </section>
+
+    <div class="hk-work-transition">
+      <SectionTransition
+        heading={site.work.transitionHeading}
+        body={site.work.transitionBody}
+        cta={site.work.transitionCta}
+        href="/archive"
+      />
+    </div>
+
+    <ContactCta variant="rule" />
+  </div>
+</Base>
+
+<style>
+  .hk-work-index {
+    padding-bottom: 96px;
+  }
+
+  .hk-work-index-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--hk-gap);
+  }
+
+  .hk-work-transition {
+    padding: 32px 0 96px;
+  }
+
+  @media (max-width: 900px) {
+    .hk-work-index-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

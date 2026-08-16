@@ -1,0 +1,63 @@
+---
+import PillRow from './PillRow.astro';
+
+/**
+ * "Designed as a system" — the reusable pieces that kept the prototype
+ * consistent, on a filled panel.
+ */
+interface Props {
+  heading: string;
+  body: string;
+  items: string[];
+  note?: string;
+}
+
+const { heading, body, items, note } = Astro.props;
+---
+
+<div class="hk-cs-system">
+  <div class="hk-cs-system-copy">
+    <h2 class="hk-cs-system-heading">{heading}</h2>
+    <p class="hk-prose">{body}</p>
+  </div>
+  <PillRow items={items} variant="plain" />
+  {note && <p class="hk-cs-system-note">{note}</p>}
+</div>
+
+<style>
+  .hk-cs-system {
+    background: var(--hk-surface-alt);
+    border-radius: var(--hk-r-card);
+    padding: 64px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--hk-gap);
+  }
+
+  .hk-cs-system-copy {
+    max-width: var(--hk-content-max);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .hk-cs-system-heading {
+    font-family: var(--hk-font-display);
+    font-weight: 400;
+    font-size: clamp(32px, 3.6vw, 48px);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+
+  .hk-cs-system-note {
+    font-size: var(--hk-body-xs);
+    line-height: 1.45;
+    color: var(--hk-ink-3-text);
+  }
+
+  @media (max-width: 900px) {
+    .hk-cs-system {
+      padding: 32px 24px;
+    }
+  }
+</style>

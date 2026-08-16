@@ -1,0 +1,183 @@
+---
+import type { Project } from '../lib/content';
+import ProjectMedia from './ProjectMedia.astro';
+
+/**
+ * The regular project card.
+ *
+ * `home` is the narrower version in the right column of the home grid.
+ * `index` is the wider one used on the Recent Work page, which shows the
+ * longer title and summary written for that grid.
+ */
+interface Props {
+  project: Project;
+  context?: 'home' | 'index';
+  /**
+   * On the home page these cards sit under a "Recent Work" h2, so they are h3.
+   * On the work index they are the page's top-level content, so they are h2.
+   */
+  headingLevel?: 2 | 3;
+}
+
+const { project, context = 'home', headingLevel = context === 'index' ? 2 : 3 } = Astro.props;
+const Heading = `h${headingLevel}` as const;
+const { data } = project;
+
+const href = `/work/${project.id}`;
+const headingId = `project-${context}-${project.id}`;
+const title = context === 'index' && data.titleIndex ? data.titleIndex : data.title;
+const summary = context === 'index' ? data.summaryIndex : data.summary;
+---
+
+<article
+  class="hk-project-card hk-card"
+  class:list={[`is-${context}`]}
+  aria-labelledby={headingId}
+  data-hk-reveal
+>
+  <ProjectMedia
+    cover={data.cover}
+    coverAlt={data.coverAlt}
+    isProtected={data.protected}
+    protectedBadge={data.protectedBadge}
+    sizes="(max-width: 900px) 92vw, 44vw"
+  />
+
+  <div class="hk-project-body">
+    <div class="hk-project-head">
+      <Heading class="hk-project-title" id={headingId}>{title}</Heading>
+      <span class="hk-meta-text">{data.subtitle}</span>
+    </div>
+
+    <p class="hk-project-summary">{summary}</p>
+
+    <ul class="hk-pill-row">
+      {data.tags.map((tag) => <li class="hk-pill">{tag}</li>)}
+    </ul>
+
+    <div class="hk-project-cta">
+      {
+        data.protected ? (
+          <>
+            <a href={href} class="hk-link">
+              {data.cta}
+              <span aria-hidden="true">→</span>
+            </a>
+            {data.protectedNote && <span class="hk-meta-text">{data.protectedNote}</span>}
+          </>
+        ) : (
+          <a href={href} class="hk-btn hk-btn-solid">
+            {data.cta}
+            <span aria-hidden="true">→</span>
+          </a>
+        )
+      }
+    </div>
+  </div>
+</article>
+
+<style>
+  .hk-project-card {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    transition: var(--hk-t-card);
+    /* Shape of the picture well — read by ProjectMedia. */
+    --hk-well-flex: 0 0 auto;
+  }
+
+  .hk-project-card.is-home {
+    padding: var(--hk-card-pad-md);
+    flex: 1;
+    --hk-well-h: 220px;
+  }
+
+  .hk-project-card.is-index {
+    padding: 24px;
+    --hk-well-h: 340px;
+  }
+
+  .hk-project-card:hover {
+    transform: var(--hk-lift);
+    box-shadow: var(--hk-card-shadow);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hk-project-card:hover {
+      transform: none;
+    }
+  }
+
+  .hk-project-body {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .is-home .hk-project-body {
+    padding: 4px 8px 8px;
+  }
+
+  .is-index .hk-project-body {
+    padding: 8px 12px 12px;
+  }
+
+  .hk-project-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .hk-project-title {
+    font-size: var(--hk-h3);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  .hk-project-summary {
+    line-height: 1.5;
+    color: var(--hk-ink-2);
+    text-wrap: pretty;
+  }
+
+  .is-home .hk-project-summary {
+    font-size: var(--hk-body-sm);
+  }
+
+  .is-index .hk-project-summary {
+    font-size: var(--hk-body);
+    line-height: 1.55;
+  }
+
+  .hk-project-cta {
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .is-index .hk-project-cta {
+    margin-top: 8px;
+  }
+
+  .hk-btn-solid {
+    padding: 13px 22px;
+  }
+
+  .is-index .hk-btn-solid {
+    padding: 14px 24px;
+  }
+
+  @media (max-width: 600px) {
+    .hk-project-card.is-home,
+    .hk-project-card.is-index {
+      --hk-well-h: auto;
+      --hk-well-ratio: 4 / 3;
+    }
+  }
+</style>

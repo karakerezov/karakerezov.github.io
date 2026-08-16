@@ -1,0 +1,43 @@
+---
+/**
+ * The wrapper every case-study section uses: consistent bottom spacing and the
+ * scroll-reveal hook. `space` matches the values in the original design.
+ */
+interface Props {
+  /** Bottom padding: `sm` 96px, `md` 112px, `lg` 128px. */
+  space?: 'sm' | 'md' | 'lg';
+  /** Extra top padding, for the sections the design sets apart. */
+  top?: string;
+  id?: string;
+  label?: string;
+  /** Skip the reveal for content that must be visible immediately. */
+  still?: boolean;
+}
+
+const { space = 'lg', top, id, label, still = false } = Astro.props;
+const pad = { sm: '96px', md: '112px', lg: '128px' }[space];
+---
+
+<section
+  id={id}
+  class="hk-cs-section"
+  style={`--pad-bottom:${pad}${top ? `;--pad-top:${top}` : ''}`}
+  aria-label={label}
+  data-hk-reveal={still ? undefined : ''}
+>
+  <slot />
+</section>
+
+<style>
+  .hk-cs-section {
+    padding-top: var(--pad-top, 0);
+    padding-bottom: var(--pad-bottom, 128px);
+  }
+
+  @media (max-width: 900px) {
+    .hk-cs-section {
+      padding-bottom: min(var(--pad-bottom, 128px), 72px);
+      padding-top: min(var(--pad-top, 0px), 48px);
+    }
+  }
+</style>

@@ -1,0 +1,136 @@
+---
+import type { ArchiveItem } from '../lib/content';
+import { hasBody, categorySlug } from '../lib/content';
+import Media from './Media.astro';
+
+/**
+ * One tile in the archive grid.
+ *
+ * It becomes a link only when the item's Markdown file has a written body —
+ * otherwise there is no detail page to open and the tile stays a plain card,
+ * rather than a link that leads nowhere.
+ */
+interface Props {
+  item: ArchiveItem;
+  /** True when a category filter is active and this item is not in it. */
+  hidden?: boolean;
+}
+
+const { item, hidden = false } = Astro.props;
+const { data } = item;
+const linked = hasBody(item);
+const Tag = linked ? 'a' : 'div';
+---
+
+<li class="hk-archive-item" data-hk-item data-cats={categorySlug(data.category)} hidden={hidden}>
+  <Tag
+    class="hk-archive-card"
+    class:list={[linked && 'is-linked']}
+    href={linked ? `/archive/${item.id}` : undefined}
+  >
+    <span class="hk-archive-well">
+      <Media
+        src={data.cover}
+        alt={data.coverAlt}
+        ratio="4/5"
+        sizes="(max-width: 600px) 92vw, (max-width: 900px) 46vw, 30vw"
+      />
+    </span>
+    <span class="hk-archive-body">
+      <span class="hk-archive-head">
+        <span class="hk-archive-title">{data.title}</span>
+        <span class="hk-meta-text hk-archive-category">{data.category}</span>
+      </span>
+      <span class="hk-archive-label">{data.label}</span>
+    </span>
+  </Tag>
+</li>
+
+<style>
+  .hk-archive-item {
+    list-style: none;
+    display: flex;
+  }
+
+  .hk-archive-item[hidden] {
+    display: none;
+  }
+
+  .hk-archive-card {
+    background: var(--hk-surface);
+    border: 1px solid var(--hk-hairline);
+    border-radius: var(--hk-r-media);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    color: var(--hk-ink);
+    width: 100%;
+    transition: var(--hk-t-card);
+  }
+
+  .hk-archive-card.is-linked:hover {
+    transform: var(--hk-lift);
+    box-shadow: var(--hk-card-shadow);
+    color: var(--hk-ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hk-archive-card.is-linked:hover {
+      transform: none;
+    }
+  }
+
+  .hk-archive-well {
+    display: block;
+    border-radius: var(--hk-r-card-sm);
+    overflow: hidden;
+    background: var(--hk-surface-alt);
+    position: relative;
+  }
+
+  .hk-archive-well :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: var(--hk-media-filter);
+    transition: var(--hk-t-media);
+  }
+
+  .hk-archive-card.is-linked:hover .hk-archive-well :global(img) {
+    transform: var(--hk-zoom);
+  }
+
+  .hk-archive-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 4px 8px 8px;
+  }
+
+  .hk-archive-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .hk-archive-title {
+    font-size: var(--hk-body);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .hk-archive-category {
+    flex-shrink: 0;
+  }
+
+  .hk-archive-label {
+    font-size: var(--hk-meta-sm);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--hk-ink-2);
+  }
+</style>

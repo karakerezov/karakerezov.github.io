@@ -1,0 +1,100 @@
+﻿---
+import Screen from './Screen.astro';
+
+/**
+ * A row of product screens with a caption under each. Used for the account
+ * screens, the discovery screens and the three checkout steps.
+ */
+interface Props {
+  items: { image?: string; alt: string; caption?: string; step?: string }[];
+  cols?: 2 | 3 | 4;
+  /** Screen width inside its column. */
+  width?: string;
+  /** Larger captions with the accent step label, as used by checkout. */
+  variant?: 'caption' | 'step';
+}
+
+const { items, cols = 4, width = '100%', variant = 'caption' } = Astro.props;
+---
+
+<ul class="hk-cs-screens" class:list={[`cols-${cols}`, `is-${variant}`]}>
+  {
+    items.map((item) => (
+      <li class="hk-cs-screen-item">
+        <Screen
+          src={item.image}
+          alt={item.alt}
+          width={width}
+          sizes={`(max-width: 900px) 45vw, ${Math.round(1200 / cols)}px`}
+        />
+        {item.step && <p class="hk-cs-screen-step">{item.step}</p>}
+        {item.caption && <p class="hk-cs-screen-caption">{item.caption}</p>}
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .hk-cs-screens {
+    display: grid;
+    gap: var(--hk-gap-sm);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--hk-gap);
+  }
+  .cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--hk-gap);
+  }
+  .cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .hk-cs-screen-item {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .is-step .hk-cs-screen-item {
+    gap: 14px;
+  }
+
+  .hk-cs-screen-step {
+    font-size: var(--hk-meta-sm);
+    font-weight: 600;
+    color: var(--hk-accent-text);
+    text-align: center;
+  }
+
+  .hk-cs-screen-caption {
+    font-size: var(--hk-body-xs);
+    line-height: 1.45;
+    color: var(--hk-ink-2);
+    text-align: center;
+  }
+
+  .is-step .hk-cs-screen-caption {
+    color: var(--hk-ink-3-text);
+  }
+
+  @media (max-width: 900px) {
+    .cols-3,
+    .cols-4 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 600px) {
+    .cols-2,
+    .cols-3,
+    .cols-4 {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

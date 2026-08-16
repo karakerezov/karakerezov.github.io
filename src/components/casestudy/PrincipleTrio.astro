@@ -1,0 +1,74 @@
+---
+import Screen from './Screen.astro';
+
+/**
+ * Three design principles, each shown as a screen that demonstrates it.
+ */
+interface Props {
+  items: { image?: string; imageAlt: string; title: string; body: string }[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="hk-cs-trio">
+  {
+    items.map((item) => (
+      <li class="hk-cs-trio-item">
+        <Screen
+          src={item.image}
+          alt={item.imageAlt}
+          width="70%"
+          sizes="(max-width: 900px) 50vw, 220px"
+        />
+        <div class="hk-cs-trio-copy">
+          <h3 class="hk-cs-trio-title">{item.title}</h3>
+          <p class="hk-cs-trio-body">{item.body}</p>
+        </div>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .hk-cs-trio {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--hk-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hk-cs-trio-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--hk-gap-sm);
+  }
+
+  .hk-cs-trio-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hk-cs-trio-title {
+    font-size: var(--hk-h3-sm);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  .hk-cs-trio-body {
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--hk-ink-2);
+  }
+
+  @media (max-width: 900px) {
+    .hk-cs-trio {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 40px;
+    }
+  }
+</style>

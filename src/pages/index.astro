@@ -1,0 +1,286 @@
+---
+import site from '../data/site.json';
+import Base from '../layouts/Base.astro';
+import ProjectCardLarge from '../components/ProjectCardLarge.astro';
+import ProjectCardStandard from '../components/ProjectCardStandard.astro';
+import ArchiveCard from '../components/ArchiveCard.astro';
+import ContactCta from '../components/ContactCta.astro';
+import Media from '../components/Media.astro';
+import { getFeaturedProjects, getArchiveItems } from '../lib/content';
+import { personSchema, webSiteSchema, graph } from '../lib/schema';
+
+const featured = await getFeaturedProjects();
+const [lead, ...rest] = featured;
+
+const archivePreview = (await getArchiveItems()).slice(0, 4);
+
+const jsonLd = graph([personSchema(), webSiteSchema()]);
+---
+
+<Base
+  title={site.home.title}
+  exactTitle={site.home.title}
+  description={site.description}
+  jsonLd={jsonLd}
+  active="/"
+>
+  <div class="hk-shell">
+    <section class="hk-hero" aria-labelledby="hero-heading">
+      <h1 class="hk-h1-home" id="hero-heading">
+        {site.home.heroLine1}<br />{site.home.heroLine2}
+      </h1>
+      <div class="hk-hero-meta">
+        <p class="hk-hero-name">{site.home.heroName}</p>
+        <p class="hk-hero-tagline">{site.home.heroTagline}</p>
+      </div>
+    </section>
+
+    <section id="work" class="hk-work" aria-labelledby="work-heading" data-hk-reveal>
+      <div class="hk-section-head">
+        <h2 class="hk-h2" id="work-heading">{site.home.workHeading}</h2>
+        <p class="hk-lead">{site.home.workLead}</p>
+      </div>
+
+      {
+        lead && (
+          <div class="hk-work-grid" class:list={[rest.length === 0 && 'is-single']}>
+            <ProjectCardLarge project={lead} eager />
+            {rest.length > 0 && (
+              <div class="hk-work-column">
+                {rest.map((project) => (
+                  <ProjectCardStandard project={project} context="home" />
+                ))}
+              </div>
+            )}
+          </div>
+        )
+      }
+    </section>
+
+    <section id="about" class="hk-about" aria-labelledby="about-heading" data-hk-reveal>
+      <div class="hk-about-card hk-card">
+        <div class="hk-about-copy">
+          <h2 class="hk-h2" id="about-heading">{site.home.aboutHeading}</h2>
+          <p class="hk-prose">{site.home.aboutBody}</p>
+          <div>
+            <a href="/about" class="hk-btn hk-btn-ghost">
+              {site.home.aboutCta}
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+        <div class="hk-about-well">
+          <Media
+            src={site.home.aboutImage}
+            alt={site.home.aboutImageAlt}
+            sizes="(max-width: 900px) 92vw, 45vw"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="archive"
+      class="hk-archive-preview"
+      aria-labelledby="archive-heading"
+      data-hk-reveal
+    >
+      <div class="hk-archive-head-row">
+        <div class="hk-archive-intro">
+          <h2 class="hk-h2" id="archive-heading">{site.home.archiveHeading}</h2>
+          <p class="hk-prose">{site.home.archiveBody}</p>
+        </div>
+        <a href="/archive" class="hk-btn hk-btn-ghost">
+          {site.home.archiveCta}
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+      <ul class="hk-archive-grid">
+        {archivePreview.map((item) => <ArchiveCard item={item} />)}
+      </ul>
+    </section>
+
+    <ContactCta variant="band" detail />
+  </div>
+</Base>
+
+<style>
+  .hk-hero {
+    min-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 160px 0 96px;
+  }
+
+  .hk-h1-home {
+    max-width: 1060px;
+  }
+
+  .hk-hero-meta {
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .hk-hero-name {
+    font-size: var(--hk-body);
+    font-weight: 600;
+    line-height: 1.55;
+    color: var(--hk-ink);
+  }
+
+  .hk-hero-tagline {
+    font-size: var(--hk-body);
+    line-height: 1.55;
+    color: var(--hk-ink-2);
+    max-width: 560px;
+  }
+
+  /* --- Recent work -------------------------------------------------- */
+
+  .hk-work {
+    padding: 64px 0 var(--hk-section-pad);
+  }
+
+  .hk-section-head {
+    max-width: var(--hk-content-max);
+    display: flex;
+    flex-direction: column;
+    gap: var(--hk-gap-sm);
+    margin-bottom: 56px;
+  }
+
+  .hk-work-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: var(--hk-gap);
+    align-items: stretch;
+  }
+
+  /* With only one published project the tall card takes the full width
+     rather than leaving an empty column. */
+  .hk-work-grid.is-single {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 900px;
+  }
+
+  .hk-work-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--hk-gap);
+  }
+
+  /* --- About preview ------------------------------------------------ */
+
+  .hk-about {
+    padding: var(--hk-section-pad) 0;
+  }
+
+  .hk-about-card {
+    padding: var(--hk-card-pad-lg);
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .hk-about-copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--hk-gap-sm);
+    padding: 32px 16px 32px 32px;
+  }
+
+  .hk-about-well {
+    border-radius: var(--hk-r-media);
+    overflow: hidden;
+    background: var(--hk-surface-alt);
+    height: 420px;
+    position: relative;
+  }
+
+  .hk-about-well :global(img),
+  .hk-about-well :global(.hk-placeholder) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: var(--hk-media-filter);
+    transition: var(--hk-t-media);
+  }
+
+  .hk-about-well:hover :global(img) {
+    transform: var(--hk-zoom);
+  }
+
+  /* --- Archive preview ---------------------------------------------- */
+
+  .hk-archive-preview {
+    padding: var(--hk-section-pad) 0;
+  }
+
+  .hk-archive-head-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--hk-gap);
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+
+  .hk-archive-intro {
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .hk-archive-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--hk-gap-sm);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (max-width: 1200px) {
+    .hk-archive-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .hk-hero {
+      min-height: 0;
+      padding: calc(var(--hk-page-top) - 40px) 0 64px;
+    }
+
+    .hk-work-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .hk-about-card {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--hk-gap);
+      padding: 20px;
+    }
+
+    .hk-about-copy {
+      padding: 20px 12px;
+    }
+
+    .hk-about-well {
+      height: auto;
+      aspect-ratio: 4 / 3;
+      order: -1;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .hk-archive-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
