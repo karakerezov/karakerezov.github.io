@@ -1,287 +1,33 @@
-﻿---
-import site from '../data/site.json';
-import Logo from './Logo.astro';
-import SchemeToggle from './SchemeToggle.astro';
+---
+import { NAV_LINKS } from '../data/nav';
 
 interface Props {
-  /** Nav href that should read as the current page, e.g. "/work". */
-  active?: string;
+  active: 'home' | 'work' | 'archive' | 'about' | 'contact';
+  autoHide?: boolean;
 }
 
-const { active } = Astro.props;
-
-/** A section link is current for its own page and for anything beneath it. */
-const isCurrent = (href: string): boolean =>
-  active === href || (active !== undefined && active.startsWith(`${href}/`));
+const { active, autoHide = true } = Astro.props;
 ---
 
-<header class="hk-header" data-hk-header data-autohide={site.behavior.headerAutoHide ? '1' : '0'}>
-  <div class="hk-shell hk-header-inner">
-    <a href="/" class="hk-header-logo" aria-label={site.a11y.homeLink}>
-      <Logo height={site.logoHeightHeader} />
+<header class="hk-header" data-hk-header data-autohide={autoHide ? '1' : '0'}>
+  <div class="hk-header-row">
+    <a href="/" class="hk-logo" aria-label="Home">
+      <img src="/uploads/Personal%20logo-01.svg" alt="HK" />
     </a>
-
-    <nav class="hk-nav" aria-label="Main">
-      {
-        site.nav.map((item) => (
-          <a
-            href={item.href}
-            class="hk-nav-link"
-            aria-current={isCurrent(item.href) ? 'page' : undefined}
-          >
-            {item.label}
-          </a>
-        ))
-      }
+    <nav class="hk-nav" aria-label="Primary">
+      {NAV_LINKS.map((link) => (
+        <a href={link.href} aria-current={active === link.key ? 'page' : undefined}>{link.label}</a>
+      ))}
     </nav>
-
-    <div class="hk-header-tools">
-      {site.behavior.darkMode && <SchemeToggle />}
-
-      <button
-        type="button"
-        class="hk-nav-toggle"
-        data-hk-nav-toggle
-        aria-label={site.a11y.openMenu}
-        aria-controls="hk-nav-drawer"
-      >
-        <span class="hk-nav-bars" aria-hidden="true"></span>
-      </button>
-    </div>
+    <button type="button" class="hk-nav-toggle" data-hk-nav-toggle aria-label="Open menu" aria-expanded="false">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+    </button>
   </div>
 </header>
 
-<div class="hk-drawer" id="hk-nav-drawer" data-hk-nav-drawer hidden>
-  <div class="hk-drawer-top hk-shell">
-    <a href="/" class="hk-header-logo" aria-label={site.a11y.homeLink}>
-      <Logo height={site.logoHeightHeader} />
-    </a>
-    <button
-      type="button"
-      class="hk-drawer-close"
-      data-hk-nav-close
-      aria-label={site.a11y.closeMenu}
-    >
-      <svg
-        width="22"
-        height="22"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.8"
-        stroke-linecap="round"
-        aria-hidden="true"
-      >
-        <path d="M6 6l12 12M18 6L6 18"></path>
-      </svg>
-    </button>
-  </div>
-  <nav class="hk-drawer-nav hk-shell" aria-label="Main">
-    {
-      site.nav.map((item) => (
-        <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
-          {item.label}
-        </a>
-      ))
-    }
-  </nav>
-  <div class="hk-drawer-foot hk-shell">
-    <a href={`mailto:${site.email}`}>{site.email}</a>
-  </div>
+<div class="hk-nav-drawer" data-hk-nav-drawer hidden>
+  <button type="button" class="hk-nav-close" data-hk-nav-close aria-label="Close menu">&times;</button>
+  {NAV_LINKS.map((link) => (
+    <a href={link.href} aria-current={active === link.key ? 'page' : undefined}>{link.label}</a>
+  ))}
 </div>
-
-<style>
-  .hk-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 50;
-    background: transparent;
-    border-bottom: 1px solid transparent;
-    transition: var(--hk-t-header);
-  }
-
-  .hk-header.is-scrolled {
-    background: var(--hk-header-scrolled);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom-color: var(--hk-hairline);
-  }
-
-  .hk-header.is-hidden {
-    transform: translateY(-100%);
-  }
-
-  .hk-header-inner {
-    height: var(--hk-header-h);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-  }
-
-  .hk-header-logo {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-  }
-
-  .hk-nav {
-    display: flex;
-    align-items: center;
-    gap: 36px;
-    margin-left: auto;
-  }
-
-  .hk-nav-link {
-    /* Inline-flex with a 44px minimum so the tap target is comfortable;
-       the header's fixed height means this changes nothing visually. */
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    font-size: var(--hk-meta);
-    font-weight: 600;
-    line-height: 1;
-    color: var(--hk-ink);
-    transition: var(--hk-t-link);
-  }
-
-  .hk-nav-link:hover,
-  .hk-nav-link[aria-current='page'] {
-    color: var(--hk-accent-text);
-  }
-
-  .hk-header-tools {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-shrink: 0;
-  }
-
-  /* --- Mobile drawer trigger --------------------------------------- */
-
-  .hk-nav-toggle {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    background: transparent;
-    border: 1px solid var(--hk-hairline-2);
-    border-radius: var(--hk-r-pill);
-    color: var(--hk-ink);
-    cursor: pointer;
-    transition:
-      background 0.25s ease,
-      border-color 0.25s ease;
-  }
-
-  .hk-nav-toggle:hover {
-    background: var(--hk-hover-tint);
-    border-color: var(--hk-hairline-3);
-  }
-
-  /* Three bars drawn from one element to keep the markup quiet. */
-  .hk-nav-bars,
-  .hk-nav-bars::before,
-  .hk-nav-bars::after {
-    display: block;
-    width: 18px;
-    height: 2px;
-    border-radius: 2px;
-    background: currentColor;
-  }
-
-  .hk-nav-bars::before,
-  .hk-nav-bars::after {
-    content: '';
-    position: relative;
-  }
-
-  .hk-nav-bars::before {
-    top: -5px;
-  }
-  .hk-nav-bars::after {
-    top: 3px;
-  }
-
-  /* --- Drawer ------------------------------------------------------- */
-
-  .hk-drawer {
-    position: fixed;
-    inset: 0;
-    z-index: 60;
-    background: var(--hk-bg);
-    display: flex;
-    flex-direction: column;
-  }
-
-  .hk-drawer[hidden] {
-    display: none;
-  }
-
-  .hk-drawer-top {
-    height: var(--hk-header-h);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--hk-hairline);
-  }
-
-  .hk-drawer-close {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    background: transparent;
-    border: 1px solid var(--hk-hairline-2);
-    border-radius: var(--hk-r-pill);
-    color: var(--hk-ink);
-    cursor: pointer;
-  }
-
-  .hk-drawer-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding-top: 40px;
-    flex: 1;
-  }
-
-  .hk-drawer-nav a {
-    font-family: var(--hk-font-display);
-    font-size: 40px;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    padding: 8px 0;
-    min-height: 44px;
-  }
-
-  .hk-drawer-nav a[aria-current='page'] {
-    color: var(--hk-accent-text);
-  }
-
-  .hk-drawer-foot {
-    padding-bottom: 40px;
-    font-size: var(--hk-meta);
-    font-weight: 600;
-    color: var(--hk-ink-2);
-  }
-
-  .hk-drawer-foot a:hover {
-    color: var(--hk-accent-text);
-  }
-
-  @media (max-width: 900px) {
-    .hk-nav {
-      display: none;
-    }
-    .hk-nav-toggle {
-      display: inline-flex;
-    }
-  }
-</style>

@@ -1,16 +1,12 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "include": [".astro/types.d.ts", "**/*.astro", "**/*.ts", "**/*.tsx", "**/*.mdx"],
-  "exclude": ["dist", "astro-handoff"],
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", "prototype-source", "reference"],
   "compilerOptions": {
-    "strict": true,
-    "noImplicitAny": true,
-    "noUncheckedIndexedAccess": true,
-    "allowJs": true,
-    "resolveJsonModule": true,
+    "strictNullChecks": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["src/*"]
+      "@/*": ["src/*"]
     }
   }
 }

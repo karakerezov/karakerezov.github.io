@@ -1,0 +1,262 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ContactCTA from '../../../components/ContactCTA.astro';
+
+const t = (id: string, ext: string) => `/media/drive/${id}.${ext}`;
+
+type Shot = { src: string; name: string; format: string; alt: string };
+const pk = (id: string, ext: string, name: string, format: string, alt: string): Shot => ({
+  src: t(id, ext),
+  name,
+  format,
+  alt,
+});
+
+const directions: Shot[] = [
+  pk('1E6xX27HOIRC0iBwpQkmov_x2tGBs4eln', 'jpg', 'Design direction A', 'Sauce packaging concept', 'DENITO sauce packaging — design direction A'),
+  pk('1uf4vQHEWnVKpnGhBn5cMbe580lgEqhCV', 'jpg', 'Design direction B', 'Sauce packaging concept', 'DENITO sauce packaging — design direction B'),
+];
+
+const labels: Shot[] = [
+  pk('1lY7lV42IsfdE7Av3BSu20XTuEsujzyEo', 'jpg', 'Garlic Sauce', '155 × 55 mm label [confirm]', 'DENITO garlic sauce label'),
+  pk('1vQw3ta1FHp6Vr5aOSSSfTOeCJtFJ4ydI', 'jpg', 'Barbecue Sauce', '155 × 55 mm label [confirm]', 'DENITO barbecue sauce label'),
+  pk('1t3rUM4H2qNmsTx-yaxeQgkm22vcFJxrz', 'jpg', 'Honey Mustard', '155 × 55 mm label [confirm]', 'DENITO honey mustard label'),
+  pk('1LFJsNwG-tsVlKjFWcgCbqN6q5QumM3zB', 'jpg', 'Garden Herbs', '155 × 55 mm label [confirm]', 'DENITO garden herbs label'),
+];
+---
+
+<BaseLayout
+  title="Archive — DENITO"
+  description="Packaging design for fresh salads and sauces, bringing distinctive visual approaches to two everyday food categories."
+  active="archive"
+>
+  <div class="hk-shell">
+
+    <section class="hero" data-hk-reveal>
+      <a href="/archive/" class="back-link"><span aria-hidden="true">←</span>Archive</a>
+      <div class="tag-row">
+        <span class="tag tag-accent">Fresh Food</span>
+        <span class="tag">Food Packaging Design</span>
+        <span class="tag">Label Design</span>
+      </div>
+      <h1>DENITO</h1>
+      <p class="lead">Packaging design for fresh salads and sauces, bringing distinctive visual approaches to two everyday food categories.</p>
+    </section>
+
+    <section class="main-visual" data-hk-reveal>
+      <div class="hero-frame">
+        <img src="/media/drive/1UvjgSqMDN_or-6WQIhTNNOPqgWhUKYkp.png" alt="DENITO packaging — hero" />
+      </div>
+    </section>
+
+    <section class="meta" data-hk-reveal>
+      <div class="meta-grid">
+        <div class="meta-item">
+          <span class="meta-label">Client</span>
+          <span class="meta-value">DENITO</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Category</span>
+          <span class="meta-value">Food Packaging Design</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Products</span>
+          <span class="meta-value">Fresh salads, sauces</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Scope</span>
+          <span class="meta-value">Packaging &amp; label design</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="copy-section" data-hk-reveal>
+      <div class="copy-head">
+        <span class="eyebrow">The Project</span>
+        <h2>Designing Across Food Categories</h2>
+      </div>
+      <div class="copy-body">
+        <p class="ink">DENITO is a food brand represented through two distinct packaging applications: fresh salads and sauces.</p>
+        <p class="muted">The design work explores different ways of communicating freshness, product character and variety through colour, typography and packaging graphics.</p>
+        <p class="muted">Each category has its own visual approach, while maintaining the presence of the DENITO brand.</p>
+      </div>
+    </section>
+
+    <section class="fresh-salads">
+      <div class="copy-section copy-section-flush" data-hk-reveal>
+        <div class="copy-head">
+          <span class="eyebrow">Fresh Salads</span>
+          <h2>Freshness at First Glance</h2>
+        </div>
+        <div class="copy-body">
+          <p class="ink">The salad packaging uses a fresh green visual language, combining botanical details with a clear presentation of the product.</p>
+          <p class="muted">The design balances the DENITO brand signature, product information and ready-to-eat messaging, allowing the food itself to remain a central part of the visual experience.</p>
+          <p class="muted">Across the range, colour and geometry establish visual hierarchy, with the packaging emphasising freshness and product visibility.</p>
+        </div>
+      </div>
+      <div class="salad-photo" data-hk-reveal>
+        <img src="/media/drive/1gpk6xua6P1ZUEXLOMoYToz5enlJCStII.jpg" alt="DENITO fresh salad packaging — three packages" loading="lazy" />
+      </div>
+    </section>
+
+    <section class="sauce-packaging">
+      <div class="copy-section copy-section-flush copy-section-tight" data-hk-reveal>
+        <div class="copy-head">
+          <span class="eyebrow">Sauce Packaging</span>
+          <h2>A Bold Packaging Language</h2>
+        </div>
+        <div class="copy-body">
+          <p class="ink">The sauce packaging explores a more expressive visual direction, using saturated blue, strong colour contrasts and a prominent central brand structure.</p>
+          <p class="muted">Distinctive label shapes and flavour-specific accents create a recognisable visual relationship across the sauce varieties. Two design directions are shown below.</p>
+        </div>
+      </div>
+      <div class="shot-grid" data-hk-reveal>
+        {directions.map((p) => (
+          <figure class="media-figure">
+            <a href={p.src} data-hk-lightbox class="shot-thumb" aria-label={`View ${p.name} larger`}>
+              <img src={p.src} alt={p.alt} loading="lazy" />
+              <span class="zoom-badge" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7"></path><path d="M3 21l7-7"></path></svg>
+              </span>
+            </a>
+            <figcaption class="figcap-row"><span class="figcap">{p.name}</span><span class="fig-meta">{p.format}</span></figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+
+    <section class="flavour-variations">
+      <div class="copy-section copy-section-flush copy-section-tight" data-hk-reveal>
+        <div class="copy-head">
+          <span class="eyebrow">Product Variations</span>
+          <h2>Distinctive Flavours, Shared Identity</h2>
+        </div>
+        <div class="copy-body">
+          <p class="ink">The label designs apply a shared graphic structure across different sauce varieties.</p>
+          <p class="muted">Individual colour treatments and clear product naming distinguish each flavour while maintaining a consistent visual relationship with the DENITO identity. A stronger graphic structure organises the brand, flavour names and supporting information.</p>
+        </div>
+      </div>
+      <div class="shot-grid" data-hk-reveal>
+        {labels.map((p) => (
+          <figure class="media-figure">
+            <a href={p.src} data-hk-lightbox class="shot-thumb" aria-label={`View ${p.name} larger`}>
+              <img src={p.src} alt={p.alt} loading="lazy" />
+              <span class="zoom-badge" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7"></path><path d="M3 21l7-7"></path></svg>
+              </span>
+            </a>
+            <figcaption class="figcap-row"><span class="figcap">{p.name}</span><span class="fig-meta">{p.format}</span></figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+
+    <section class="project-nav" data-hk-reveal>
+      <div class="project-nav-row">
+        <a href="/archive/" class="nav-pill-link">Back to Archive</a>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact" data-hk-reveal>
+      <ContactCTA layout="row-single" ctaLabel="Get in touch" ctaHref="/contact/" />
+    </section>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .hk-shell { padding-top: 0; }
+
+  .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; line-height: 1; color: var(--hk-ink-2); }
+  .back-link:hover { color: var(--hk-accent); }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 40px; }
+  .tag {
+    display: inline-flex; font-size: 13px; font-weight: 600; line-height: 1;
+    color: var(--hk-ink-2); background: var(--hk-pill-fill); border: 1px solid var(--hk-hairline-2);
+    border-radius: var(--hk-r-pill); padding: 7px 15px;
+  }
+  .tag-accent { color: #00757F; background: var(--hk-accent-soft); border: none; padding: 8px 16px; }
+
+  .hero { padding: 176px 0 56px; }
+  .hero h1 {
+    font-family: var(--hk-font-display); font-weight: 400; font-size: var(--hk-h1-page);
+    line-height: 1; letter-spacing: -0.03em; margin: 28px 0 0;
+  }
+  .lead { margin: 28px 0 0; font-size: var(--hk-lead); line-height: 1.45; color: var(--hk-ink-2); max-width: 720px; }
+
+  .main-visual { padding: 0 0 40px; }
+  .hero-frame {
+    border-radius: var(--hk-r-card); overflow: hidden; background: var(--hk-surface-alt);
+    border: 1px solid var(--hk-hairline); min-height: 320px; position: relative;
+  }
+  .hero-frame img { position: relative; width: 100%; height: auto; display: block; }
+
+  .meta { padding: 0 0 128px; }
+  .meta-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--hk-gap);
+    padding: 32px 8px 0; border-top: 1px solid var(--hk-hairline);
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 10px; }
+  .meta-label { font-size: 13px; font-weight: 600; line-height: 1; color: var(--hk-ink-3-text); text-transform: uppercase; letter-spacing: 0.06em; }
+  .meta-value { font-size: 15px; line-height: 1.5; font-weight: 600; }
+
+  .copy-section {
+    padding: 0 0 128px; display: grid; grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+    gap: 64px; align-items: start;
+  }
+  .copy-section-flush { padding-bottom: 0; }
+  .copy-section-tight { margin-bottom: 56px; }
+  .copy-head { display: flex; flex-direction: column; gap: 16px; }
+  .copy-head h2 { font-family: var(--hk-font-display); font-weight: 400; font-size: var(--hk-h2); line-height: 1.05; letter-spacing: -0.02em; }
+  .eyebrow { font-size: 13px; font-weight: 600; line-height: 1; color: #00757F; text-transform: uppercase; letter-spacing: 0.06em; }
+  .copy-body { display: flex; flex-direction: column; gap: 20px; max-width: 720px; padding-top: 29px; }
+  .copy-body .ink { color: var(--hk-ink); font-size: var(--hk-body); line-height: 1.55; }
+  .copy-body .muted { color: var(--hk-ink-2); font-size: var(--hk-body); line-height: 1.55; }
+
+  .fresh-salads { padding: 0 0 128px; }
+  .salad-photo {
+    margin-top: 56px; border-radius: var(--hk-r-media); overflow: hidden; background: var(--hk-surface);
+    border: 1px solid var(--hk-hairline); position: relative;
+  }
+  .salad-photo img { width: 100%; height: auto; display: block; }
+
+  .sauce-packaging, .flavour-variations { padding: 0 0 128px; }
+
+  .shot-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--hk-gap-sm); align-items: start; }
+  .media-figure { display: flex; flex-direction: column; gap: 14px; margin: 0; }
+  .shot-thumb {
+    display: block; width: 100%; padding: 0; margin: 0; cursor: zoom-in; position: relative;
+    border-radius: var(--hk-r-media); overflow: hidden; background: var(--hk-surface); border: 1px solid var(--hk-hairline);
+    transition: var(--hk-t-card);
+  }
+  .shot-thumb:hover { transform: var(--hk-lift); box-shadow: var(--hk-card-shadow); }
+  .shot-thumb img { position: relative; width: 100%; height: auto; display: block; }
+  .zoom-badge {
+    position: absolute; right: 14px; bottom: 14px; width: 36px; height: 36px; border-radius: var(--hk-r-pill);
+    background: var(--hk-badge); border: 1px solid var(--hk-hairline); display: flex; align-items: center; justify-content: center;
+    color: var(--hk-ink);
+  }
+  .figcap-row { display: flex; justify-content: space-between; gap: 12px; padding: 0 8px; }
+  .figcap { font-size: 15px; font-weight: 700; line-height: 1.2; }
+  .fig-meta { font-size: 13px; font-weight: 600; color: var(--hk-ink-3-text); }
+
+  .project-nav { padding: 0 0 96px; }
+  .project-nav-row { border-top: 1px solid var(--hk-hairline); padding-top: 56px; display: flex; justify-content: center; }
+  .nav-pill-link {
+    display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; line-height: 1;
+    color: var(--hk-ink); background: transparent; border: 1px solid var(--hk-hairline-3); border-radius: var(--hk-r-pill);
+    padding: 14px 24px; transition: background .25s ease;
+  }
+  .nav-pill-link:hover { background: var(--hk-hover-tint); color: var(--hk-ink); }
+
+  .contact-section { padding: 0 0 96px; }
+
+  @media (max-width: 900px) {
+    .hero, .main-visual, .meta, .copy-section, .fresh-salads, .sauce-packaging, .flavour-variations, .project-nav, .contact-section {
+      padding-left: 0; padding-right: 0;
+    }
+    .shot-grid { grid-template-columns: 1fr; }
+    .copy-section { grid-template-columns: 1fr; gap: 32px; }
+  }
+</style>

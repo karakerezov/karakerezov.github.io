@@ -1,0 +1,442 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ContactCTA from '../../../components/ContactCTA.astro';
+
+const tags = ['Snacks & Nuts', 'Brand Identity', 'Packaging System'];
+
+const t = (id: string, ext: string) => `/media/drive/${id}.${ext}`;
+
+type Pack = { src: string; name: string; alt: string };
+const pack = (id: string, ext: string, name: string): Pack => ({
+  src: t(id, ext),
+  name,
+  alt: `AHAT ${name} — pack`,
+});
+
+const lines: { name: string; note: string; packs: Pack[] }[] = [
+  {
+    name: 'Seeds',
+    note: 'Sunflower and pumpkin seeds',
+    packs: [
+      pack('1F8nBhZzVDldX9K7zYM6j9WSLVHDBkBkh', 'jpg', 'White Seeds Chilli'),
+      pack('1um0BQFgbeb6AXqt5zV7pUyeOAt11T8U3', 'jpg', 'White Seeds Onion'),
+      pack('1Ae-H0TYTZd9pT6fORjz9JgHQKfGs70CJ', 'jpg', 'Pumpkin Seeds'),
+      pack('1dkir52gocSWY5fDR0wzHaSHXGNjU_2Kv', 'jpg', 'Striped Seeds'),
+    ],
+  },
+  {
+    name: 'Roasted',
+    note: 'Peanuts, corn and mixes',
+    packs: [
+      pack('1RL8OZ30iHc0E6seKag5AWcmWQ1CTB3Lx', 'jpg', 'Mix Classic'),
+      pack('1gl80xUU9PWIj-utB4Nv0-xRbtm8b-3Xb', 'jpg', 'Peanuts Salted'),
+      pack('1aElghfLNFMrW2n5KHB84vjHeSjGLh4a5', 'jpg', 'Peanuts BBQ'),
+      pack('1vjvVDR0aB2QSMMM08UifRvBIbPNmhqKD', 'jpg', 'Peanuts Sweet Chilli'),
+    ],
+  },
+  {
+    name: 'Lux',
+    note: 'Premium roasted nuts',
+    packs: [
+      pack('1873Y_YK92QJI-GrOH9hzGLsV2e3GnCGc', 'jpg', 'Mix Premium'),
+      pack('1Lyhue686JQc6u_HqVFv42AqIid-8VWJT', 'jpg', 'Almonds'),
+      pack('19ni9WZb4pDVYHDrftHhxxvKU39KtTKzx', 'jpg', 'Cashew'),
+      pack('1ywZYEauiY5c0fTNmgKbJljroVphcmvod', 'jpg', 'Pistachios'),
+    ],
+  },
+  {
+    name: 'Raw & Dried Fruit',
+    note: 'Raw nuts, mixes and raisins',
+    packs: [
+      pack('1MzAHBQsrRjll-ZD9Sw3_plYmUwVhlK5x', 'jpg', 'Mix Fresh'),
+      pack('1WjU1I9zytqZcVK61FrhVW6wLO3QlaFDq', 'jpg', 'Mix Power'),
+      pack('1v1O5ztOQlvA9-NH4MG-tECfl7XyMdpVw', 'jpg', 'Cashew'),
+      pack('1MK4hg-1pmBMh8X859vsechk59M7SRMQ9', 'jpg', 'Golden Raisins'),
+    ],
+  },
+];
+
+type Vehicle = { src: string; name: string; view: string; alt: string };
+const van = (id: string, name: string, view: string): Vehicle => ({
+  src: t(id, 'jpg'),
+  name,
+  view,
+  alt: `AHAT vehicle branding — ${name}, ${view.toLowerCase()}`,
+});
+
+const vehicles: Vehicle[] = [
+  van('1w35uDuFebX_9h9qXe6ZxnH-JIK0HB5ML', 'Renault', 'Front'),
+  van('1WFa8mIBdgreSyKqKhIH-iiEMWc7mbvDa', 'Renault', 'Left side'),
+  van('1Vj86SkmDcS6G_M_lEfuMhyus4_lLR4Sc', 'Iveco', 'Left side'),
+  van('1ZTTswi8vrb3TDPhSKHcyJdc9eqe1wPJ3', 'Citroën', 'Right side'),
+];
+
+const deliverables = [
+  { name: 'Brand identity', detail: 'Logo refresh' },
+  { name: 'Packaging system', detail: '4 lines · 70 g – 1 kg' },
+  { name: 'Product catalog', detail: 'A4' },
+  { name: 'Poster', detail: '70 × 100 cm' },
+  { name: 'Display box', detail: '390 × 145 × 180 mm' },
+  { name: 'Business cards', detail: 'Two-sided' },
+  { name: 'Vehicle branding', detail: '3 van models' },
+];
+
+const catalogPdf = '/media/drive/1_LGF6tlLsol6imNIcX4EHe_0Nn__vCKG.pdf';
+const catalogPreview = '/media/drive/1_LGF6tlLsol6imNIcX4EHe_0Nn__vCKG-preview.png';
+---
+
+<BaseLayout
+  title="Archive — AHAT"
+  description="A brand identity refresh, a packaging system and printed communication for a Bulgarian range of nuts, seeds and dried fruit."
+  active="archive"
+>
+  <div class="hk-shell">
+
+    <section class="hero" data-hk-reveal>
+      <a href="/archive/" class="back-link"><span aria-hidden="true">←</span>Archive</a>
+      <div class="tag-row">
+        <span class="tag tag-accent">Snacks &amp; Nuts</span>
+        <span class="tag">Brand Identity</span>
+        <span class="tag">Packaging System</span>
+      </div>
+      <h1>AHAT <span class="h1-sub">/ Ахат</span></h1>
+      <p class="lead">A brand identity refresh, a packaging system and printed communication for a Bulgarian range of nuts, seeds and dried fruit.</p>
+    </section>
+
+    <section class="main-visual" data-hk-reveal>
+      <div class="media-frame media-16-9">
+        <img src="/media/drive/1vmk3z9OhJmGmyOoWWCk_bRNJms4wxRsv.png" alt="AHAT — brand and packaging range" />
+      </div>
+    </section>
+
+    <section class="meta" data-hk-reveal>
+      <div class="meta-grid">
+        <div class="meta-item">
+          <span class="meta-label">Client</span>
+          <span class="meta-value">Хайков ЕООД, Plovdiv</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Category</span>
+          <span class="meta-value">Food packaging</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Role</span>
+          <span class="meta-value">Graphic designer <span class="meta-confirm">[confirm]</span></span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Year</span>
+          <span class="meta-value">2019 — 2020 <span class="meta-confirm">[confirm]</span></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="overview" data-hk-reveal>
+      <h2>Overview</h2>
+      <div class="overview-copy">
+        <p class="lead-sm">AHAT is a line of nuts, seeds and dried fruit produced in Plovdiv. The work covered a refresh of the existing brand mark and a packaging system for the full range — from everyday roasted peanuts and sunflower seeds to a premium Lux line.</p>
+        <p class="muted">The same visual language carries into a product catalog, a poster, a shelf display box, business cards and vehicle branding, with pack formats from 70 g to 1 kg.</p>
+      </div>
+    </section>
+
+    <section class="visual-identity" data-hk-reveal>
+      <div class="section-head">
+        <h2>Visual Identity</h2>
+        <p class="muted">A refresh of the existing AHAT logotype rather than a new mark. The recognisable form stays; proportions, detailing and legibility were refined.</p>
+      </div>
+      <div class="identity-grid">
+        <figure class="media-figure">
+          <span class="media-frame media-4-3">
+            <img src="/media/drive/1_7k2__QeqM83NKDfIiZqjgsM6Z06cla4.jpg" alt="AHAT — original logo" />
+            <span class="badge badge-neutral">Before</span>
+          </span>
+          <figcaption class="figcap">Original logo</figcaption>
+        </figure>
+        <figure class="media-figure">
+          <span class="media-frame media-4-3">
+            <img src="/media/drive/1j-KrNELM3YPDn8fQABcSyg6iA3rx5z9A.jpg" alt="AHAT — refreshed logo" />
+            <span class="badge badge-accent">After</span>
+          </span>
+          <figcaption class="figcap">Refreshed logo</figcaption>
+        </figure>
+      </div>
+      <div class="identity-grid identity-grid-2">
+        <figure class="media-figure">
+          <span class="media-frame media-4-3">
+            <img src="/media/drive/19YugEb51Z6U_HMV_5YKbNJ4m31FQu-fT.jpg" alt="AHAT — refreshed logo, alternate version" />
+            <span class="badge badge-neutral">Alternate</span>
+          </span>
+          <figcaption class="figcap">Refreshed logo, alternate version</figcaption>
+        </figure>
+        <div class="what-changed">
+          <span class="meta-label">What changed</span>
+          <p class="ink">The refresh keeps the bold character of the original logo, but makes it cleaner, sharper and easier to use across packaging and print materials.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="packaging">
+      <div class="section-head" data-hk-reveal>
+        <h2>Packaging System</h2>
+        <p class="muted">Four product lines under one brand. A selection from each is shown below.</p>
+      </div>
+      <div class="lines">
+        {lines.map((line) => (
+          <div class="line-block" data-hk-reveal>
+            <div class="line-head">
+              <h3>{line.name}</h3>
+              <span class="line-note">{line.note}</span>
+            </div>
+            <div class="pack-grid">
+              {line.packs.map((p) => (
+                <figure class="media-figure">
+                  <a href={p.src} data-hk-lightbox class="pack-thumb media-frame media-4-5" aria-label={`View ${p.name} larger`}>
+                    <img src={p.src} alt={p.alt} loading="lazy" />
+                    <span class="zoom-badge" aria-hidden="true">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7"></path><path d="M3 21l7-7"></path></svg>
+                    </span>
+                  </a>
+                  <figcaption class="figcap">{p.name}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="print-comms">
+      <div class="section-head" data-hk-reveal>
+        <h2>Print &amp; Communication</h2>
+        <p class="muted">A poster, a product catalog, a shelf display box and business cards.</p>
+      </div>
+      <div class="print-grid" data-hk-reveal>
+        <figure class="media-figure">
+          <span class="media-frame media-auto">
+            <img src="/media/drive/1nBZu8H8ijtSXKQ0AsB0QzD9crVJnTdA3.jpg" alt="AHAT poster, 70 × 100 cm" loading="lazy" />
+          </span>
+          <figcaption class="figcap-row"><span class="figcap">Poster</span><span class="fig-meta">70 × 100 cm</span></figcaption>
+        </figure>
+        <figure class="media-figure">
+          <span class="media-frame media-auto">
+            <a href={catalogPdf} target="_blank" rel="noopener noreferrer" aria-label="Open AHAT product catalog PDF">
+              <img src={catalogPreview} alt="AHAT product catalog, A4 — cover" loading="lazy" />
+            </a>
+          </span>
+          <figcaption class="figcap-row"><span class="figcap">Product catalog</span><span class="fig-meta">A4 · 12 pages</span></figcaption>
+        </figure>
+        <figure class="media-figure print-figure-full">
+          <figcaption class="figcap-row"></figcaption>
+        </figure>
+        <figure class="media-figure">
+          <span class="media-frame media-16-10">
+            <img src="/media/drive/1z6jLnohZE08cRLbIyt_2lzHNpo8mrg9X.jpg" alt="AHAT business card — front" loading="lazy" />
+          </span>
+          <figcaption class="figcap">Business card</figcaption>
+        </figure>
+        <figure class="media-figure">
+          <span class="media-frame media-16-10">
+            <img src="/media/drive/1hgo8PHq4EmKSxOfEJKHlLCUoZn6uvbfU.jpg" alt="AHAT business card — back" loading="lazy" />
+          </span>
+          <figcaption class="figcap">Business card, reverse</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="vehicle-branding">
+      <div class="section-head" data-hk-reveal>
+        <h2>Vehicle Branding</h2>
+        <p class="muted">Delivery vehicle graphics across three van models.</p>
+      </div>
+      <div class="vehicle-row" data-hk-reveal>
+        {vehicles.map((v) => (
+          <figure class="media-figure vehicle-figure">
+            <span class="media-frame vehicle-frame">
+              <img src={v.src} alt={v.alt} loading="lazy" />
+            </span>
+            <figcaption class="figcap-row"><span class="figcap">{v.name}</span><span class="fig-meta">{v.view}</span></figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+
+    <section class="deliverables-role" data-hk-reveal>
+      <div class="dr-card">
+        <div class="dr-col">
+          <h2>Deliverables</h2>
+          <div class="dr-list">
+            {deliverables.map((d) => (
+              <div class="dr-row">
+                <span class="dr-name">{d.name}</span>
+                <span class="dr-detail">{d.detail}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="dr-col">
+          <h2>Role</h2>
+          <p class="ink">A refresh of the existing brand mark, the packaging system across all four product lines, and its application to print and vehicle graphics.</p>
+          <p class="placeholder-text">[Placeholder — confirm scope: e.g. in-house or agency, sole designer or team, whether photography and pre-press were included.]</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-nav" data-hk-reveal>
+      <div class="project-nav-row">
+        <a href="/archive/" class="nav-text-link"><span aria-hidden="true">←</span>All archive work</a>
+        <a href="/archive/" class="nav-pill-link">Back to Archive</a>
+        <a href="/archive/sherry/" class="nav-text-link">Sherry<span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact" data-hk-reveal>
+      <ContactCTA layout="row-single" ctaLabel="Get in touch" ctaHref="/contact/" />
+    </section>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .hk-shell { padding-top: 0; }
+
+  .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; line-height: 1; color: var(--hk-ink-2); }
+  .back-link:hover { color: var(--hk-accent); }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 40px; }
+  .tag {
+    display: inline-flex; font-size: 13px; font-weight: 600; line-height: 1;
+    color: var(--hk-ink-2); background: var(--hk-pill-fill); border: 1px solid var(--hk-hairline-2);
+    border-radius: var(--hk-r-pill); padding: 7px 15px;
+  }
+  .tag-accent { color: var(--hk-accent); background: var(--hk-accent-soft); border: none; padding: 8px 16px; }
+
+  .hero { padding: 176px 0 56px; }
+  .hero h1 {
+    font-family: var(--hk-font-display); font-weight: 400; font-size: var(--hk-h1-page);
+    line-height: 1; letter-spacing: -0.03em; margin: 28px 0 0;
+  }
+  .h1-sub { font-style: italic; color: var(--hk-ink-2); }
+  .lead { margin: 28px 0 0; font-size: var(--hk-lead); line-height: 1.45; color: var(--hk-ink-2); max-width: 680px; }
+
+  .main-visual { padding: 0 0 40px; }
+  .media-frame {
+    display: block; border-radius: var(--hk-r-card); overflow: hidden; background: var(--hk-surface);
+    border: 1px solid var(--hk-hairline); position: relative;
+  }
+  .media-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: var(--hk-surface); display: block; }
+  .media-16-9 { aspect-ratio: 16 / 9; }
+  .media-4-3 { aspect-ratio: 4 / 3; border-radius: var(--hk-r-media); }
+  .media-4-5 { aspect-ratio: 4 / 5; border-radius: var(--hk-r-card-sm); }
+  .media-auto { position: relative; min-height: 240px; }
+  .media-auto img { position: relative; inset: auto; width: 100%; height: auto; }
+  .media-16-10 { aspect-ratio: 16 / 10; border-radius: var(--hk-r-media); }
+
+  .meta { padding: 0 0 128px; }
+  .meta-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--hk-gap);
+    padding: 32px 8px 0; border-top: 1px solid var(--hk-hairline);
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 10px; }
+  .meta-label { font-size: 13px; font-weight: 600; line-height: 1; color: var(--hk-ink-3-text); text-transform: uppercase; letter-spacing: 0.06em; }
+  .meta-value { font-size: 15px; line-height: 1.5; font-weight: 600; }
+  .meta-confirm { color: var(--hk-ink-3); font-weight: 600; }
+
+  .overview {
+    padding: 0 0 128px; display: grid; grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+    gap: 64px; align-items: start;
+  }
+  .overview h2 { font-family: var(--hk-font-display); font-weight: 400; font-size: var(--hk-h2); line-height: 1.05; letter-spacing: -0.02em; }
+  .overview-copy { display: flex; flex-direction: column; gap: 24px; max-width: 720px; }
+  .lead-sm { margin: 8px 0 0; font-size: var(--hk-lead); line-height: 1.45; }
+  .muted { color: var(--hk-ink-2); font-size: var(--hk-body); line-height: 1.55; }
+  .ink { color: var(--hk-ink); font-size: var(--hk-body); line-height: 1.55; }
+
+  .visual-identity { padding: 0 0 128px; }
+  .section-head { display: flex; flex-direction: column; gap: 16px; margin-bottom: 40px; max-width: 640px; }
+  .section-head h2 { font-family: var(--hk-font-display); font-weight: 400; font-size: var(--hk-h2); line-height: 1.05; letter-spacing: -0.02em; }
+
+  .identity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--hk-gap-sm); }
+  .identity-grid-2 { margin-top: var(--hk-gap-sm); align-items: center; }
+  .media-figure { display: flex; flex-direction: column; gap: 14px; }
+  .figcap { font-size: 15px; font-weight: 700; line-height: 1.2; padding: 0 8px; }
+  .figcap-row { display: flex; justify-content: space-between; gap: 12px; padding: 0 8px; }
+  .fig-meta { font-size: 13px; font-weight: 600; color: var(--hk-ink-3-text); }
+
+  .badge {
+    position: absolute; top: 20px; left: 20px; display: inline-flex; font-size: 13px; font-weight: 600;
+    line-height: 1; border-radius: var(--hk-r-pill); padding: 8px 14px;
+  }
+  .badge-neutral { color: var(--hk-ink-3-text); background: var(--hk-bg); border: 1px solid var(--hk-hairline-2); }
+  .badge-accent { color: #00757F; background: var(--hk-accent-soft); }
+
+  .what-changed { display: flex; flex-direction: column; justify-content: center; gap: 12px; padding: 32px 8px; }
+
+  .packaging { padding: 0 0 128px; }
+  .lines { display: flex; flex-direction: column; gap: 72px; }
+  .line-block { display: flex; flex-direction: column; gap: var(--hk-gap-sm); }
+  .line-head {
+    display: flex; align-items: baseline; justify-content: space-between; gap: var(--hk-gap-sm); flex-wrap: wrap;
+    border-top: 1px solid var(--hk-hairline); padding-top: var(--hk-gap-sm);
+  }
+  .line-head h3 { font-size: 22px; font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; }
+  .line-note { font-size: 15px; font-weight: 600; line-height: 1; color: var(--hk-ink-2); }
+  .pack-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--hk-gap-sm); }
+  .pack-thumb {
+    display: block; width: 100%; padding: 0; margin: 0; cursor: zoom-in;
+    transition: var(--hk-t-card);
+  }
+  .pack-thumb:hover { transform: var(--hk-lift); box-shadow: var(--hk-card-shadow); }
+  .zoom-badge {
+    position: absolute; right: 14px; bottom: 14px; width: 36px; height: 36px; border-radius: var(--hk-r-pill);
+    background: var(--hk-badge); border: 1px solid var(--hk-hairline); display: flex; align-items: center; justify-content: center;
+    color: var(--hk-ink);
+  }
+
+  .print-comms { padding: 0 0 128px; }
+  .print-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--hk-gap-sm); }
+  .print-figure-full { grid-column: 1 / -1; }
+
+  .vehicle-branding { padding: 0 0 128px; }
+  .vehicle-row { display: flex; flex-wrap: wrap; gap: var(--hk-gap-sm); }
+  .vehicle-figure { flex: 0 1 auto; max-width: 100%; }
+  .vehicle-frame {
+    height: 320px; min-width: 240px; display: flex; align-items: center; justify-content: center;
+    border-radius: var(--hk-r-media); overflow: hidden; background: var(--hk-surface); border: 1px solid var(--hk-hairline);
+  }
+  .vehicle-frame img { position: relative; inset: auto; height: 100%; width: auto; max-width: 100%; object-fit: contain; display: block; }
+
+  .deliverables-role { padding: 0 0 128px; }
+  .dr-card {
+    background: var(--hk-surface); border: 1px solid var(--hk-hairline); border-radius: var(--hk-r-card);
+    padding: 56px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 56px;
+  }
+  .dr-col { display: flex; flex-direction: column; gap: 28px; }
+  .dr-col h2 { font-family: var(--hk-font-display); font-weight: 400; font-size: 40px; line-height: 1.05; letter-spacing: -0.02em; }
+  .dr-list { display: flex; flex-direction: column; }
+  .dr-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--hk-hairline); }
+  .dr-name { font-size: 17px; font-weight: 700; line-height: 1.3; }
+  .dr-detail { font-size: 13px; font-weight: 600; line-height: 1.3; color: var(--hk-ink-3-text); text-align: right; }
+  .placeholder-text { font-size: 15px; line-height: 1.55; color: var(--hk-ink-3-text); }
+
+  .project-nav { padding: 0 0 96px; }
+  .project-nav-row {
+    border-top: 1px solid var(--hk-hairline); padding-top: 56px; display: flex; align-items: center;
+    justify-content: space-between; gap: var(--hk-gap); flex-wrap: wrap;
+  }
+  .nav-text-link { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; line-height: 1; color: var(--hk-ink); }
+  .nav-text-link:hover { color: var(--hk-accent); }
+  .nav-pill-link {
+    display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; line-height: 1;
+    color: var(--hk-ink); background: transparent; border: 1px solid var(--hk-hairline-3); border-radius: var(--hk-r-pill);
+    padding: 14px 24px; transition: background .25s ease;
+  }
+  .nav-pill-link:hover { background: var(--hk-hover-tint); color: var(--hk-ink); }
+
+  .contact-section { padding: 0 0 96px; }
+
+  @media (max-width: 900px) {
+    .hero, .main-visual, .meta, .overview, .visual-identity, .packaging, .print-comms, .vehicle-branding, .deliverables-role, .project-nav, .contact-section {
+      padding-left: 0; padding-right: 0;
+    }
+    .overview { grid-template-columns: 1fr; gap: 32px; }
+  }
+</style>

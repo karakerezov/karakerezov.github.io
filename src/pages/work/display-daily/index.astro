@@ -1,0 +1,661 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ContactCTA from '../../../components/ContactCTA.astro';
+
+const tags = ['Digital Publishing Platform', 'UX/UI Design', 'Responsive Web'];
+
+const meta = [
+  { label: 'Role', value: 'UX/UI Designer' },
+  { label: 'Platform', value: 'Responsive Web App' },
+  { label: 'Focus', value: 'Information architecture, subscription flow, usability testing, responsive UI' },
+  { label: 'Product type', value: 'Digital publishing / subscription platform' },
+];
+
+const snapshot = [
+  { label: 'Product', body: 'A responsive platform for subscribing to and reading digital versions of printed newspapers and magazines.' },
+  { label: 'Users', body: 'Readers, publishers, administrators, and B2B press monitoring users.' },
+  { label: 'Challenge', body: 'Make a content-heavy, multi-role platform clear and trustworthy.' },
+  { label: 'Design focus', body: 'Publication discovery, subscription flow, login/account clarity, payment flow, and responsive behavior.' },
+];
+
+const roles = [
+  { n: '01', name: 'Reader', body: 'Finds, subscribes to, and reads publications.' },
+  { n: '02', name: 'Publisher', body: 'Uploads and manages digital issues.' },
+  { n: '03', name: 'Administrator', body: 'Reviews, approves, and controls platform content and subscriptions.' },
+  { n: '04', name: 'B2B / PR user', body: 'Searches across publications for press monitoring and media tracking.' },
+];
+
+const flowSteps = ['Home', 'Publications', 'Issue', 'Subscribe', 'Review Order', 'Payment Method', 'Confirm Order', 'Read Issue'];
+
+const wireframe = {
+  src: '/media/drive/1TsXISktBtjfW7RfddXhOCKdqyda5NkZk.jpg',
+  alt: 'Display Daily — Wireframes, layout exploration and subscription user flow',
+};
+
+const decisions = [
+  { n: '1', finding: 'The “Library” label was confusing.', response: 'Navigation terminology was revised toward “Publications” and clearer publication browsing language.' },
+  { n: '2', finding: 'The login process was not clearly visible.', response: 'The flow needed clearer account and login context before purchase confirmation.' },
+  { n: '3', finding: 'CTA labels were weak or unclear.', response: 'CTA hierarchy and wording were improved with clearer action labels such as “Subscribe Now” and “Buy This Issue”.' },
+  { n: '4', finding: 'Users saw only limited content without a clear way to browse more.', response: 'The design introduced clearer “View all” and expanded browsing access.' },
+];
+
+const problems = [
+  { n: '01', title: 'Confusing navigation label “Library”', quote: '“Library? I thought it would be my saved stuff, not today’s newspapers.”' },
+  { n: '02', title: 'Hidden or unclear login process', quote: '“Wait, am I even logged in? Who is this subscription going to?”' },
+  { n: '03', title: 'Weak CTA buttons', quote: '“It didn’t look like something I could click.”' },
+  { n: '04', title: 'Limited view without “See all”', quote: '“It looks like there are just six — is that all?”' },
+  { n: '05', title: 'Unclear subscription ownership and payment flow', quote: 'Users needed to know whose account a purchase belongs to before paying.' },
+];
+
+const beforeAfter = {
+  src: '/media/drive/1L9iJK-34tbT5rCAuj8gZnjSNfxGjvEdJ.jpg',
+  alt: 'Display Daily — Before and after the usability study',
+};
+
+const devices = [
+  { name: 'Home — Desktop', src: '/media/drive/1KH1BIvc8GwQRuIFAUHrB_X1IaBHede91.png', ratio: '16/11', statusBar: false },
+  { name: 'Home — Tablet', src: '/media/drive/1WhJ-NWq1NeBpCBy6MywS2vbmIrV43mEr.png', ratio: '3/4', statusBar: false },
+  { name: 'Home — Mobile', src: '/media/drive/19iPxc3MB_7xJuWvaskh8khD3FtgWxePj.png', ratio: '9/19', statusBar: true },
+].map((d) => ({ ...d, alt: `Display Daily — ${d.name}` }));
+
+const desktopScreens = [
+  { name: 'Publications', device: 'Desktop', src: '/media/drive/1PVkBz__bwHfcNxUMt5lraYdzz94JKfAQ.png' },
+  { name: 'Issue page', device: 'Desktop', src: '/media/drive/1degwcka7pR0k9uAV7Iwy-5zVMMsdvVpS.png' },
+  { name: 'Search', device: 'Desktop', src: '/media/drive/1cRkq9AD7_1tqXi9YPSCPnRVYZFU6Qw_9.png' },
+  { name: 'Search results', device: 'Desktop', src: '/media/drive/1e6tMjMjVipFv7jXbgN-BF7kC61Q1pZz0.png' },
+  { name: 'Order', device: 'Desktop', src: '/media/drive/14Pmdb1Gb5biqYnKW7oUqAlVjUGOadXPP.png' },
+  { name: 'Issue page', device: 'Tablet', src: '/media/drive/1cG_QoTfozhTFgd2VlpT3AqQawqBqggCC.png' },
+].map((s) => ({ ...s, alt: `Display Daily — ${s.name} — ${s.device}` }));
+
+const mobileScreens = [
+  { name: 'Publications', device: 'Mobile', src: '/media/drive/19boOCpYAGZFV2eDSAe-q0hWs5AiM7gR5.png' },
+  { name: 'Issue page', device: 'Mobile', src: '/media/drive/1CwpWy5w8OICSrq_q1uMDkUDgXtDRMFUn.png' },
+  { name: 'Search', device: 'Mobile', src: '/media/drive/1NTA7--RU0HnYg3bGqkZW9ql-6uhDiiXV.png' },
+  { name: 'Search results', device: 'Mobile', src: '/media/drive/1_H8KZn2XpGUqzJhNcsWxbzP-kwKM177u.png' },
+].map((s) => ({ ...s, alt: `Display Daily — ${s.name} — ${s.device}` }));
+
+// Each image's grid-cell width is set as a percentage of its own group's largest
+// intrinsic pixel width (verified from the source files, not the viewport label).
+// Since every cell in a row is equal width, this percentage holds true at any
+// breakpoint — proportions stay honest without any fixed px scale that could
+// overflow a narrow column.
+const responsiveElements = [
+  {
+    name: 'Log In Overlay',
+    summary: 'Email, password and the primary button collapse into one column as the viewport narrows. Social sign-in options move from three across to a stacked column by 350px.',
+    variants: [
+      { w: 800, px: 800, py: 466, src: '/images/display-daily/responsive-forms/Login%20800px.png' },
+      { w: 600, px: 600, py: 466, src: '/images/display-daily/responsive-forms/Login%20600px.png' },
+      { w: 400, px: 400, py: 606, src: '/images/display-daily/responsive-forms/Login%20400px-trimmed.png' },
+      { w: 350, px: 350, py: 745, src: '/images/display-daily/responsive-forms/Login%20350px-trimmed.png' },
+    ],
+  },
+  {
+    name: 'Order Review',
+    summary: 'The order list stays full-width while the promo code and total amount shift from two columns to one. By 400px, every element in the screen runs in a single column.',
+    variants: [
+      { w: 800, px: 800, py: 811, src: '/images/display-daily/responsive-forms/ORDER%20800px.png' },
+      { w: 600, px: 600, py: 911, src: '/images/display-daily/responsive-forms/ORDER%20600px.png' },
+      { w: 400, px: 400, py: 1029, src: '/images/display-daily/responsive-forms/ORDER%20400px.png' },
+      { w: 350, px: 350, py: 1091, src: '/images/display-daily/responsive-forms/ORDER%20350px.png' },
+    ],
+  },
+].map((el, i) => {
+  const maxPx = Math.max(...el.variants.map((v) => v.px));
+  return {
+    ...el,
+    index: String(i + 1).padStart(2, '0'),
+    variants: el.variants.map((v) => ({
+      ...v,
+      alt: `Display Daily — ${el.name} at ${v.w}px viewport`,
+      widthPct: +((v.px / maxPx) * 100).toFixed(2),
+    })),
+  };
+});
+
+const orderFlowSteps = [
+  { n: '01', title: 'Review Order', body: 'The cart lists each selected issue or subscription with its price, next to a promo-code field and a running total. A three-step indicator above the list marks this as step 1 of 3.', src: '/images/display-daily/Order%20Flow/ORDER%20STEP1.png' },
+  { n: '02', title: 'Confirm Payment Method', body: 'Users choose a saved card or an express option — Google Pay, PayPal or Apple Pay — or enter a new card’s details. The indicator advances to step 2 of 3.', src: '/images/display-daily/Order%20Flow/ORDER%20STEPS2.png' },
+  { n: '03', title: 'Confirm Order', body: 'The order and total are shown once more for a final check before payment, with the indicator completing step 3 of 3 and a primary “Confirm & Pay” action.', src: '/images/display-daily/Order%20Flow/ORDER%20STEPS3.png' },
+  { n: '04', title: 'Purchase Confirmation', body: 'A success screen confirms the purchase and offers direct paths to start reading or continue browsing.', src: '/images/display-daily/Order%20Flow/ORDER%20STEPS4.png' },
+].map((s) => ({ ...s, alt: `Display Daily — ${s.title}` }));
+
+const a11y = [
+  { title: 'Color & contrast', body: 'Text and UI elements checked against WCAG contrast requirements.' },
+  { title: 'Keyboard & focus', body: 'Interactive elements operable by keyboard, with clear focus indicators.' },
+  { title: 'Responsive typography', body: 'Legible sans-serif type with scalable sizes across devices.' },
+  { title: 'Labels & alt text', body: 'Action-oriented CTA labels and alt text to support screen readers.' },
+];
+---
+
+<BaseLayout
+  title="Display Daily Case Study | Hristo Karakerezov"
+  description="Responsive web platform for digital press subscriptions — information architecture, subscription flow, usability testing and responsive UI."
+  active="work"
+>
+  <div class="hk-shell">
+
+    <section class="hero">
+      <a href="/work/" class="back-link"><span aria-hidden="true">←</span>Recent Work</a>
+      <div class="tags">
+        {tags.map((t, i) => (
+          <span class:list={['tag', { 'tag-accent': i === 0 }]}>{t}</span>
+        ))}
+      </div>
+      <h1>Display Daily</h1>
+      <p class="lead">Responsive web platform for digital press subscriptions.</p>
+    </section>
+
+    <section class="hero-visual" data-hk-reveal>
+      <a href="/assets/display-daily-hero.png" data-hk-lightbox class="hero-frame">
+        <img src="/assets/display-daily-hero.png" alt="Display Daily — responsive platform overview" />
+      </a>
+    </section>
+
+    <section class="meta" data-hk-reveal>
+      <div class="meta-grid">
+        {meta.map((m) => (
+          <div class="meta-item">
+            <span class="eyebrow-muted">{m.label}</span>
+            <span class="meta-value">{m.value}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="snapshot" data-hk-reveal>
+      <h2>Project Snapshot</h2>
+      <div class="snapshot-grid">
+        {snapshot.map((s) => (
+          <div class="snapshot-card">
+            <span class="eyebrow">{s.label}</span>
+            <p>{s.body}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="context" data-hk-reveal>
+      <h2>Product Context</h2>
+      <div class="context-copy">
+        <p class="lead-sm">Display Daily allows readers to browse, subscribe to, search, and read digital publications. Publishers upload issues, while administrators review and manage publications and subscriptions.</p>
+        <p class="muted">Publishers deliver each issue as a PDF the day before it goes to print. Once reviewed, it becomes available to every subscriber on the platform.</p>
+      </div>
+    </section>
+
+    <section class="roles" data-hk-reveal>
+      <div class="section-heading">
+        <h2>Users &amp; Roles</h2>
+        <p class="muted">One platform, four groups with very different goals.</p>
+      </div>
+      <div class="roles-grid">
+        {roles.map((r) => (
+          <div class="role-card">
+            <span class="role-n">{r.n}</span>
+            <h3>{r.name}</h3>
+            <p>{r.body}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="wireframes">
+      <div class="section-heading two-col" data-hk-reveal>
+        <h2>From Wireframes to Tested Flow</h2>
+        <p class="muted">Layout exploration and the subscription task path were sketched first, then built into a low-fidelity prototype for testing.</p>
+      </div>
+      <div class="flow-chips" data-hk-reveal>
+        {flowSteps.map((label, i) => (
+          <span class="flow-step">
+            <span class="flow-pill"><span class="flow-dot"></span>{label}</span>
+            {i < flowSteps.length - 1 && <span class="flow-arrow" aria-hidden="true">→</span>}
+          </span>
+        ))}
+      </div>
+      <div class="wireframe-media" data-hk-reveal>
+        <a href={wireframe.src} data-hk-lightbox class="wireframe-frame">
+          <img src={wireframe.src} alt={wireframe.alt} loading="lazy" />
+        </a>
+      </div>
+    </section>
+
+    <section class="decisions" data-hk-reveal>
+      <h2>Usability Study → Design Decisions</h2>
+      <div class="decisions-table">
+        <div class="decisions-row decisions-head">
+          <span></span>
+          <span class="eyebrow-muted">Finding</span>
+          <span class="eyebrow">Design response</span>
+        </div>
+        {decisions.map((d) => (
+          <div class="decisions-row">
+            <span class="decision-n">{d.n}</span>
+            <p class="decision-finding">{d.finding}</p>
+            <p class="muted">{d.response}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="problems" data-hk-reveal>
+      <div class="section-heading">
+        <h2>Core UX Problems</h2>
+        <p class="muted">Surfaced in a usability study on the low-fidelity prototype, testing browsing, subscription selection and payment.</p>
+      </div>
+      <div class="problems-grid">
+        {problems.map((p) => (
+          <div class="problem-card">
+            <span class="problem-n">{p.n}</span>
+            <h3>{p.title}</h3>
+            <p class="quote">{p.quote}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="before-after" data-hk-reveal>
+      <div class="section-heading two-col">
+        <h2>Before / After</h2>
+        <p class="muted">Each of the four findings, traced from the tested low-fidelity screen to the revised design.</p>
+      </div>
+      <div class="before-after-frame">
+        <a href={beforeAfter.src} data-hk-lightbox class="before-after-media">
+          <img src={beforeAfter.src} alt={beforeAfter.alt} loading="lazy" />
+        </a>
+      </div>
+    </section>
+
+    <section class="final-interface">
+      <div class="section-heading" data-hk-reveal>
+        <h2>Final Responsive Interface</h2>
+        <p class="muted">The same browsing, issue and checkout logic across desktop, tablet and mobile.</p>
+      </div>
+
+      <div class="device-row" data-hk-reveal>
+        {devices.map((d) => (
+          <figure class="device-figure">
+            <a href={d.src} data-hk-lightbox class="device-frame" style={`aspect-ratio:${d.ratio}`}>
+              {d.statusBar && (
+                <div class="status-bar" aria-hidden="true">
+                  <span class="sb-time">9:41</span>
+                  <span class="sb-notch"></span>
+                  <span class="sb-icons">
+                    <span class="sb-bars">
+                      <span style="height:40%"></span>
+                      <span style="height:60%"></span>
+                      <span style="height:80%"></span>
+                      <span style="height:100%"></span>
+                    </span>
+                    <span class="sb-signal"></span>
+                    <span class="sb-battery"><span></span></span>
+                  </span>
+                </div>
+              )}
+              <img src={d.src} alt={d.alt} loading="lazy" class:list={[{ 'has-status-bar': d.statusBar }]} />
+            </a>
+            <figcaption class="device-caption">{d.name}</figcaption>
+          </figure>
+        ))}
+      </div>
+
+      <div class="screen-grid screen-grid-desktop" data-hk-reveal>
+        {desktopScreens.map((s) => (
+          <figure class="screen-figure">
+            <a href={s.src} data-hk-lightbox class="screen-frame screen-frame-desktop">
+              <img src={s.src} alt={s.alt} loading="lazy" />
+            </a>
+            <figcaption class="screen-caption"><span class="screen-name">{s.name}</span><span class="screen-device">{s.device}</span></figcaption>
+          </figure>
+        ))}
+      </div>
+
+      <div class="screen-grid screen-grid-mobile" data-hk-reveal>
+        {mobileScreens.map((s) => (
+          <figure class="screen-figure">
+            <a href={s.src} data-hk-lightbox class="screen-frame screen-frame-mobile">
+              <div class="status-bar" aria-hidden="true">
+                <span class="sb-time">9:41</span>
+                <span class="sb-notch"></span>
+                <span class="sb-icons">
+                  <span class="sb-bars">
+                    <span style="height:40%"></span>
+                    <span style="height:60%"></span>
+                    <span style="height:80%"></span>
+                    <span style="height:100%"></span>
+                  </span>
+                  <span class="sb-signal"></span>
+                  <span class="sb-battery"><span></span></span>
+                </span>
+              </div>
+              <img src={s.src} alt={s.alt} loading="lazy" class="has-status-bar" />
+            </a>
+            <figcaption class="screen-caption"><span class="screen-name">{s.name}</span><span class="screen-device">{s.device}</span></figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+
+    <section class="responsive-forms">
+      <div class="section-heading two-col" data-hk-reveal>
+        <h2>Responsive Form Design</h2>
+        <p class="muted">Two real Display Daily interface components — the login overlay and the order review screen — shown at four captured viewport widths, from 800px down to 350px.</p>
+      </div>
+      {responsiveElements.map((el) => (
+        <div class="rf-element" data-hk-reveal>
+          <div class="rf-element-head">
+            <h3><span class="rf-index">{el.index}</span> — {el.name}</h3>
+            <p class="muted">{el.summary}</p>
+          </div>
+          <div class="rf-grid">
+            {el.variants.map((v) => (
+              <figure class="rf-cell">
+                <a href={v.src} data-hk-lightbox class="rf-frame" style={`width:${v.widthPct}%`}>
+                  <img src={v.src} alt={v.alt} loading="lazy" width={v.px} height={v.py} />
+                </a>
+                <figcaption class="rf-width">{v.w}px</figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      ))}
+    </section>
+
+    <section class="order-flow">
+      <div class="section-heading two-col" data-hk-reveal>
+        <h2>Order &amp; Checkout Flow</h2>
+        <p class="muted">The sequence from reviewing a cart to a completed purchase, each screen produced by the same three-step progress indicator used throughout checkout.</p>
+      </div>
+      <div class="of-grid" data-hk-reveal>
+        {orderFlowSteps.map((s) => (
+          <div class="of-step">
+            <div class="of-step-head">
+              <span class="of-n">{s.n}</span>
+              <h3>{s.title}</h3>
+            </div>
+            <p class="muted">{s.body}</p>
+            <a href={s.src} data-hk-lightbox class="of-frame">
+              <img src={s.src} alt={s.alt} loading="lazy" />
+            </a>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="a11y" data-hk-reveal>
+      <div class="a11y-band">
+        <h2>Accessibility</h2>
+        <div class="a11y-grid">
+          {a11y.map((a) => (
+            <div class="a11y-item">
+              <h3>{a.title}</h3>
+              <p>{a.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="reflection" data-hk-reveal>
+      <h2>Reflection</h2>
+      <p class="lead-sm">This project strengthened the structure of a multi-role responsive platform where clarity depends not only on visual hierarchy, but also on terminology, account status, subscription ownership, payment flow, and responsive behavior across devices.</p>
+    </section>
+
+    <section class="project-nav" data-hk-reveal>
+      <div class="project-nav-row">
+        <a href="/work/grovia/" class="project-link"><span aria-hidden="true">←</span>Grovia</a>
+        <a href="/work/" class="project-link project-link-pill">Back to Recent Work</a>
+        <a href="/work/elfy-tours/" class="project-link">Next Project<span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact" data-hk-reveal>
+      <ContactCTA layout="row-single" />
+    </section>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .hk-shell { padding-top: var(--hk-header-h); }
+
+  .eyebrow { font-size: 13px; font-weight: 600; line-height: 1; color: #00757F; text-transform: uppercase; letter-spacing: 0.06em; }
+  .eyebrow-muted { font-size: 13px; font-weight: 600; line-height: 1; color: var(--hk-ink-3-text); text-transform: uppercase; letter-spacing: 0.06em; }
+  .muted { margin: 0; font-size: var(--hk-body); line-height: 1.55; color: var(--hk-ink-2); }
+  .lead-sm { margin: 0; font-size: var(--hk-lead); line-height: 1.45; color: var(--hk-ink); }
+
+  section > h2, .a11y-band > h2 {
+    font-family: var(--hk-font-display); font-weight: 400; font-size: var(--hk-h2);
+    line-height: 1.05; letter-spacing: -0.02em; margin: 0;
+  }
+
+  .section-heading { display: flex; flex-direction: column; gap: 16px; max-width: 680px; margin-bottom: 48px; }
+  .section-heading.two-col { display: grid; grid-template-columns: minmax(0,320px) minmax(0,1fr); gap: 64px; align-items: start; max-width: none; }
+  .section-heading.two-col p { max-width: 720px; }
+
+  /* ---------------- Hero ---------------- */
+  .hero { padding: 176px 0 56px; }
+  .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; line-height: 1; color: var(--hk-ink-2); }
+  .tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 40px; }
+  .tag {
+    display: inline-flex; font-size: 13px; font-weight: 600; line-height: 1; color: var(--hk-ink-2);
+    background: var(--hk-pill-fill); border: 1px solid var(--hk-hairline-2); border-radius: var(--hk-r-pill); padding: 7px 15px;
+  }
+  .tag-accent { color: #00757F; background: var(--hk-accent-soft); border: none; padding: 8px 16px; }
+  .hero h1 {
+    font-family: var(--hk-font-display); font-weight: 400; font-size: var(--hk-h1-page);
+    line-height: 1; letter-spacing: -0.03em; margin: 28px 0 0;
+  }
+  .lead { margin: 28px 0 0; font-size: var(--hk-lead); line-height: 1.45; color: var(--hk-ink-2); max-width: 680px; }
+
+  /* ---------------- Hero visual ---------------- */
+  .hero-visual { padding: 0 0 40px; }
+  .hero-frame {
+    display: block; width: 100%; border-radius: var(--hk-r-card); overflow: hidden;
+    background: var(--hk-surface); border: 1px solid var(--hk-hairline); min-height: 320px; cursor: zoom-in;
+  }
+  .hero-frame img { width: 100%; height: auto; display: block; background: var(--hk-surface); }
+
+  /* ---------------- Meta ---------------- */
+  .meta { padding: 0 0 128px; }
+  .meta-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 32px;
+    padding: 32px 8px 0; border-top: 1px solid var(--hk-hairline);
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 10px; }
+  .meta-value { font-size: var(--hk-meta); line-height: 1.5; font-weight: 600; }
+
+  /* ---------------- Snapshot ---------------- */
+  .snapshot { padding: 0 0 128px; }
+  .snapshot h2 { margin-bottom: 48px; }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 24px; }
+  .snapshot-card {
+    background: var(--hk-surface); border: 1px solid var(--hk-hairline); border-radius: var(--hk-r-media);
+    padding: 32px; display: flex; flex-direction: column; gap: 16px;
+  }
+  .snapshot-card p { margin: 0; font-size: 17px; line-height: 1.5; }
+
+  /* ---------------- Product context ---------------- */
+  .context { padding: 0 0 128px; display: grid; grid-template-columns: minmax(0,320px) minmax(0,1fr); gap: 64px; align-items: start; }
+  .context-copy { display: flex; flex-direction: column; gap: 24px; max-width: 720px; }
+
+  /* ---------------- Roles ---------------- */
+  .roles { padding: 0 0 128px; }
+  .roles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 24px; }
+  .role-card {
+    background: var(--hk-surface-alt); border-radius: var(--hk-r-media); padding: 32px;
+    display: flex; flex-direction: column; gap: 14px; min-height: 200px;
+  }
+  .role-n { font-family: var(--hk-font-display); font-size: 28px; line-height: 1; color: #00757F; }
+  .role-card h3 { margin: auto 0 0; font-size: 22px; font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; }
+  .role-card p { margin: 0; font-size: 15px; line-height: 1.5; color: #6A6A65; }
+
+  /* ---------------- Wireframes to flow ---------------- */
+  .wireframes { padding: 0 0 128px; }
+  .flow-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 48px; }
+  .flow-step { display: inline-flex; align-items: center; gap: 10px; }
+  .flow-pill {
+    display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; line-height: 1;
+    background: var(--hk-surface); border: 1px solid var(--hk-hairline-2); border-radius: var(--hk-r-pill); padding: 12px 18px;
+  }
+  .flow-dot { width: 8px; height: 8px; border-radius: var(--hk-r-pill); background: #00ABBD; }
+  .flow-arrow { font-size: 15px; color: var(--hk-ink-3); }
+  .wireframe-media { margin-bottom: 24px; }
+  .wireframe-frame { display: block; width: 100%; border-radius: var(--hk-r-media); overflow: hidden; border: 1px solid var(--hk-hairline); cursor: zoom-in; }
+  .wireframe-frame img { width: 100%; height: auto; display: block; }
+
+  /* ---------------- Decisions table ---------------- */
+  .decisions { padding: 0 0 128px; }
+  .decisions h2 { margin-bottom: 48px; }
+  .decisions-table { display: flex; flex-direction: column; }
+  .decisions-row { display: grid; grid-template-columns: 48px minmax(0,1fr) minmax(0,1fr); gap: 32px; align-items: start; }
+  .decisions-head { padding: 0 0 16px; border-bottom: 1px solid var(--hk-hairline-2); }
+  .decisions-row:not(.decisions-head) { padding: 32px 0; border-bottom: 1px solid var(--hk-hairline); }
+  .decision-n { font-family: var(--hk-font-display); font-size: 28px; line-height: 1; color: var(--hk-ink-3); }
+  .decision-finding { margin: 0; font-size: 18px; line-height: 1.5; font-weight: 700; }
+
+  /* ---------------- Core UX problems ---------------- */
+  .problems { padding: 0 0 128px; }
+  .problems-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 24px; }
+  .problem-card {
+    background: var(--hk-surface); border: 1px solid var(--hk-hairline); border-radius: var(--hk-r-media);
+    padding: 28px; display: flex; flex-direction: column; gap: 14px;
+  }
+  .problem-n { font-size: 13px; font-weight: 600; line-height: 1; color: var(--hk-ink-3-text); }
+  .problem-card h3 { margin: 0; font-size: 19px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
+  .quote { margin: 0; font-size: 15px; line-height: 1.5; color: var(--hk-ink-2); font-style: italic; }
+
+  /* ---------------- Before / after ---------------- */
+  .before-after { padding: 0 0 128px; }
+  .before-after-frame {
+    background: var(--hk-surface); border: 1px solid var(--hk-hairline); border-radius: var(--hk-r-card); padding: 24px;
+  }
+  .before-after-media { display: block; width: 100%; border-radius: var(--hk-r-media); overflow: hidden; background: var(--hk-surface); cursor: zoom-in; }
+  .before-after-media img { width: 100%; height: auto; display: block; background: var(--hk-surface); }
+
+  /* ---------------- Final responsive interface ---------------- */
+  .final-interface { padding: 0 0 128px; }
+  .device-row {
+    background: var(--hk-surface-alt); border-radius: var(--hk-r-card); padding: 48px;
+    display: grid; grid-template-columns: minmax(0,2.6fr) minmax(0,1.2fr) minmax(0,0.62fr);
+    gap: 32px; align-items: end; margin-bottom: 56px;
+  }
+  .device-figure { margin: 0; display: flex; flex-direction: column; gap: 14px; }
+  .device-frame {
+    container-type: inline-size; display: block; width: 100%; border-radius: 20px; overflow: hidden;
+    background: var(--hk-surface); border: 8px solid #2A2A28; box-sizing: content-box; position: relative;
+    cursor: zoom-in; box-shadow: 0 2px 4px rgba(21,21,21,0.06), 0 12px 24px -8px rgba(21,21,21,0.16), 0 28px 48px -24px rgba(21,21,21,0.18);
+  }
+  .device-frame img { position: relative; display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; background: var(--hk-surface); }
+  .device-frame img.has-status-bar { height: calc(100% - 13cqw); margin-top: 13cqw; }
+  .device-caption { font-size: 13px; font-weight: 600; line-height: 1; color: var(--hk-ink-3-text); padding: 0 4px; }
+
+  .status-bar {
+    position: absolute; top: 0; left: 0; right: 0; height: 13cqw; z-index: 2;
+    display: flex; align-items: center; padding: 0 6cqw 0 8cqw; background: #FFFFFF; box-sizing: border-box;
+  }
+  .sb-time { flex: 1; min-width: 0; font-size: 5.2cqw; font-weight: 700; line-height: 1; color: #151515; }
+  .sb-notch { flex: 0 0 30cqw; height: 8.5cqw; border-radius: 999px; background: #151515; }
+  .sb-icons { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: flex-end; gap: 1.6cqw; }
+  .sb-bars { display: flex; align-items: flex-end; gap: 0.5cqw; height: 3.6cqw; }
+  .sb-bars span { width: 1cqw; border-radius: 0.3cqw; background: #151515; display: block; }
+  .sb-signal { width: 6.4cqw; height: 3.4cqw; background: #151515; clip-path: polygon(50% 100%,0 25%,18% 0,82% 0,100% 25%); }
+  .sb-battery { width: 3.8cqw; height: 3.6cqw; border-radius: 0.9cqw; border: 0.4cqw solid rgba(21,21,21,0.45); padding: 0.4cqw; box-sizing: border-box; display: flex; }
+  .sb-battery span { flex: 1; border-radius: 0.4cqw; background: #151515; display: block; }
+
+  .screen-grid { display: grid; gap: 24px; }
+  .screen-grid-desktop { grid-template-columns: repeat(auto-fit, minmax(320px,1fr)); margin-bottom: 24px; }
+  .screen-grid-mobile { grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); }
+  .screen-figure { margin: 0; display: flex; flex-direction: column; gap: 14px; }
+  .screen-frame {
+    display: block; width: 100%; border-radius: 20px; overflow: hidden; background: var(--hk-surface);
+    border: 8px solid #2A2A28; box-sizing: content-box; position: relative; cursor: zoom-in;
+    box-shadow: 0 2px 4px rgba(21,21,21,0.06), 0 12px 24px -8px rgba(21,21,21,0.16), 0 28px 48px -24px rgba(21,21,21,0.18);
+    transition: var(--hk-t-card);
+  }
+  .screen-frame:hover { transform: var(--hk-lift); }
+  .screen-frame img { display: block; width: 100%; object-fit: cover; object-position: top center; background: var(--hk-surface); }
+  .screen-frame-desktop { aspect-ratio: 4/3; }
+  .screen-frame-desktop img { position: absolute; inset: 0; height: 100%; }
+  .screen-frame-mobile { container-type: inline-size; border-radius: 32px; aspect-ratio: 9/19; }
+  .screen-frame-mobile img { position: relative; height: calc(100% - 13cqw); margin-top: 13cqw; }
+  .screen-caption { display: flex; justify-content: space-between; gap: 12px; padding: 0 8px; }
+  .screen-name { font-size: 15px; font-weight: 700; line-height: 1.2; }
+  .screen-device { font-size: 13px; font-weight: 600; color: var(--hk-ink-3-text); }
+
+  /* ---------------- Form behavior ---------------- */
+  /* ---------------- Responsive interface behavior ---------------- */
+  .responsive-forms { padding: 0 0 96px; }
+  .responsive-forms .section-heading.two-col { margin-bottom: 56px; }
+  .rf-element { padding: 48px 0; border-top: 1px solid var(--hk-hairline); }
+  .rf-element:first-of-type { border-top: none; padding-top: 0; }
+  .rf-element-head { display: flex; flex-direction: column; gap: 8px; max-width: 640px; margin-bottom: 36px; }
+  .rf-element-head h3 { margin: 0; font-size: 22px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
+  .rf-index { color: var(--hk-ink-3-text); font-weight: 600; }
+  .rf-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; align-items: start; }
+  .rf-cell { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 0; }
+  .rf-frame { display: block; max-width: 100%; border: 1px solid var(--hk-hairline); cursor: zoom-in; }
+  .rf-frame img { display: block; width: 100%; height: auto; }
+  .rf-width { text-align: center; font-size: 13px; font-weight: 600; line-height: 1; color: var(--hk-ink-3-text); }
+
+  /* ---------------- Order & checkout flow ---------------- */
+  .order-flow { padding: 0 0 128px; }
+  .order-flow .section-heading.two-col { margin-bottom: 48px; }
+  .of-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; align-items: start; }
+  .of-step { display: flex; flex-direction: column; gap: 14px; }
+  .of-step-head { display: flex; align-items: baseline; gap: 10px; }
+  .of-n { font-size: 13px; font-weight: 600; line-height: 1; color: var(--hk-ink-3-text); flex-shrink: 0; }
+  .of-step-head h3 { margin: 0; font-size: 17px; font-weight: 700; line-height: 1.25; letter-spacing: -0.005em; }
+  .of-step p.muted { font-size: 15px; line-height: 1.55; }
+  .of-frame {
+    display: block; border-radius: var(--hk-r-card-sm); overflow: hidden; background: var(--hk-surface);
+    border: 1px solid var(--hk-hairline); cursor: zoom-in; box-shadow: 0 16px 32px -24px rgba(21,21,21,0.2);
+  }
+  .of-frame img { display: block; width: 100%; height: auto; }
+
+  /* ---------------- Accessibility ---------------- */
+  .a11y { padding: 0 0 128px; }
+  .a11y-band {
+    background: var(--hk-accent-soft); border-radius: var(--hk-r-card); padding: 56px;
+    display: grid; grid-template-columns: minmax(0,280px) minmax(0,1fr); gap: 56px; align-items: start;
+  }
+  .a11y-band h2 { font-size: 40px; }
+  .a11y-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 32px; }
+  .a11y-item { display: flex; flex-direction: column; gap: 10px; }
+  .a11y-item h3 { margin: 0; font-size: 17px; font-weight: 700; line-height: 1.3; }
+  .a11y-item p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--hk-ink); }
+
+  /* ---------------- Reflection ---------------- */
+  .reflection { padding: 0 0 128px; display: grid; grid-template-columns: minmax(0,320px) minmax(0,1fr); gap: 64px; align-items: start; }
+  .reflection .lead-sm { max-width: 760px; }
+
+  /* ---------------- Project nav ---------------- */
+  .project-nav { padding: 0 0 96px; }
+  .project-nav-row {
+    border-top: 1px solid var(--hk-hairline); padding-top: 56px;
+    display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap;
+  }
+  .project-link { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; line-height: 1; color: var(--hk-ink); }
+  .project-link-pill {
+    background: transparent; border: 1px solid var(--hk-hairline-3); border-radius: var(--hk-r-pill); padding: 14px 24px;
+    transition: background .25s ease;
+  }
+  .project-link-pill:hover { background: var(--hk-hover-tint); color: var(--hk-ink); }
+
+  /* ---------------- Contact ---------------- */
+  .contact-section { padding: 0 0 96px; }
+
+  @media (max-width: 1100px) {
+    .rf-grid { grid-template-columns: repeat(2, 1fr); row-gap: 48px; }
+  }
+
+  @media (max-width: 900px) {
+    .section-heading.two-col, .context, .reflection, .device-row, .a11y-band { grid-template-columns: 1fr; }
+    .device-row { gap: 24px; }
+    .of-grid { grid-template-columns: repeat(2, 1fr); gap: 36px 28px; }
+  }
+
+  @media (max-width: 600px) {
+    .of-grid { grid-template-columns: 1fr; gap: 36px; }
+    .rf-grid { grid-template-columns: 1fr; row-gap: 40px; }
+  }
+</style>

@@ -1,286 +1,321 @@
 ---
-import site from '../data/site.json';
-import Base from '../layouts/Base.astro';
-import ProjectCardLarge from '../components/ProjectCardLarge.astro';
-import ProjectCardStandard from '../components/ProjectCardStandard.astro';
-import ArchiveCard from '../components/ArchiveCard.astro';
-import ContactCta from '../components/ContactCta.astro';
-import Media from '../components/Media.astro';
-import { getFeaturedProjects, getArchiveItems } from '../lib/content';
-import { personSchema, webSiteSchema, graph } from '../lib/schema';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactCTA from '../components/ContactCTA.astro';
 
-const featured = await getFeaturedProjects();
-const [lead, ...rest] = featured;
-
-const archivePreview = (await getArchiveItems()).slice(0, 4);
-
-const jsonLd = graph([personSchema(), webSiteSchema()]);
+const archiveItems = [
+  {
+    href: '/archive/ahat/',
+    img: '/media/drive/1vmk3z9OhJmGmyOoWWCk_bRNJms4wxRsv.png',
+    alt: 'AHAT — brand and packaging range',
+    eyebrow: 'Brand Identity & Packaging',
+    title: 'AHAT / Ахат',
+  },
+  {
+    href: '/archive/sherry/',
+    img: '/media/drive/1bduldySt_vuMRg0JPsOUfWCniJp1BrWn.png',
+    alt: 'Sherry — ice cream packaging',
+    eyebrow: 'Brand Identity & Packaging',
+    title: 'Sherry',
+  },
+  {
+    href: '/archive/karmela/',
+    img: '/media/drive/1fpUyBGCSTsa-vbIi2DnL5cP7Tw_jn_60.png',
+    alt: 'Karmela Breakfast — biscuit packaging range',
+    eyebrow: 'Packaging Design',
+    title: 'Karmela Breakfast',
+  },
+  {
+    href: '/archive/victoria/',
+    img: '/media/drive/1xXqAOCGaBJp9tpULYbspMHMWn3TMT0Ea.png',
+    alt: 'Victoria Ice Tea — bottle range',
+    eyebrow: 'Beverage Packaging',
+    title: 'Victoria Ice Tea',
+  },
+];
 ---
 
-<Base
-  title={site.home.title}
-  exactTitle={site.home.title}
-  description={site.description}
-  jsonLd={jsonLd}
-  active="/"
+<BaseLayout
+  title="Hristo Karakerezov | UX/UI & AI Experience Designer"
+  description="Clarity, aesthetics and intelligent workflows shaped into digital experiences. Portfolio of Hristo Karakerezov, UX/UI & AI Experience Designer."
+  active="home"
 >
   <div class="hk-shell">
-    <section class="hk-hero" aria-labelledby="hero-heading">
-      <h1 class="hk-h1-home" id="hero-heading">
-        {site.home.heroLine1}<br />{site.home.heroLine2}
-      </h1>
-      <div class="hk-hero-meta">
-        <p class="hk-hero-name">{site.home.heroName}</p>
-        <p class="hk-hero-tagline">{site.home.heroTagline}</p>
+
+    <section class="hero">
+      <h1>The best interfaces rarely ask for attention.<br>They simply make sense.</h1>
+      <div class="hero-meta">
+        <p class="hero-name">Hristo Karakerezov — UX/UI &amp; AI Experience Designer</p>
+        <p class="hero-tagline">Clarity, aesthetics and intelligent workflows shaped into digital experiences.</p>
       </div>
     </section>
 
-    <section id="work" class="hk-work" aria-labelledby="work-heading" data-hk-reveal>
-      <div class="hk-section-head">
-        <h2 class="hk-h2" id="work-heading">{site.home.workHeading}</h2>
-        <p class="hk-lead">{site.home.workLead}</p>
+    <section id="work" class="work" data-hk-reveal>
+      <div class="section-head">
+        <h2>Recent Work</h2>
+        <p>Selected UX/UI and digital product work — from mobile apps and web platforms to interface systems shaped through research, structure and visual clarity.</p>
       </div>
 
-      {
-        lead && (
-          <div class="hk-work-grid" class:list={[rest.length === 0 && 'is-single']}>
-            <ProjectCardLarge project={lead} eager />
-            {rest.length > 0 && (
-              <div class="hk-work-column">
-                {rest.map((project) => (
-                  <ProjectCardStandard project={project} context="home" />
-                ))}
+      <div class="work-grid">
+
+        <article class="card card-grovia" data-hk-reveal>
+          <div class="card-media">
+            <div class="card-media-zoom">
+              <a href="/work/grovia/" aria-label="Grovia case study" class="media-link">
+                <img src="/assets/grovia-hero.png" alt="Grovia — grocery app hero" />
+              </a>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-title-row">
+              <h3>Grovia</h3>
+              <span class="card-kicker">Grocery Mobile App</span>
+            </div>
+            <p class="card-desc card-desc-lg">A mobile grocery experience focused on simple product discovery, clear shopping flows and everyday usability.</p>
+            <div class="tag-row">
+              <span class="tag">UX/UI Design</span>
+              <span class="tag">Mobile App</span>
+              <span class="tag">Product Design</span>
+            </div>
+            <div class="card-cta">
+              <a class="btn-pill-dark" href="/work/grovia/">View Case Study<span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+        </article>
+
+        <div class="work-col">
+
+          <article class="card" data-hk-reveal>
+            <div class="card-media card-media-sm">
+              <div class="card-media-zoom">
+                <a href="/work/display-daily/" aria-label="Display Daily case study" class="media-link">
+                  <img src="/assets/display-daily-hero-wide-v2.png" alt="Display Daily — responsive platform on laptop and phone" />
+                </a>
               </div>
-            )}
-          </div>
-        )
-      }
+            </div>
+            <div class="card-body card-body-sm">
+              <div class="card-title-row">
+                <h3>Display Daily</h3>
+                <span class="card-kicker">Digital Publishing Platform</span>
+              </div>
+              <p class="card-desc">A web platform for digital newspaper and magazine subscriptions, shaped through research, information architecture, prototyping and usability testing.</p>
+              <div class="tag-row">
+                <span class="tag">UX/UI Design</span>
+                <span class="tag">Web Platform</span>
+                <span class="tag">Subscription Flow</span>
+              </div>
+              <div class="card-cta">
+                <a class="btn-pill-dark btn-pill-sm" href="#work">View Case Study<span aria-hidden="true">&rarr;</span></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card card-protected" data-hk-reveal>
+            <div class="card-media card-media-sm well-dark">
+              <div class="well-blur"></div>
+              <div class="well-veil">
+                <div class="protected-pill">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="2" stroke-linecap="round"><rect x="4" y="11" width="16" height="10" rx="3"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+                  <span>Protected</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-body card-body-sm">
+              <div class="card-title-row">
+                <h3>Generic Soft</h3>
+                <span class="card-kicker">Touchscreen Interface System</span>
+              </div>
+              <p class="card-desc">Interface design for a connected device system with individual touchscreens and centralized desktop control.</p>
+              <div class="tag-row">
+                <span class="tag">Interface Design</span>
+                <span class="tag">Touchscreen UI</span>
+                <span class="tag">NDA Project</span>
+              </div>
+              <div class="limited-row">
+                <a class="limited-link" href="#work">Limited Access<span aria-hidden="true">&rarr;</span></a>
+                <span class="limited-note">Protected case study — available with password.</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
     </section>
 
-    <section id="about" class="hk-about" aria-labelledby="about-heading" data-hk-reveal>
-      <div class="hk-about-card hk-card">
-        <div class="hk-about-copy">
-          <h2 class="hk-h2" id="about-heading">{site.home.aboutHeading}</h2>
-          <p class="hk-prose">{site.home.aboutBody}</p>
+    <section id="about" class="about-preview" data-hk-reveal>
+      <div class="about-card">
+        <div class="about-copy">
+          <h2>From visual craft to digital experience design.</h2>
+          <p>With a long background in graphic, brand and print design, the work gradually evolved toward UX/UI, product interfaces and AI-assisted design workflows. The focus today is on creating digital experiences that feel clear, aesthetic and easy to understand.</p>
           <div>
-            <a href="/about" class="hk-btn hk-btn-ghost">
-              {site.home.aboutCta}
-              <span aria-hidden="true">→</span>
-            </a>
+            <a class="btn-pill-outline" href="/about/">About Me<span aria-hidden="true">&rarr;</span></a>
           </div>
         </div>
-        <div class="hk-about-well">
-          <Media
-            src={site.home.aboutImage}
-            alt={site.home.aboutImageAlt}
-            sizes="(max-width: 900px) 92vw, 45vw"
-          />
+        <div class="about-media">
+          <div class="about-media-zoom">
+            <img src="/media/drive/1aRw1o_QBIOVIZAOTUEPDc9bf2HaMVnAd.png" alt="About Hristo K" />
+          </div>
         </div>
       </div>
     </section>
 
-    <section
-      id="archive"
-      class="hk-archive-preview"
-      aria-labelledby="archive-heading"
-      data-hk-reveal
-    >
-      <div class="hk-archive-head-row">
-        <div class="hk-archive-intro">
-          <h2 class="hk-h2" id="archive-heading">{site.home.archiveHeading}</h2>
-          <p class="hk-prose">{site.home.archiveBody}</p>
+    <section id="archive" class="archive-preview" data-hk-reveal>
+      <div class="section-head section-head-row">
+        <div class="section-head-copy">
+          <h2>Archive</h2>
+          <p>A curated selection of earlier visual work — branding, packaging, print design, advertising and digital graphics.</p>
         </div>
-        <a href="/archive" class="hk-btn hk-btn-ghost">
-          {site.home.archiveCta}
-          <span aria-hidden="true">→</span>
-        </a>
+        <a class="btn-pill-outline" href="/archive/">Explore Archive<span aria-hidden="true">&rarr;</span></a>
       </div>
-      <ul class="hk-archive-grid">
-        {archivePreview.map((item) => <ArchiveCard item={item} />)}
-      </ul>
+      <div class="archive-grid">
+        {archiveItems.map((item) => (
+          <a class="archive-card" href={item.href}>
+            <span class="archive-thumb">
+              <img src={item.img} alt={item.alt} loading="lazy" />
+            </span>
+            <span class="archive-info">
+              <span class="archive-eyebrow">{item.eyebrow}</span>
+              <span class="archive-title">{item.title}</span>
+            </span>
+          </a>
+        ))}
+      </div>
     </section>
 
-    <ContactCta variant="band" detail />
+    <section id="contact" class="contact-section" data-hk-reveal>
+      <ContactCTA layout="cards" />
+      <p class="copyright">&copy; 2026 Hristo Karakerezov</p>
+    </section>
+
   </div>
-</Base>
+</BaseLayout>
 
 <style>
-  .hk-hero {
-    min-height: 88vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  .hero {
+    min-height: 88vh; display: flex; flex-direction: column; justify-content: center;
     padding: 160px 0 96px;
   }
+  .hero h1 {
+    font-family: var(--hk-font-display); font-weight: 400; font-size: var(--hk-h1-home);
+    line-height: 0.95; letter-spacing: -0.03em; margin: 0; max-width: 1060px; text-wrap: balance;
+  }
+  .hero-meta { margin-top: 48px; display: flex; flex-direction: column; gap: 12px; }
+  .hero-name { margin: 0; font-size: 18px; font-weight: 600; line-height: 1.55; color: var(--hk-ink); }
+  .hero-tagline { margin: 0; font-size: 18px; font-weight: 400; line-height: 1.55; color: var(--hk-ink-3-text); max-width: 560px; }
 
-  .hk-h1-home {
-    max-width: 1060px;
+  .section-head { max-width: var(--hk-content-max); display: flex; flex-direction: column; gap: 24px; margin-bottom: 56px; }
+  .section-head h2 {
+    font-family: var(--hk-font-display); font-weight: 400; font-size: var(--hk-h2);
+    line-height: 1.05; letter-spacing: -0.02em; margin: 0;
+  }
+  .section-head p { margin: 0; font-size: var(--hk-lead); line-height: 1.45; color: var(--hk-ink-2); text-wrap: pretty; }
+
+  .work { padding: 64px 0 80px; }
+  .work-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: var(--hk-gap); align-items: stretch; }
+  .work-col { display: flex; flex-direction: column; gap: var(--hk-gap); }
+
+  .card {
+    background: var(--hk-surface); border: 1px solid var(--hk-hairline); border-radius: var(--hk-r-card);
+    padding: var(--hk-card-pad-md); display: flex; flex-direction: column; gap: 22px;
+    transition: var(--hk-t-card);
+  }
+  .card:hover { transform: var(--hk-lift); box-shadow: var(--hk-card-shadow); }
+  .card-grovia { padding: var(--hk-card-pad-lg); gap: 28px; }
+
+  .card-media { border-radius: var(--hk-r-media); overflow: hidden; background: var(--hk-surface-alt); flex: 1; min-height: 460px; position: relative; }
+  .card-media-sm { height: 220px; flex: none; min-height: 0; }
+  .card-media-zoom { position: absolute; inset: 0; transition: var(--hk-t-media); }
+  .card:hover .card-media-zoom { transform: var(--hk-zoom); }
+  .media-link { position: absolute; inset: 0; display: block; }
+  .media-link img, .card-media-zoom > img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; display: block; }
+
+  .card-body { display: flex; flex-direction: column; gap: 16px; padding: 8px 12px 12px; }
+  .card-body-sm { gap: 14px; padding: 4px 8px 8px; }
+  .card-title-row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .card-title-row h3 { margin: 0; font-size: var(--hk-h3); font-weight: 700; line-height: 1.15; letter-spacing: -0.015em; }
+  .card-kicker { font-size: var(--hk-meta-sm); font-weight: 600; line-height: 1; color: var(--hk-ink-3-text); }
+  .card-desc { margin: 0; font-size: var(--hk-body-sm); line-height: 1.5; color: var(--hk-ink-2); text-wrap: pretty; }
+  .card-desc-lg { font-size: var(--hk-body); line-height: 1.55; }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-size: var(--hk-meta-sm); font-weight: 600; line-height: 1; color: var(--hk-ink-2);
+    border: 1px solid var(--hk-hairline-2); background: var(--hk-pill-fill); border-radius: var(--hk-r-pill); padding: 8px 14px;
   }
 
-  .hk-hero-meta {
-    margin-top: 48px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  .card-cta { margin-top: 8px; }
+  .btn-pill-dark {
+    display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; line-height: 1;
+    color: var(--hk-bg); background: var(--hk-ink); border: 1px solid var(--hk-ink); border-radius: var(--hk-r-pill);
+    padding: 14px 24px; transition: background .25s ease, border-color .25s ease;
   }
+  .btn-pill-dark:hover { background: var(--hk-accent); border-color: var(--hk-accent); color: var(--hk-bg); }
+  .btn-pill-sm { padding: 13px 22px; }
 
-  .hk-hero-name {
-    font-size: var(--hk-body);
-    font-weight: 600;
-    line-height: 1.55;
-    color: var(--hk-ink);
+  .btn-pill-outline {
+    display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; line-height: 1;
+    color: var(--hk-ink); background: transparent; border: 1px solid var(--hk-hairline-3); border-radius: var(--hk-r-pill);
+    padding: 14px 24px; transition: background .25s ease; flex-shrink: 0;
   }
+  .btn-pill-outline:hover { background: var(--hk-hover-tint); color: var(--hk-ink); }
 
-  .hk-hero-tagline {
-    font-size: var(--hk-body);
-    line-height: 1.55;
-    color: var(--hk-ink-2);
-    max-width: 560px;
+  .well-dark { background: var(--hk-dark-well); }
+  .well-blur { position: absolute; inset: 0; filter: blur(3px) brightness(0.55); transform: scale(1.04); background: var(--hk-dark-well); }
+  .well-veil {
+    position: absolute; inset: 0; backdrop-filter: blur(2px); background: var(--hk-veil);
+    display: flex; align-items: center; justify-content: center; pointer-events: none;
   }
-
-  /* --- Recent work -------------------------------------------------- */
-
-  .hk-work {
-    padding: 64px 0 var(--hk-section-pad);
+  .protected-pill {
+    display: flex; align-items: center; gap: 10px; background: var(--hk-badge); border-radius: var(--hk-r-pill);
+    padding: 12px 20px; color: var(--hk-ink);
   }
+  .protected-pill span { font-size: var(--hk-meta-sm); font-weight: 600; line-height: 1; }
 
-  .hk-section-head {
-    max-width: var(--hk-content-max);
-    display: flex;
-    flex-direction: column;
-    gap: var(--hk-gap-sm);
-    margin-bottom: 56px;
+  .limited-row { margin-top: 6px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .limited-link { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; line-height: 1; color: var(--hk-ink); }
+  .limited-note { font-size: var(--hk-meta-sm); font-weight: 600; line-height: 1; color: var(--hk-ink-3-text); }
+
+  .about-preview { padding: 80px 0; }
+  .about-card {
+    background: var(--hk-surface); border: 1px solid var(--hk-hairline); border-radius: var(--hk-r-card);
+    padding: var(--hk-card-pad-lg); display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center;
   }
-
-  .hk-work-grid {
-    display: grid;
-    grid-template-columns: 1.15fr 1fr;
-    gap: var(--hk-gap);
-    align-items: stretch;
+  .about-copy { display: flex; flex-direction: column; gap: 24px; padding: 32px 16px 32px 32px; }
+  .about-copy h2 {
+    font-family: var(--hk-font-display); font-weight: 400; font-size: var(--hk-h2);
+    line-height: 1.05; letter-spacing: -0.02em; margin: 0; text-wrap: balance;
   }
+  .about-copy p { margin: 0; font-size: var(--hk-body); line-height: 1.55; color: var(--hk-ink-2); text-wrap: pretty; }
+  .about-media { border-radius: var(--hk-r-media); overflow: hidden; background: var(--hk-surface-alt); height: 420px; position: relative; }
+  .about-media-zoom { position: absolute; inset: 0; transition: var(--hk-t-media); }
+  .about-media:hover .about-media-zoom { transform: var(--hk-zoom); }
+  .about-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-  /* With only one published project the tall card takes the full width
-     rather than leaving an empty column. */
-  .hk-work-grid.is-single {
-    grid-template-columns: minmax(0, 1fr);
-    max-width: 900px;
+  .archive-preview { padding: 80px 0; }
+  .section-head-row { flex-direction: row; align-items: flex-end; justify-content: space-between; gap: 32px; flex-wrap: wrap; margin-bottom: 48px; }
+  .section-head-copy { max-width: 640px; display: flex; flex-direction: column; gap: 20px; }
+  .archive-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--hk-gap-sm); }
+  .archive-card {
+    background: var(--hk-surface); border: 1px solid var(--hk-hairline); border-radius: var(--hk-r-card-sm);
+    padding: 16px; display: flex; flex-direction: column; gap: 16px; color: var(--hk-ink);
+    transition: transform .35s ease;
   }
+  .archive-card:hover { transform: var(--hk-lift); color: var(--hk-ink); }
+  .archive-thumb { display: block; border-radius: 24px; overflow: hidden; background: var(--hk-surface-alt); aspect-ratio: 4 / 5; position: relative; }
+  .archive-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .archive-info { display: flex; flex-direction: column; gap: 8px; padding: 0 8px 8px; }
+  .archive-eyebrow { font-size: var(--hk-meta-sm); font-weight: 600; line-height: 1; color: #00757F; text-transform: uppercase; letter-spacing: 0.06em; }
+  .archive-title { font-size: 18px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
 
-  .hk-work-column {
-    display: flex;
-    flex-direction: column;
-    gap: var(--hk-gap);
-  }
-
-  /* --- About preview ------------------------------------------------ */
-
-  .hk-about {
-    padding: var(--hk-section-pad) 0;
-  }
-
-  .hk-about-card {
-    padding: var(--hk-card-pad-lg);
-    display: grid;
-    grid-template-columns: 1.05fr 1fr;
-    gap: 48px;
-    align-items: center;
-  }
-
-  .hk-about-copy {
-    display: flex;
-    flex-direction: column;
-    gap: var(--hk-gap-sm);
-    padding: 32px 16px 32px 32px;
-  }
-
-  .hk-about-well {
-    border-radius: var(--hk-r-media);
-    overflow: hidden;
-    background: var(--hk-surface-alt);
-    height: 420px;
-    position: relative;
-  }
-
-  .hk-about-well :global(img),
-  .hk-about-well :global(.hk-placeholder) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: var(--hk-media-filter);
-    transition: var(--hk-t-media);
-  }
-
-  .hk-about-well:hover :global(img) {
-    transform: var(--hk-zoom);
-  }
-
-  /* --- Archive preview ---------------------------------------------- */
-
-  .hk-archive-preview {
-    padding: var(--hk-section-pad) 0;
-  }
-
-  .hk-archive-head-row {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: var(--hk-gap);
-    flex-wrap: wrap;
-    margin-bottom: 48px;
-  }
-
-  .hk-archive-intro {
-    max-width: 640px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .hk-archive-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--hk-gap-sm);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  @media (max-width: 1200px) {
-    .hk-archive-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
+  .contact-section { padding: 80px 0 96px; }
+  .copyright { margin: 48px 8px 0; font-size: var(--hk-meta-sm); font-weight: 600; line-height: 1; color: var(--hk-ink-3-text); text-align: center; }
 
   @media (max-width: 900px) {
-    .hk-hero {
-      min-height: 0;
-      padding: calc(var(--hk-page-top) - 40px) 0 64px;
-    }
-
-    .hk-work-grid {
-      grid-template-columns: minmax(0, 1fr);
-    }
-
-    .hk-about-card {
-      grid-template-columns: minmax(0, 1fr);
-      gap: var(--hk-gap);
-      padding: 20px;
-    }
-
-    .hk-about-copy {
-      padding: 20px 12px;
-    }
-
-    .hk-about-well {
-      height: auto;
-      aspect-ratio: 4 / 3;
-      order: -1;
-    }
+    .work-grid { grid-template-columns: 1fr; }
+    .about-card { grid-template-columns: 1fr; }
+    .about-copy { padding: 8px; }
+    .archive-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
-
   @media (max-width: 600px) {
-    .hk-archive-grid {
-      grid-template-columns: minmax(0, 1fr);
-    }
+    .archive-grid { grid-template-columns: 1fr; }
   }
 </style>

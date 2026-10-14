@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://karakerezov.com/sitemap-index.xml

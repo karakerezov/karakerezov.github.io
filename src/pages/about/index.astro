@@ -1,0 +1,245 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactCTA from '../../components/ContactCTA.astro';
+
+const focus = [
+  { title: 'Product & UX', items: ['User flows and information architecture', 'Wireframing and interactive prototyping', 'UX research and usability evaluation', 'Responsive product experiences'] },
+  { title: 'Interface & Visual Design', items: ['UI systems and components', 'Figma and interactive prototypes', 'Visual identity and brand consistency', 'Adobe Photoshop, Illustrator and InDesign'] },
+  { title: 'AI-Assisted Workflow', items: ['Research support and information synthesis', 'Exploring alternative perspectives', 'Design evaluation and testing support', 'Workflow and process organization'] },
+];
+
+const rawJobs: [string, string, string][] = [
+  ['Nov 2025 – Present', 'UX/UI & AI Experience Designer · Semper Fortis Ltd', 'Working with innovation-driven companies through strategic partnerships, providing UX/UI and AI experience design expertise. My role sits between product design and AI, contributing across research, product thinking, information architecture, interface design, prototyping and evaluation.'],
+  ['Jul 2025 – Mar 2026', 'UI/UX Designer · Generic Soft · Contractor', 'Responsible for the user interface and user experience of individual screens and a responsive desktop application. The work covers all phases of the product development lifecycle and UX design framework. Details are under NDA.'],
+  ['Mar 2020 – Aug 2024', 'UX/UI Designer · Display Daily', 'Designed the end-to-end experience of a digital publishing platform used by readers, publishers and administrators. Work covered user research, information architecture, user flows, wireframing, responsive UI design, interactive prototyping and usability testing.'],
+  ['Feb 2017 – Mar 2020', 'Lead Graphic Designer · Master Brand', 'Led a design team across brand identity, packaging and visual communication projects, combining creative direction with hands-on design, typography, illustration, image editing, mockups and print production.'],
+  ['Jun 2015 – Oct 2016', 'Web User Interface Designer · GCH Digital · Contractor', 'Designed information architecture and responsive user interfaces for a web platform for discovering local businesses and services, alongside websites for small businesses and independent professionals.'],
+];
+
+const jobs = rawJobs.map(([date, title, body], i) => ({
+  date, title, body,
+  first: i === 0,
+  last: i === rawJobs.length - 1,
+}));
+---
+
+<BaseLayout
+  title="About Hristo Karakerezov | UX/UI & AI Experience Designer"
+  description="Meet Hristo Karakerezov, a UX/UI & AI Experience Designer combining product thinking, visual design, and AI-assisted workflows."
+  active="about"
+>
+  <div class="hk-shell">
+
+    <section class="intro" data-hk-reveal>
+      <div class="intro-copy">
+        <span class="eyebrow">About Me</span>
+        <div class="intro-heading">
+          <h1>Hi, I&rsquo;m Hristo.</h1>
+          <p class="role">UX/UI &amp; AI Experience Designer</p>
+        </div>
+        <p class="lead">I design digital experiences that bring clarity to complex ideas.</p>
+        <p class="muted">My background spans visual design, branding, and digital products — a combination that helps me look at interfaces from both the user&rsquo;s perspective and the bigger business picture.</p>
+        <p class="muted">I believe good design should feel intuitive, look considered, and make life a little easier. Ideally, all three.</p>
+      </div>
+      <div class="intro-portrait">
+        <img src="/media/embedded/about-portrait.webp" alt="Portrait of Hristo Karakerezov at his design desk" />
+      </div>
+    </section>
+
+    <section class="think" data-hk-reveal>
+      <h2>Design is more than how things look.</h2>
+      <div class="think-copy">
+        <p class="ink">For me, the interesting part of design begins with understanding the problem — who we&rsquo;re designing for, what they need to accomplish, and what&rsquo;s getting in their way.</p>
+        <p class="muted">I enjoy connecting research, structure, interaction, and visual detail into experiences that make sense. Sometimes that means simplifying a complicated flow. Other times, it means questioning whether a feature needs to exist at all.</p>
+        <p class="muted">My background in graphic design and marketing helps me connect usability with communication, consistency, and business goals.</p>
+      </div>
+    </section>
+
+    <section class="ai-workflow" data-hk-reveal>
+      <div class="ai-heading">
+        <span class="eyebrow">AI in my workflow</span>
+        <h2>AI is part of my process. Not my replacement.</h2>
+      </div>
+      <div class="ai-copy">
+        <p class="ink">I use AI as a practical design partner — to accelerate research, challenge assumptions, compare different perspectives, support evaluation and testing, and organize information.</p>
+        <p class="muted">It helps me explore questions more efficiently and spend more time on the decisions that matter.</p>
+        <p class="muted">But understanding people, recognizing context, and deciding what makes a good experience remain the designer&rsquo;s responsibility.</p>
+      </div>
+    </section>
+
+    <section class="focus-grid" data-hk-reveal>
+      <h2>What I work with</h2>
+      <div class="focus-cols">
+        {focus.map((g) => (
+          <div class="focus-col">
+            <h3>{g.title}</h3>
+            <ul>
+              {g.items.map((it) => <li>{it}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="experience" data-hk-reveal>
+      <div class="experience-heading">
+        <h2>Selected Experience</h2>
+        <p class="muted">A few chapters that shaped how I approach design today.</p>
+      </div>
+      <ol class="timeline">
+        {jobs.map((j) => (
+          <li>
+            <div class="timeline-rail">
+              <span class:list={['timeline-dot', { 'is-first': j.first }]}></span>
+              <span class:list={['timeline-line', { 'is-last': j.last }]}></span>
+            </div>
+            <div class:list={['timeline-body', { 'is-last': j.last }]}>
+              <span class:list={['timeline-date', { 'is-first': j.first }]}>{j.date}</span>
+              <span class="timeline-title">{j.title}</span>
+              <span class="timeline-text">{j.body}</span>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="education" data-hk-reveal>
+      <h2>Education &amp; Certification</h2>
+      <div class="education-grid">
+        <div class="cert">
+          <a class="cert-badge" href="https://www.coursera.org/account/accomplishments/professional-cert/YDOEJQ9RGGCP" target="_blank" rel="noopener noreferrer" aria-label="View Google UX Design Professional Certificate credential (opens in a new tab)">
+            <img src="/images/google-ux-design-professional-certificate-v2.png" alt="Google UX Design Certificate of Completion badge" width="140" height="140" />
+          </a>
+          <div class="cert-text">
+            <span class="eyebrow">Professional Certification</span>
+            <h3>Google UX Design Professional Certificate</h3>
+            <span class="muted-line">Google</span>
+            <span class="muted-line">2025 · Online</span>
+            <span class="credential-id">Credential ID: YDOEJQ9RGGCP</span>
+            <a class="credential-link" href="https://www.coursera.org/account/accomplishments/professional-cert/YDOEJQ9RGGCP" target="_blank" rel="noopener noreferrer">View credential &uarr;</a>
+          </div>
+        </div>
+        <div class="education-list">
+          <div class="education-item">
+            <span class="eyebrow eyebrow-muted">Education</span>
+            <span class="timeline-title">Marketing Professional Qualification</span>
+            <span class="ink-line">Institute Industrial Relations and Management &ldquo;OKOM&rdquo;</span>
+            <span class="muted-line">2010 – 2012 · Sofia, Bulgaria</span>
+          </div>
+          <div class="education-item no-border">
+            <span class="timeline-title">Graphic Design Bachelor Degree</span>
+            <span class="ink-line">New Bulgarian University</span>
+            <span class="muted-line">2003 – 2007 · Sofia, Bulgaria</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact" data-hk-reveal>
+      <ContactCTA
+        layout="banner"
+        heading="Have something interesting in mind?"
+        body="I'm always interested in thoughtful products, challenging design problems, and conversations about where digital experiences are heading."
+        ctaLabel="Let's connect"
+        ctaHref="mailto:karakerezov@gmail.com"
+      />
+    </section>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .hk-shell { padding-top: var(--hk-header-h); }
+
+  .eyebrow { font-size: 13px; font-weight: 600; line-height: 1; color: #00757F; text-transform: uppercase; letter-spacing: 0.06em; }
+  .eyebrow-muted { color: var(--hk-ink-3-text); margin-bottom: 6px; display: block; }
+  .muted { color: var(--hk-ink-2); }
+  .ink { color: var(--hk-ink); }
+  .muted-line { font-size: 15px; line-height: 1.5; color: var(--hk-ink-2); display: block; }
+  .ink-line { font-size: 16px; line-height: 1.5; color: var(--hk-ink); display: block; }
+
+  section > h2 {
+    font-family: var(--hk-font-display); font-weight: 400; font-size: var(--hk-h2);
+    line-height: 1.05; letter-spacing: -0.02em;
+  }
+
+  .intro {
+    padding: 176px 0 128px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+    gap: 64px; align-items: center;
+  }
+  .intro-copy { display: flex; flex-direction: column; gap: 28px; max-width: 620px; }
+  .intro-heading { display: flex; flex-direction: column; gap: 16px; }
+  .intro h1 {
+    font-family: var(--hk-font-display); font-weight: 400; font-size: var(--hk-h1-page);
+    line-height: 1; letter-spacing: -0.03em;
+  }
+  .role { font-size: 22px; font-weight: 600; line-height: 1.3; color: var(--hk-ink); }
+  .lead { font-size: 22px; line-height: 1.45; color: var(--hk-ink); margin-top: 8px; }
+  .intro-copy p.muted { font-size: 18px; line-height: 1.6; }
+  .intro-portrait {
+    border-radius: var(--hk-r-card); overflow: hidden; background: var(--hk-surface-alt);
+    border: 1px solid var(--hk-hairline); height: clamp(420px, 47vw, 676px); position: relative;
+  }
+  .intro-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .think, .ai-workflow {
+    padding: 96px 0 128px; display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 32px 64px; align-items: start;
+  }
+  .think { padding-top: 0; }
+  .ai-workflow { border-top: 1px solid var(--hk-hairline); }
+  .think h2, .ai-heading h2 { max-width: 440px; }
+  .think-copy, .ai-copy { display: flex; flex-direction: column; gap: 24px; max-width: 680px; padding-top: 8px; font-size: 18px; line-height: 1.6; }
+  .ai-heading { display: flex; flex-direction: column; gap: 16px; max-width: 440px; }
+  .ai-copy { padding-top: 37px; }
+
+  .focus-grid, .experience, .education {
+    padding: 96px 0 128px; border-top: 1px solid var(--hk-hairline);
+  }
+  .focus-grid > h2 { margin-bottom: 56px; }
+  .focus-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 48px 64px; }
+  .focus-col { display: flex; flex-direction: column; gap: 20px; }
+  .focus-col h3 { margin: 0; font-size: 20px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; padding-bottom: 16px; border-bottom: 1px solid var(--hk-hairline-2); }
+  .focus-col ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .focus-col li { font-size: 16px; line-height: 1.5; color: var(--hk-ink-2); }
+
+  .experience { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 48px 64px; align-items: start; }
+  .experience-heading { display: flex; flex-direction: column; gap: 16px; max-width: 440px; }
+  .timeline { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; max-width: 680px; }
+  .timeline li { display: grid; grid-template-columns: 24px 1fr; gap: 24px; }
+  .timeline-rail { display: flex; flex-direction: column; align-items: center; }
+  .timeline-dot { width: 12px; height: 12px; border-radius: 999px; margin-top: 4px; flex-shrink: 0; box-sizing: border-box; background: #FFFFFF; border: 1px solid rgba(21,21,21,0.24); }
+  .timeline-dot.is-first { background: var(--hk-accent); border: 0; }
+  .timeline-line { width: 1px; flex: 1; background: var(--hk-hairline-2); }
+  .timeline-line.is-last { background: transparent; }
+  .timeline-body { padding-bottom: 40px; display: flex; flex-direction: column; gap: 8px; }
+  .timeline-body.is-last { padding-bottom: 0; }
+  .timeline-date { font-size: 13px; font-weight: 600; line-height: 1.3; color: #6B6B65; }
+  .timeline-date.is-first { color: #00757F; }
+  .timeline-title { font-size: 18px; font-weight: 700; line-height: 1.3; }
+  .timeline-text { font-size: 16px; line-height: 1.55; color: var(--hk-ink-2); }
+
+  .education > h2 { margin-bottom: 56px; }
+  .education-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 48px 64px; align-items: start; }
+  .cert { display: flex; align-items: center; gap: 32px; flex-wrap: wrap; }
+  .cert-badge { display: block; position: relative; width: 140px; height: 140px; flex-shrink: 0; border-radius: 16px; transition: transform .3s ease; }
+  .cert-badge:hover { transform: translateY(-3px); }
+  .cert-badge img { width: 140px; height: 140px; object-fit: contain; display: block; }
+  .cert-text { display: flex; flex-direction: column; gap: 10px; min-width: 220px; flex: 1; }
+  .cert-text h3 { margin: 0; font-size: 22px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
+  .credential-id { font-size: 13px; font-weight: 600; line-height: 1.4; color: #6B6B65; }
+  .credential-link { margin-top: 4px; font-size: 15px; font-weight: 600; line-height: 1; color: #00757F; }
+  .credential-link:hover { color: var(--hk-ink); }
+
+  .education-list { display: flex; flex-direction: column; }
+  .education-item { display: flex; flex-direction: column; gap: 6px; padding: 0 0 24px; border-bottom: 1px solid var(--hk-hairline); }
+  .education-item.no-border { padding: 24px 0 0; border-bottom: none; }
+
+  .contact-section { padding: 0 0 96px; }
+
+  @media (max-width: 900px) {
+    .intro, .think, .ai-workflow, .focus-grid, .experience, .education { padding-left: 0; padding-right: 0; }
+  }
+</style>

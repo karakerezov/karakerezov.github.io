@@ -1,0 +1,324 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ContactCTA from '../../../components/ContactCTA.astro';
+
+const packs = [
+  {
+    id: 'classic-honey',
+    name: 'Classic & Honey',
+    format: 'Two-pack',
+    img: '/media/drive/1rv5qraSQUmtsjD2vpQMwe2_iFT5tmNv8.jpg',
+    alt: 'Karmela Breakfast Classic and Honey two-pack packaging',
+  },
+  {
+    id: 'milk',
+    name: 'Milk',
+    format: 'Bag [confirm]',
+    img: '/media/drive/1bJwL7WKQ-Y4Us18hNBXqtYgRm4vtE-c_.jpg',
+    alt: 'Karmela Breakfast milk biscuits packaging',
+  },
+  {
+    id: 'cocoa',
+    name: 'Cocoa',
+    format: 'Bag [confirm]',
+    img: '/media/drive/1HAZYgFVpeEpI1m9jfNuVaO1sRNCzctJc.jpg',
+    alt: 'Karmela Breakfast cocoa biscuits packaging',
+  },
+  {
+    id: 'yogurt-fiber',
+    name: 'Yogurt & Fiber',
+    format: 'Wrapper',
+    img: '/media/drive/19r4jSe_DTuG8j18FKDi_li2tR6jXNSds.png',
+    alt: 'Karmela Breakfast yogurt and fiber biscuits packaging',
+  },
+];
+
+const packsLeft = packs.filter((p) => p.name === 'Cocoa');
+const packsRight = packs.filter((p) => p.name !== 'Cocoa' && p.name !== 'Classic & Honey');
+const packsWide = packs.filter((p) => p.name === 'Classic & Honey');
+
+const flavours = [
+  { name: 'Classic', colour: 'Blue or green, by format' },
+  { name: 'Honey', colour: 'Green with amber accents' },
+  { name: 'Milk', colour: 'Blue' },
+  { name: 'Cocoa', colour: 'Red' },
+  { name: 'Yogurt & Fiber', colour: 'Green' },
+];
+---
+
+<BaseLayout
+  title="Archive — Karmela Breakfast | Hristo Karakerezov"
+  description="Packaging design for a versatile range of breakfast biscuits."
+  active="archive"
+>
+  <div class="hk-shell">
+
+    <section class="hero">
+      <a href="/archive/" class="back-link"><span aria-hidden="true">&larr;</span>Archive</a>
+      <div class="tag-row">
+        <span class="tag tag-active">Biscuits</span>
+        <span class="tag">Packaging Design</span>
+        <span class="tag">Product Range</span>
+      </div>
+      <h1>Karmela <span class="accent-italic">Breakfast</span></h1>
+      <p class="lead">Packaging design for a versatile range of breakfast biscuits.</p>
+    </section>
+
+    <section class="main-visual" data-hk-reveal>
+      <div class="media-well">
+        <span class="media-label" aria-hidden="true">Karmela Breakfast — Classic and Honey two-packs</span>
+        <img src="/media/drive/1fpUyBGCSTsa-vbIi2DnL5cP7Tw_jn_60.png" alt="Karmela Breakfast packaging range — hero" />
+      </div>
+    </section>
+
+    <section class="meta" data-hk-reveal>
+      <div class="meta-grid">
+        <div class="meta-item"><span class="meta-label">Client</span><span class="meta-value">Karmela</span></div>
+        <div class="meta-item"><span class="meta-label">Category</span><span class="meta-value">Packaging Design / Product Range</span></div>
+        <div class="meta-item"><span class="meta-label">Product</span><span class="meta-value">Breakfast biscuits</span></div>
+        <div class="meta-item"><span class="meta-label">Formats</span><span class="meta-value">Two-pack, upright bag, pillow pack</span></div>
+      </div>
+    </section>
+
+    <section class="project" data-hk-reveal>
+      <h2>The Project</h2>
+      <div class="project-copy">
+        <p class="lead-sm">The Karmela Breakfast range brings together multiple biscuit varieties under a cohesive packaging system.</p>
+        <p class="muted">The design combines a warm yellow foundation, expressive product typography and flavour-specific colour treatments to establish consistency across different products and packaging formats.</p>
+      </div>
+    </section>
+
+    <section class="visual-language" data-hk-reveal>
+      <div class="vl-copy">
+        <span class="eyebrow">Visual Language</span>
+        <h2>A Recognisable Product Identity</h2>
+        <p class="ink">The visual system places the Karmela signature above a prominent Breakfast wordmark, creating a clear relationship between the parent brand and product range.</p>
+        <p class="muted">Wheat motifs, ingredient imagery and vibrant colour transitions reinforce the breakfast theme, while the consistent typography connects the different varieties.</p>
+      </div>
+      <figure class="gallery-figure">
+        <a href="/media/drive/1nk5yoMtHK8H2yIwe0llza2VX5ULDs97b.png" data-hk-lightbox aria-label="View Breakfast range larger" class="gallery-link">
+          <img src="/media/drive/1nk5yoMtHK8H2yIwe0llza2VX5ULDs97b.png" alt="Karmela Breakfast packaging range — rustic morning spread" loading="lazy" />
+          <span class="zoom-badge" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7"></path><path d="M3 21l7-7"></path></svg>
+          </span>
+        </a>
+        <figcaption><span class="pack-name">Breakfast range</span><span class="pack-format">Full range</span></figcaption>
+      </figure>
+    </section>
+
+    <section class="packaging-system">
+      <div class="ps-head" data-hk-reveal>
+        <h2>One System, Different Formats</h2>
+        <div class="ps-copy">
+          <p class="ink">The design adapts to different packaging shapes while maintaining a consistent hierarchy of brand, product name, flavour and ingredient imagery.</p>
+          <p class="muted">From compact two-packs to larger bags, the visual structure remains recognisable across the range.</p>
+        </div>
+      </div>
+      <div class="ps-grid" data-hk-reveal>
+        <div class="ps-col">
+          {packsLeft.map((p) => (
+            <figure class="gallery-figure">
+              <a href={p.img} data-hk-lightbox aria-label={`View ${p.name} larger`} class="gallery-link">
+                <img src={p.img} alt={p.alt} loading="lazy" />
+                <span class="zoom-badge" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7"></path><path d="M3 21l7-7"></path></svg>
+                </span>
+              </a>
+              <figcaption><span class="pack-name">{p.name}</span><span class="pack-format">{p.format}</span></figcaption>
+            </figure>
+          ))}
+        </div>
+        <div class="ps-col">
+          {packsRight.map((p) => (
+            <figure class="gallery-figure">
+              <a href={p.img} data-hk-lightbox aria-label={`View ${p.name} larger`} class="gallery-link">
+                <img src={p.img} alt={p.alt} loading="lazy" />
+                <span class="zoom-badge" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7"></path><path d="M3 21l7-7"></path></svg>
+                </span>
+              </a>
+              <figcaption><span class="pack-name">{p.name}</span><span class="pack-format">{p.format}</span></figcaption>
+            </figure>
+          ))}
+        </div>
+        <div class="ps-col ps-col-wide">
+          {packsWide.map((p) => (
+            <figure class="gallery-figure">
+              <a href={p.img} data-hk-lightbox aria-label={`View ${p.name} larger`} class="gallery-link">
+                <img src={p.img} alt={p.alt} loading="lazy" />
+                <span class="zoom-badge" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7"></path><path d="M3 21l7-7"></path></svg>
+                </span>
+              </a>
+              <figcaption><span class="pack-name">{p.name}</span><span class="pack-format">{p.format}</span></figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="variations" data-hk-reveal>
+      <div class="variations-card">
+        <div class="variations-copy">
+          <h2>Colour-Coded Flavours</h2>
+          <p class="muted">Each variety uses a distinctive combination of colour, product imagery and ingredient cues. These variations help differentiate the flavours while keeping the overall packaging family visually connected.</p>
+        </div>
+        <div class="variations-list">
+          {flavours.map((f) => (
+            <div class="variations-row">
+              <span class="variation-name">{f.name}</span>
+              <span class="variation-colour">{f.colour}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="nav-row" data-hk-reveal>
+      <div class="nav-inner">
+        <a href="/archive/sherry/" class="nav-prev"><span aria-hidden="true">&larr;</span>Sherry</a>
+        <a href="/archive/" class="nav-back">Back to Archive</a>
+        <span class="nav-next">Memo &mdash; coming soon</span>
+      </div>
+    </section>
+
+    <section id="contact" class="contact-section" data-hk-reveal>
+      <ContactCTA
+        layout="row-single"
+        heading="Let&rsquo;s connect."
+        body="Open to UX/UI, product design and AI experience design opportunities."
+        ctaLabel="Get in touch"
+        ctaHref="/contact/"
+      />
+    </section>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .hk-shell { padding-top: var(--hk-header-h); }
+
+  .eyebrow { font-size: 13px; font-weight: 600; line-height: 1; color: #00757F; text-transform: uppercase; letter-spacing: 0.06em; }
+  .ink { color: var(--hk-ink); }
+  .muted { color: var(--hk-ink-2); }
+
+  section > h2, .ps-head h2 {
+    font-family: var(--hk-font-display); font-weight: 400; font-size: var(--hk-h2);
+    line-height: 1.05; letter-spacing: -0.02em; margin: 0;
+  }
+
+  /* Hero */
+  .hero { padding: 176px 0 56px; }
+  .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; line-height: 1; color: var(--hk-ink-2); }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 40px; }
+  .tag {
+    display: inline-flex; font-size: 13px; font-weight: 600; line-height: 1; color: var(--hk-ink-2);
+    background: var(--hk-pill-fill); border: 1px solid var(--hk-hairline-2); border-radius: var(--hk-r-pill); padding: 7px 15px;
+  }
+  .tag-active { color: #00757F; background: var(--hk-accent-soft); border: none; padding: 8px 16px; }
+  .hero h1 {
+    font-family: var(--hk-font-display); font-weight: 400; font-size: var(--hk-h1-page);
+    line-height: 1; letter-spacing: -0.03em; margin: 28px 0 0;
+  }
+  .accent-italic { font-style: italic; color: var(--hk-ink-2); }
+  .hero .lead { margin: 28px 0 0; font-size: 22px; line-height: 1.45; color: var(--hk-ink-2); max-width: 680px; text-wrap: pretty; }
+
+  /* Main visual */
+  .main-visual { padding: 0 0 40px; }
+  .media-well {
+    border-radius: var(--hk-r-card); overflow: hidden; background: var(--hk-surface-alt);
+    border: 1px solid var(--hk-hairline); min-height: 320px; position: relative;
+  }
+  .media-label {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; color: var(--hk-ink-3);
+  }
+  .media-well img { position: relative; width: 100%; height: auto; display: block; }
+
+  /* Meta */
+  .meta { padding: 0 0 128px; }
+  .meta-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 32px;
+    padding: 32px 8px 0; border-top: 1px solid var(--hk-hairline);
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 10px; }
+  .meta-label { font-size: 13px; font-weight: 600; line-height: 1; color: var(--hk-ink-3-text); text-transform: uppercase; letter-spacing: 0.06em; }
+  .meta-value { font-size: 15px; line-height: 1.5; font-weight: 600; }
+
+  /* The Project */
+  .project { padding: 0 0 128px; display: grid; grid-template-columns: minmax(0, 320px) minmax(0, 1fr); gap: 64px; align-items: start; }
+  .project-copy { display: flex; flex-direction: column; gap: 24px; max-width: 720px; }
+  .project-copy .lead-sm { margin: 8px 0 0; font-size: 22px; line-height: 1.45; color: var(--hk-ink); text-wrap: pretty; }
+  .project-copy .muted { margin: 0; font-size: 18px; line-height: 1.55; text-wrap: pretty; }
+
+  /* Visual language */
+  .visual-language { padding: 0 0 128px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 64px; align-items: center; }
+  .vl-copy { display: flex; flex-direction: column; gap: 20px; max-width: 520px; }
+  .vl-copy p { margin: 0; font-size: 18px; line-height: 1.55; text-wrap: pretty; }
+
+  /* Gallery figures (shared) */
+  .gallery-figure { margin: 0; display: flex; flex-direction: column; gap: 14px; }
+  .gallery-link {
+    display: block; width: 100%; padding: 0; margin: 0; cursor: zoom-in; border-radius: var(--hk-r-media);
+    overflow: hidden; background: var(--hk-surface-alt); border: 1px solid var(--hk-hairline);
+    min-height: 280px; position: relative; transition: var(--hk-t-card);
+  }
+  .gallery-link:hover { transform: var(--hk-lift); box-shadow: var(--hk-card-shadow); }
+  .gallery-link img { position: relative; width: 100%; height: auto; display: block; }
+  .zoom-badge {
+    position: absolute; right: 14px; bottom: 14px; width: 36px; height: 36px; border-radius: var(--hk-r-pill);
+    background: var(--hk-badge); border: 1px solid var(--hk-hairline); display: flex; align-items: center; justify-content: center;
+  }
+  .gallery-figure figcaption { display: flex; justify-content: space-between; gap: 12px; padding: 0 8px; }
+  .pack-name { font-size: 15px; font-weight: 700; line-height: 1.2; }
+  .pack-format { font-size: 13px; font-weight: 600; color: var(--hk-ink-3-text); }
+
+  /* Packaging system */
+  .packaging-system { padding: 0 0 128px; }
+  .ps-head { display: grid; grid-template-columns: minmax(0, 320px) minmax(0, 1fr); gap: 64px; align-items: start; margin-bottom: 56px; }
+  .ps-copy { display: flex; flex-direction: column; gap: 20px; max-width: 720px; }
+  .ps-copy p { margin: 0; font-size: 18px; line-height: 1.55; text-wrap: pretty; }
+  .ps-copy p.ink { margin-top: 8px; }
+  .ps-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; }
+  .ps-col { display: flex; flex-direction: column; gap: 24px; }
+  .ps-col-wide { grid-column: 1 / -1; }
+
+  /* Product variations */
+  .variations { padding: 0 0 128px; }
+  .variations-card {
+    background: var(--hk-surface); border: 1px solid var(--hk-hairline); border-radius: var(--hk-r-card);
+    padding: 56px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 56px;
+  }
+  .variations-copy { display: flex; flex-direction: column; gap: 20px; }
+  .variations-copy p { margin: 0; font-size: 18px; line-height: 1.55; text-wrap: pretty; }
+  .variations-list { display: flex; flex-direction: column; }
+  .variations-row {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 16px 0;
+    border-bottom: 1px solid var(--hk-hairline);
+  }
+  .variation-name { font-size: 17px; font-weight: 700; line-height: 1.3; }
+  .variation-colour { font-size: 13px; font-weight: 600; line-height: 1.3; color: var(--hk-ink-3-text); text-align: right; }
+
+  /* Prev/next navigation row */
+  .nav-row { padding: 0 0 96px; }
+  .nav-inner { border-top: 1px solid var(--hk-hairline); padding-top: 56px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 32px; }
+  .nav-prev { justify-self: start; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; line-height: 1; color: var(--hk-ink); }
+  .nav-back {
+    display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; line-height: 1; color: var(--hk-ink);
+    background: transparent; border: 1px solid var(--hk-hairline-3); border-radius: var(--hk-r-pill); padding: 14px 24px;
+    transition: background .25s ease;
+  }
+  .nav-back:hover { background: var(--hk-hover-tint); color: var(--hk-ink); }
+  .nav-next { justify-self: end; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; line-height: 1; color: var(--hk-ink-3); }
+
+  .contact-section { padding: 0 0 96px; }
+
+  @media (max-width: 900px) {
+    .project, .visual-language, .ps-head { grid-template-columns: 1fr; gap: 32px; }
+    .ps-grid { grid-template-columns: 1fr; }
+    .ps-col-wide { grid-column: auto; }
+    .variations-card { padding: 32px; }
+    .nav-inner { grid-template-columns: 1fr; gap: 20px; text-align: center; }
+    .nav-prev, .nav-back, .nav-next { justify-self: center; }
+  }
+</style>

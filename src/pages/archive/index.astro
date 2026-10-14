@@ -1,25 +1,199 @@
 ---
-import site from '../../data/site.json';
-import Base from '../../layouts/Base.astro';
-import ArchiveIndex from '../../components/ArchiveIndex.astro';
-import { getArchiveItems } from '../../lib/content';
-import { breadcrumbSchema, graph } from '../../lib/schema';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactCTA from '../../components/ContactCTA.astro';
 
-const items = await getArchiveItems();
+const items = [
+  {
+    title: 'AHAT / Ахат',
+    category: 'Snacks & Nuts',
+    slug: 'snacks-nuts',
+    label: 'Brand Identity & Packaging',
+    href: '/archive/ahat/',
+    cover: '/media/drive/1vmk3z9OhJmGmyOoWWCk_bRNJms4wxRsv.png',
+    alt: 'AHAT — brand and packaging range',
+  },
+  {
+    title: 'Sherry',
+    category: 'Sweets',
+    slug: 'sweets',
+    label: 'Brand Identity & Packaging',
+    href: '/archive/sherry/',
+    cover: '/media/drive/1bduldySt_vuMRg0JPsOUfWCniJp1BrWn.png',
+    alt: 'Sherry — ice cream packaging',
+  },
+  {
+    title: 'Karmela Breakfast',
+    category: 'Sweets',
+    slug: 'sweets',
+    label: 'Packaging Design',
+    href: '/archive/karmela/',
+    cover: '/media/drive/1fpUyBGCSTsa-vbIi2DnL5cP7Tw_jn_60.png',
+    alt: 'Karmela Breakfast — biscuit packaging',
+  },
+  {
+    title: 'KERI',
+    category: 'Dairy',
+    slug: 'dairy',
+    label: 'Packaging Design',
+    href: '/archive/keri/',
+    cover: '/media/drive/1BtvkVSMuWhrpud-e9yafP-T5WyKgsyil.png',
+    alt: 'KERI — cheese packaging range',
+  },
+  {
+    title: 'Victoria Ice Tea',
+    category: 'Drinks',
+    slug: 'drinks',
+    label: 'Packaging & Retail Branding',
+    href: '/archive/victoria/',
+    cover: '/media/drive/1xXqAOCGaBJp9tpULYbspMHMWn3TMT0Ea.png',
+    alt: 'Victoria Ice Tea — bottle range',
+  },
+  {
+    title: 'DENITO',
+    category: 'Other Packaging',
+    slug: 'other-packaging',
+    label: 'Packaging & Label Design',
+    href: '/archive/denito/',
+    cover: '/media/drive/1UvjgSqMDN_or-6WQIhTNNOPqgWhUKYkp.png',
+    alt: 'DENITO — salad packaging',
+  },
+];
 
-const jsonLd = graph([
-  breadcrumbSchema([
-    { name: 'Home', path: '/' },
-    { name: site.archive.heading, path: '/archive' },
-  ]),
-]);
+// Filters are derived directly from the actual project data — a category only
+// ever appears as a filter chip if at least one real project uses it, so every
+// visible filter is guaranteed to produce a result. No hardcoded category list.
+const categorySlugs = new Map<string, string>();
+for (const it of items) {
+  if (!categorySlugs.has(it.slug)) categorySlugs.set(it.slug, it.category);
+}
+const filters: { name: string; slug: string; count: number }[] = [
+  { name: 'All', slug: 'all', count: items.length },
+  ...Array.from(categorySlugs, ([slug, name]) => ({
+    name,
+    slug,
+    count: items.filter((it) => it.slug === slug).length,
+  })),
+];
 ---
 
-<Base
-  title={site.archive.heading}
-  description={site.archive.description}
-  jsonLd={jsonLd}
-  active="/archive"
+<BaseLayout
+  title="Archive | Hristo Karakerezov"
+  description="Selected packaging and visual work from earlier years, mostly created for food brands and printed communication."
+  active="archive"
 >
-  <ArchiveIndex items={items} allItems={items} active="all" />
-</Base>
+  <div class="hk-shell">
+
+    <section class="intro">
+      <h1>Archive</h1>
+      <p class="lead">Selected packaging and visual work from earlier years, mostly created for food brands and printed communication.</p>
+    </section>
+
+    <section class="filters" data-hk-filter-group role="group" aria-label="Filter archive by category">
+      <div class="filter-chips">
+        {filters.map((f, i) => (
+          <button
+            type="button"
+            class="hk-filter-chip"
+            data-hk-filter={f.slug}
+            aria-pressed={i === 0 ? 'true' : 'false'}
+          >{f.name}</button>
+        ))}
+      </div>
+      <p class="filter-count" data-hk-filter-count>{items.length} {items.length === 1 ? 'project' : 'projects'}</p>
+    </section>
+
+    <section class="archive-grid-section">
+      <div class="archive-grid">
+        {items.map((it) => (
+          <a class="archive-card" href={it.href} data-hk-item data-cats={it.slug}>
+            <span class="archive-thumb">
+              <img src={it.cover} alt={it.alt} loading="lazy" />
+            </span>
+            <span class="archive-info">
+              <span class="archive-info-top">
+                <span class="archive-title">{it.title}</span>
+                <span class="archive-category">{it.category}</span>
+              </span>
+              <span class="archive-label">{it.label}</span>
+            </span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="work-transition" data-hk-reveal>
+      <div class="work-transition-card">
+        <div class="work-transition-copy">
+          <h2>Recent digital work</h2>
+          <p>Explore recent UX/UI projects across apps, websites and digital interfaces.</p>
+        </div>
+        <a class="work-transition-link" href="/work/">View Recent Work<span aria-hidden="true">&rarr;</span></a>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact" data-hk-reveal>
+      <ContactCTA layout="row-dual" showCopyright={true} />
+    </section>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .hk-shell { padding-top: var(--hk-header-h); }
+
+  .intro { padding: var(--hk-page-top) 0 72px; }
+  .intro h1 {
+    font-family: var(--hk-font-display); font-weight: 400; font-size: var(--hk-h1-page);
+    line-height: 1; letter-spacing: -0.03em;
+  }
+  .intro .lead { margin: 32px 0 0; font-size: 22px; line-height: 1.45; color: var(--hk-ink-2); max-width: 680px; text-wrap: pretty; }
+
+  .filters { padding: 0 0 56px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+  .filter-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .filter-count { margin: 0; font-size: 13px; font-weight: 600; line-height: 1; color: var(--hk-ink-3-text); }
+
+  .archive-grid-section { padding: 0 0 128px; }
+  .archive-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .archive-card {
+    background: var(--hk-surface); border: 1px solid var(--hk-hairline); border-radius: var(--hk-r-media);
+    padding: 16px; display: flex; flex-direction: column; gap: 16px; color: var(--hk-ink);
+    transition: var(--hk-t-card);
+  }
+  .archive-card:hover { transform: var(--hk-lift); box-shadow: var(--hk-card-shadow); color: var(--hk-ink); }
+  .archive-card[hidden] { display: none; }
+  .archive-thumb { display: block; border-radius: var(--hk-r-card-sm); overflow: hidden; background: var(--hk-surface-alt); aspect-ratio: 4 / 5; position: relative; }
+  .archive-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; background: var(--hk-surface); display: block; }
+  .archive-info { display: flex; flex-direction: column; gap: 8px; padding: 4px 8px 8px; }
+  .archive-info-top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .archive-title { font-size: 18px; font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; }
+  .archive-category { font-size: 13px; font-weight: 600; line-height: 1; color: var(--hk-ink-3-text); flex-shrink: 0; }
+  .archive-label { font-size: 13px; font-weight: 600; line-height: 1; color: var(--hk-ink-2); }
+
+  .work-transition { padding: 0 0 96px; }
+  .work-transition-card {
+    background: var(--hk-surface-alt); border-radius: var(--hk-r-card); padding: 72px 64px;
+    display: flex; align-items: center; justify-content: space-between; gap: 48px; flex-wrap: wrap;
+  }
+  .work-transition-copy { max-width: 680px; display: flex; flex-direction: column; gap: 20px; }
+  .work-transition-copy h2 {
+    font-family: var(--hk-font-display); font-weight: 400; font-size: 48px;
+    line-height: 1.05; letter-spacing: -0.02em;
+  }
+  .work-transition-copy p { font-size: 18px; line-height: 1.55; color: var(--hk-ink-2); text-wrap: pretty; }
+  .work-transition-link {
+    display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; line-height: 1;
+    color: var(--hk-ink); background: transparent; border: 1px solid var(--hk-hairline-3);
+    border-radius: var(--hk-r-pill); padding: 14px 24px; transition: background .25s ease; flex-shrink: 0;
+  }
+  .work-transition-link:hover { background: var(--hk-hover-tint); color: var(--hk-ink); }
+
+  .contact-section { padding: 0 0 96px; }
+
+  @media (max-width: 900px) {
+    .archive-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .work-transition-card { padding: 48px 32px; }
+  }
+  @media (max-width: 600px) {
+    .archive-grid { grid-template-columns: 1fr; }
+  }
+</style>
