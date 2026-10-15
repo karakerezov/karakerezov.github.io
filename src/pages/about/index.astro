@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ContactCTA from '../../components/ContactCTA.astro';
+import { CONTACT_EMAIL } from '../../data/nav';
 
 const focus = [
   { title: 'Product & UX', items: ['User flows and information architecture', 'Wireframing and interactive prototyping', 'UX research and usability evaluation', 'Responsive product experiences'] },
@@ -141,7 +142,7 @@ const jobs = rawJobs.map(([date, title, body], i) => ({
         heading="Have something interesting in mind?"
         body="I'm always interested in thoughtful products, challenging design problems, and conversations about where digital experiences are heading."
         ctaLabel="Let's connect"
-        ctaHref="mailto:karakerezov@gmail.com"
+        ctaHref={`mailto:${CONTACT_EMAIL}`}
       />
     </section>
 

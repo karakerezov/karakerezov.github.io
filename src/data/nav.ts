@@ -12,5 +12,4 @@ export const NAV_LINKS: NavLink[] = [
 ];
 
 export const CONTACT_EMAIL = 'karakerezov@gmail.com';
-export const LINKEDIN_URL = 'https://www.linkedin.com/in/hristo-karakerezov-8a68815/';
-export const BEHANCE_URL = 'https://www.behance.net/hristokaraker';
+export const LINKEDIN_URL = 'https://www.linkedin.com/in/hristo-karakerezov-8a688151';
