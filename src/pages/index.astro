@@ -61,7 +61,7 @@ const archiveItems = [
           <div class="card-media">
             <div class="card-media-zoom">
               <a href="/work/grovia/" aria-label="Grovia case study" class="media-link">
-                <img src="/assets/grovia-hero.png" alt="Grovia — grocery app hero" />
+                <img src="/hero/grovia-hero-new.png" alt="Grovia — grocery app hero" />
               </a>
             </div>
           </div>
@@ -311,11 +311,13 @@ const archiveItems = [
 
   @media (max-width: 900px) {
     .work-grid { grid-template-columns: 1fr; }
+    .card-grovia .card-media { min-height: 320px; }
     .about-card { grid-template-columns: 1fr; }
     .about-copy { padding: 8px; }
     .archive-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 600px) {
+    .card-grovia .card-media { min-height: 240px; }
     .archive-grid { grid-template-columns: 1fr; }
   }
 </style>

@@ -145,8 +145,8 @@
 /* Palette — dark. Applied by the inline head script (data-theme) and by OS preference. */
 :root[data-theme="dark"] {
   --hk-bg: #121312;
-  --hk-surface: #1B1C1B;
-  --hk-surface-alt: #232423;
+  --hk-surface: #1F201F;
+  --hk-surface-alt: #272827;
   --hk-ink: #F2F2EE;
   --hk-ink-2: #A8A8A2;
   --hk-ink-3: #8A8A84;
@@ -154,9 +154,9 @@
   --hk-accent: #34C5D2;
   --hk-accent-soft: rgba(52,197,210,0.12);
   --hk-dark-well: #0E0F0E;
-  --hk-hairline: rgba(242,242,238,0.10);
-  --hk-hairline-2: rgba(242,242,238,0.16);
-  --hk-hairline-3: rgba(242,242,238,0.22);
+  --hk-hairline: rgba(242,242,238,0.13);
+  --hk-hairline-2: rgba(242,242,238,0.19);
+  --hk-hairline-3: rgba(242,242,238,0.25);
   --hk-hover-tint: rgba(242,242,238,0.05);
   --hk-selection: rgba(52,197,210,0.22);
   --hk-header-scrolled: rgba(18,19,18,0.82);
@@ -170,8 +170,8 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --hk-bg: #121312;
-    --hk-surface: #1B1C1B;
-    --hk-surface-alt: #232423;
+    --hk-surface: #1F201F;
+    --hk-surface-alt: #272827;
     --hk-ink: #F2F2EE;
     --hk-ink-2: #A8A8A2;
     --hk-ink-3: #8A8A84;
@@ -179,9 +179,9 @@
     --hk-accent: #34C5D2;
     --hk-accent-soft: rgba(52,197,210,0.12);
     --hk-dark-well: #0E0F0E;
-    --hk-hairline: rgba(242,242,238,0.10);
-    --hk-hairline-2: rgba(242,242,238,0.16);
-    --hk-hairline-3: rgba(242,242,238,0.22);
+    --hk-hairline: rgba(242,242,238,0.13);
+    --hk-hairline-2: rgba(242,242,238,0.19);
+    --hk-hairline-3: rgba(242,242,238,0.25);
     --hk-hover-tint: rgba(242,242,238,0.05);
     --hk-selection: rgba(52,197,210,0.22);
     --hk-header-scrolled: rgba(18,19,18,0.82);

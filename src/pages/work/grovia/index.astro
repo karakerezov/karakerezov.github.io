@@ -1008,7 +1008,7 @@ const systemBits = ['Interactive buttons', 'Favourite toggle', 'Selected radio s
   .wf-caption { font-size: 13px; font-weight: 600; color: var(--hk-ink-3-text); text-align: center; }
   .wf-compare { background: var(--hk-surface); border: 1px solid var(--hk-hairline); border-radius: var(--hk-r-card); padding: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
   .compare-col { display: flex; flex-direction: column; gap: 16px; align-items: center; }
-  .compare-col > a { display: block; }
+  .compare-col > a { display: block; align-self: stretch; }
   .compare-frame { border-radius: var(--hk-r-card-sm); overflow: hidden; background: var(--hk-surface-alt); aspect-ratio: 816 / 1662; width: 56%; position: relative; border: 2px solid #DBDBDB; }
   .compare-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .compare-final-img { display: block; width: 56%; height: auto; filter: drop-shadow(0 22px 38px rgba(21,21,21,0.12)); }
@@ -1175,16 +1175,72 @@ const systemBits = ['Interactive buttons', 'Favourite toggle', 'Selected radio s
   .final-img { display: block; width: 100%; height: auto; filter: drop-shadow(0 22px 38px rgba(21,21,21,0.12)); }
 
   @media (max-width: 1100px) {
-    .overview, .research, .ia-split, .repeat-flow-card, .wf-compare, .lofi-box, .rs-card, .oc-card, .account-grid, .pd-feature, .pd-grid, .checkout-grid, .wf-grid, .challenge-grid, .insights-grid, .findings-grid, .evolution-row, .acc-grid, .outcome-grid, .principles-grid, .visual-grid, .dt-grid, .profile-grid, .hero-intro-grid {
+    .overview, .research, .ia-split, .repeat-flow-card, .wf-compare, .lofi-box, .rs-card, .oc-card, .account-grid, .pd-feature, .checkout-grid, .challenge-grid, .insights-grid, .findings-grid, .evolution-row, .acc-grid, .outcome-grid, .principles-grid, .visual-grid, .dt-grid, .profile-grid, .hero-intro-grid, .persona-card {
       grid-template-columns: 1fr;
     }
     .hero-intro-grid { gap: 32px; }
     .journey-grid { grid-template-columns: repeat(6, minmax(190px, 1fr)); }
+
+    /* Persona: image above content once the columns collapse — a fixed
+       440px height (tuned for the 2-column box) would otherwise force a
+       tall, narrow photo strip at full card width. */
+    .persona-media { min-height: 0; aspect-ratio: 1076 / 717; }
+    .persona-info { padding: 20px 8px 8px; }
+
+    /* Galleries of same-role screens: two per row instead of one long
+       column, so the sequence doesn't become excessively tall. */
+    .wf-grid, .pd-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Screenshot size system — tablet tier. Percent-of-column widths were
+       tuned for desktop multi-column layouts; once those columns collapse
+       to the full card width the same percentages blow the screenshots up
+       far past a readable phone-mockup size. Cap each by its role instead. */
+    .principle-img { width: 100%; max-width: 260px; }
+    .compare-frame, .compare-final-img { width: 100%; max-width: 240px; }
+    .repeat-flow-img { width: 100%; max-width: 300px; }
+    .account-img--wide { width: 100%; max-width: 320px; }
+    .account-img { width: 100%; max-width: 240px; margin: 0 auto; }
+    .pd-feature-img { width: 100%; max-width: 320px; }
+    .pd-img { width: 100%; max-width: 240px; margin: 0 auto; }
+    .rs-img { width: 100%; max-width: 300px; }
+    .rs-cart-img { width: 100%; max-width: 200px; }
+    .checkout-img { width: 100%; max-width: 240px; }
+    .oc-img { width: 100%; max-width: 300px; }
+    .dt-img { width: 100%; max-width: 260px; }
+    .profile-images > a { max-width: 220px; }
+    .wf-item { max-width: 240px; margin: 0 auto; width: 100%; }
+    .final-strip > a { width: 30%; max-width: 180px; }
   }
 
   @media (max-width: 760px) {
     .hk-shell { padding-top: 140px; }
     .hero-visual { padding: 0 0 48px; }
     .hero { padding: 0 0 64px; }
+    .persona-card { padding: 16px; gap: 24px; }
+    .persona-grid { grid-template-columns: 1fr; gap: 20px; }
+
+    /* Screenshot size system — mobile tier, within the 220–280px primary
+       range; supporting/sequential screens stay a notch smaller so a
+       featured screen still reads as the primary one on the page. */
+    .principle-img { max-width: 220px; }
+    .compare-frame, .compare-final-img { max-width: 190px; }
+    .repeat-flow-img { max-width: 250px; }
+    .account-img--wide { max-width: 260px; }
+    .account-img { max-width: 200px; }
+    .pd-feature-img { max-width: 260px; }
+    .pd-img { max-width: 190px; }
+    .rs-img { max-width: 250px; }
+    .rs-cart-img { max-width: 170px; }
+    .checkout-img { max-width: 200px; }
+    .oc-img { max-width: 250px; }
+    .dt-img { max-width: 210px; }
+    .profile-images > a { max-width: 170px; }
+    .wf-item { max-width: 210px; }
+    .final-strip { flex-wrap: wrap; justify-content: center; row-gap: 24px; }
+    .final-strip > a { width: 38%; max-width: 160px; }
+  }
+
+  @media (max-width: 600px) {
+    .wf-grid, .pd-grid { grid-template-columns: 1fr; }
   }
 </style>
