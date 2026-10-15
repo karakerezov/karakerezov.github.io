@@ -287,7 +287,8 @@ a:hover { color: var(--hk-accent); }
 .hk-nav-toggle {
   display: none; border: 1px solid var(--hk-hairline-3); background: var(--hk-surface);
   border-radius: var(--hk-r-pill); width: 44px; height: 44px; align-items: center; justify-content: center;
-  cursor: pointer; padding: 0;
+  cursor: pointer; padding: 0; color: var(--hk-ink);
+  -webkit-appearance: none; appearance: none;
 }
 .hk-nav-drawer {
   position: fixed; inset: 0; z-index: 60; background: var(--hk-bg);
