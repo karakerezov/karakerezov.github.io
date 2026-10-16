@@ -313,6 +313,10 @@ const products = [
     .identity-grid, .project-section, .packaging-head, .applications-head { grid-template-columns: 1fr; }
     .label-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
     .product-grid, .applications-card { grid-template-columns: 1fr; }
+    /* The fixed min-height values above were tuned for desktop column
+       widths; at narrower widths the image's natural rendered height can
+       fall short of them, leaving an empty strip below the image. */
+    .media-frame, .label-thumb, .product-thumb { min-height: 0; }
   }
   @media (max-width: 600px) {
     .label-grid { grid-template-columns: 1fr; }

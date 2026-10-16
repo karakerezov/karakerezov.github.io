@@ -142,7 +142,10 @@
   --hk-zoom: scale(1.025);
 }
 
-/* Palette — dark. Applied by the inline head script (data-theme) and by OS preference. */
+/* Palette — dark. Applied only by explicit choice (data-theme="dark"), restored
+   from localStorage by the inline head script. The system/OS colour-scheme
+   preference is intentionally never consulted — light is always the default
+   for a visitor with no saved preference, regardless of their OS setting. */
 :root[data-theme="dark"] {
   --hk-bg: #121312;
   --hk-surface: #1F201F;
@@ -165,32 +168,6 @@
   --hk-badge: rgba(27,28,27,0.92);
   --hk-card-shadow: 0 32px 56px -40px rgba(0,0,0,0.6);
   --hk-media-filter: brightness(0.92) contrast(1.02);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --hk-bg: #121312;
-    --hk-surface: #1F201F;
-    --hk-surface-alt: #272827;
-    --hk-ink: #F2F2EE;
-    --hk-ink-2: #A8A8A2;
-    --hk-ink-3: #8A8A84;
-    --hk-ink-3-text: #8A8A84;
-    --hk-accent: #34C5D2;
-    --hk-accent-soft: rgba(52,197,210,0.12);
-    --hk-dark-well: #0E0F0E;
-    --hk-hairline: rgba(242,242,238,0.13);
-    --hk-hairline-2: rgba(242,242,238,0.19);
-    --hk-hairline-3: rgba(242,242,238,0.25);
-    --hk-hover-tint: rgba(242,242,238,0.05);
-    --hk-selection: rgba(52,197,210,0.22);
-    --hk-header-scrolled: rgba(18,19,18,0.82);
-    --hk-pill-fill: rgba(242,242,238,0.04);
-    --hk-veil: rgba(0,0,0,0.35);
-    --hk-badge: rgba(27,28,27,0.92);
-    --hk-card-shadow: 0 32px 56px -40px rgba(0,0,0,0.6);
-    --hk-media-filter: brightness(0.92) contrast(1.02);
-  }
 }
 
 /* Base */
@@ -280,10 +257,6 @@ a:hover { color: var(--hk-accent); }
 .hk-scheme-toggle .hk-sun { display: none; }
 :root[data-theme="dark"] .hk-scheme-toggle .hk-moon { display: none; }
 :root[data-theme="dark"] .hk-scheme-toggle .hk-sun { display: block; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .hk-scheme-toggle .hk-moon { display: none; }
-  :root:not([data-theme="light"]) .hk-scheme-toggle .hk-sun { display: block; }
-}
 .hk-nav-toggle {
   display: none; border: 1px solid var(--hk-hairline-3); background: var(--hk-surface);
   border-radius: var(--hk-r-pill); width: 44px; height: 44px; align-items: center; justify-content: center;

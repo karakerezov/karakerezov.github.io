@@ -336,7 +336,7 @@ import ContactCTA from '../../../components/ContactCTA.astro';
   .media-wide img { width: 100%; height: auto; display: block; }
   .media-zoomable { cursor: zoom-in; }
   .media-ratio-slider { aspect-ratio: 1440 / 380; }
-  .media-ratio-offers { min-height: 240px; }
+  .media-ratio-offers { aspect-ratio: 1600 / 702; }
   .media-ratio-trust { aspect-ratio: 1440 / 280; }
   .media-ratio-dest { aspect-ratio: 1202 / 399; }
   .media-ratio-categories { aspect-ratio: 1440 / 705; }
@@ -394,6 +394,11 @@ import ContactCTA from '../../../components/ContactCTA.astro';
   .contact-section { padding: 0 0 96px; }
 
   @media (max-width: 900px) {
+    /* .media-cover's fixed min-height was tuned for desktop column widths;
+       at narrower widths the image's natural rendered height can fall
+       short of it, leaving an empty strip below the image. .logo-panel is
+       an intentional padded, centered logo showcase — left as is. */
+    .media-cover { min-height: 0; }
     .design-direction { grid-template-columns: 1fr; }
     .brief { grid-template-columns: 1fr; gap: 32px; }
     .section-intro { grid-template-columns: 1fr; gap: 24px; margin-bottom: 64px; }

@@ -320,5 +320,9 @@ const flavours = [
     .variations-card { padding: 32px; }
     .nav-inner { grid-template-columns: 1fr; gap: 20px; text-align: center; }
     .nav-prev, .nav-back, .nav-next { justify-self: center; }
+    /* The fixed min-height values above were tuned for desktop column
+       widths; at narrower widths the image's natural rendered height can
+       fall short of them, leaving an empty strip below the image. */
+    .media-well, .gallery-link { min-height: 0; }
   }
 </style>

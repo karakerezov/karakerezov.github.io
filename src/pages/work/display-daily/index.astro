@@ -652,6 +652,10 @@ const a11y = [
     .section-heading.two-col, .context, .reflection, .device-row, .a11y-band { grid-template-columns: 1fr; }
     .device-row { gap: 24px; }
     .of-grid { grid-template-columns: repeat(2, 1fr); gap: 36px 28px; }
+    /* .hero-frame's fixed min-height was tuned for desktop column widths;
+       at narrower widths the image's natural rendered height can fall
+       short of it, leaving an empty strip below the image. */
+    .hero-frame { min-height: 0; }
   }
 
   @media (max-width: 600px) {

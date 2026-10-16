@@ -273,6 +273,10 @@ const variants = [k1, k2, k3, k4];
     .var-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .nav-inner { grid-template-columns: 1fr; gap: 20px; text-align: center; }
     .nav-prev, .nav-back, .nav-next { justify-self: center; }
+    /* .media-well's fixed min-height was tuned for desktop column widths;
+       at narrower widths the image's natural rendered height can fall
+       short of it, leaving an empty strip below the image. */
+    .media-well { min-height: 0; }
   }
   @media (max-width: 600px) {
     .var-grid { grid-template-columns: 1fr; }

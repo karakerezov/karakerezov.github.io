@@ -438,5 +438,15 @@ const catalogPreview = '/media/drive/1_LGF6tlLsol6imNIcX4EHe_0Nn__vCKG-preview.p
       padding-left: 0; padding-right: 0;
     }
     .overview { grid-template-columns: 1fr; gap: 32px; }
+    /* .media-auto's fixed min-height was tuned for desktop column widths;
+       at narrower widths the image's natural rendered height can fall
+       short of it, leaving an empty strip below the image. */
+    .media-auto { min-height: 0; }
+  }
+
+  @media (max-width: 600px) {
+    .dr-card { padding: 32px 24px; }
+    .dr-row { flex-direction: column; align-items: flex-start; gap: 6px; padding: 14px 0; }
+    .dr-detail { text-align: left; }
   }
 </style>

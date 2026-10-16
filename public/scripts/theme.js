@@ -19,25 +19,34 @@
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- 1. Colour scheme -------------------------------------- */
+  /* ---------- 1. Colour scheme --------------------------------------
+     Light is the default for every visitor with no saved preference —
+     the system/OS colour-scheme setting is never consulted. The inline
+     head script already restored a *saved* choice (if any) before this
+     ran, so on load we only need to sync the toggle button to whatever
+     data-theme currently is. Storage is written only on an explicit
+     click, never implicitly on page load. */
   var toggle = document.querySelector('[data-hk-theme-toggle]');
   function currentScheme() {
-    var forced = document.documentElement.getAttribute('data-theme');
-    if (forced) return forced;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
   }
-  function applyScheme(scheme) {
-    document.documentElement.setAttribute('data-theme', scheme);
-    try { localStorage.setItem('hk-theme', scheme); } catch (e) {}
-    if (toggle) {
-      toggle.setAttribute('aria-pressed', scheme === 'dark' ? 'true' : 'false');
-      toggle.setAttribute('aria-label', scheme === 'dark' ? 'Switch to light appearance' : 'Switch to dark appearance');
-    }
+  function reflectToggle(scheme) {
+    if (!toggle) return;
+    toggle.setAttribute('aria-pressed', scheme === 'dark' ? 'true' : 'false');
+    toggle.setAttribute(
+      'aria-label',
+      scheme === 'dark'
+        ? (toggle.getAttribute('data-label-light') || 'Switch to light appearance')
+        : (toggle.getAttribute('data-label-dark') || 'Switch to dark appearance')
+    );
   }
   if (toggle) {
-    applyScheme(currentScheme());
+    reflectToggle(currentScheme());
     toggle.addEventListener('click', function () {
-      applyScheme(currentScheme() === 'dark' ? 'light' : 'dark');
+      var next = currentScheme() === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('hk-theme', next); } catch (e) {}
+      reflectToggle(next);
     });
   }
 

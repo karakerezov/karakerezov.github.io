@@ -258,5 +258,9 @@ const labels: Shot[] = [
     }
     .shot-grid { grid-template-columns: 1fr; }
     .copy-section { grid-template-columns: 1fr; gap: 32px; }
+    /* .hero-frame's fixed min-height was tuned for desktop column widths;
+       at narrower widths the image's natural rendered height can fall
+       short of it, leaving an empty strip below the image. */
+    .hero-frame { min-height: 0; }
   }
 </style>
