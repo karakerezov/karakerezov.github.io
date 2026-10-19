@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import GroviaMotionStory from '../../../components/GroviaMotionStory.astro';
 
 const journey = [
   { stage: 'Plan', action: 'Thinks about what the household needs this week.', thought: 'What are we out of again?', friction: 'Relies on memory.', opportunity: 'Surface previous lists.', emotion: 'Unsure', dot: '#F6BE45' },
@@ -37,7 +38,6 @@ const evolution = [
 ];
 
 const deliveryPhases = ['Order Confirmed', 'Packed & Ready', 'On the Way', 'Delivered'];
-const systemBits = ['Interactive buttons', 'Favourite toggle', 'Selected radio states', 'Quantity controls', 'Navigation active states', 'Checkout progress', 'Slide-in profile menu', 'Delivery status changes', 'Form interactions'];
 ---
 
 <BaseLayout
@@ -747,19 +747,19 @@ const systemBits = ['Interactive buttons', 'Favourite toggle', 'Selected radio s
       </div>
     </section>
 
+    <!-- GROVIA IN MOTION -->
+    <div class="motion-story-wrap">
+      <GroviaMotionStory />
+    </div>
+
     <!-- SYSTEM & INTERACTION -->
     <section class="system" data-hk-reveal>
       <div class="system-box">
         <div class="system-head">
-          <h2>Designed as a system, not a collection of screens</h2>
-          <p class="sub">Reusable components, variables, overlays, and interactive states helped keep the prototype consistent and realistic.</p>
+          <h2>One Design Language, Every Interaction</h2>
+          <p class="sub">Grovia&rsquo;s Design System brings together reusable components and interaction patterns, keeping the experience consistent across the app.</p>
+          <p class="sub">From saving favourites to tracking deliveries, everything feels familiar and intuitive, making everyday tasks easier and more enjoyable.</p>
         </div>
-        <div class="system-tags">
-          {systemBits.map((b) => (
-            <span class="system-tag">{b}</span>
-          ))}
-        </div>
-        <p class="system-note">Built in Figma with variables, overlays, responsive components, and realistic interactive forms.</p>
       </div>
     </section>
 
@@ -1006,9 +1006,9 @@ const systemBits = ['Interactive buttons', 'Favourite toggle', 'Selected radio s
   .wf-frame { border-radius: var(--hk-r-card-sm); overflow: hidden; background: var(--hk-surface-alt); aspect-ratio: 816 / 1662; position: relative; border: 3px solid #898989; }
   .wf-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .wf-caption { font-size: 13px; font-weight: 600; color: var(--hk-ink-3-text); text-align: center; }
-  .wf-compare { background: var(--hk-surface); border: 1px solid var(--hk-hairline); border-radius: var(--hk-r-card); padding: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-  .compare-col { display: flex; flex-direction: column; gap: 16px; align-items: center; }
-  .compare-col > a { display: block; align-self: stretch; }
+  .wf-compare { background: var(--hk-surface); border: 1px solid var(--hk-hairline); border-radius: var(--hk-r-card); padding: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  .compare-col { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .compare-col > a { display: flex; align-items: center; justify-content: center; width: 100%; flex: 1; }
   .compare-frame { border-radius: var(--hk-r-card-sm); overflow: hidden; background: var(--hk-surface-alt); aspect-ratio: 816 / 1662; width: 56%; position: relative; border: 2px solid #DBDBDB; }
   .compare-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .compare-final-img { display: block; width: 56%; height: auto; filter: drop-shadow(0 22px 38px rgba(21,21,21,0.12)); }
@@ -1145,10 +1145,6 @@ const systemBits = ['Interactive buttons', 'Favourite toggle', 'Selected radio s
   .system-box { background: var(--hk-surface-alt); border-radius: var(--hk-r-card); padding: 64px; display: flex; flex-direction: column; gap: 32px; }
   .system-head { max-width: 760px; display: flex; flex-direction: column; gap: 16px; }
   .system-head h2 { font-size: clamp(32px, 3.6vw, 48px); line-height: 1.08; }
-  .system-tags { display: flex; flex-wrap: wrap; gap: 10px; }
-  .system-tag { font-size: 14px; font-weight: 600; color: var(--hk-ink); background: var(--hk-surface); border-radius: var(--hk-r-pill); padding: 11px 18px; }
-  .system-note { margin: 0; font-size: 14px; line-height: 1.45; color: var(--hk-ink-3-text); }
-
   /* ACCESSIBILITY */
   .accessibility { padding: 0 0 128px; }
   .acc-intro { max-width: 760px; display: flex; flex-direction: column; gap: 20px; margin-bottom: 56px; }
@@ -1242,5 +1238,13 @@ const systemBits = ['Interactive buttons', 'Favourite toggle', 'Selected radio s
 
   @media (max-width: 600px) {
     .wf-grid, .pd-grid { grid-template-columns: 1fr; }
+  }
+
+  /* GroviaMotionStory already applies its own max-width/shell-pad, matching
+     .hk-shell exactly — nested as-is that would double the horizontal
+     padding. Neutralize only the component's horizontal padding here. */
+  .motion-story-wrap :global(.gs-story) {
+    max-width: none;
+    padding-inline: 0;
   }
 </style>

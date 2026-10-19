@@ -1,0 +1,303 @@
+---
+/**
+ * Grovia — A Story in Motion (v2)
+ * Seven approved UI recordings, normalized to screen-only video and displayed
+ * beneath one consistent original transparent iPhone frame.
+ * Desktop: scroll-driven sticky phone, no controls.
+ * Mobile: natural stacked story, no sticky phone, one active video.
+ * No dependencies. Designed to inherit Hristo K portfolio's --hk-* tokens.
+ */
+const mediaBase = '/grovia-motion-v2';
+const scenes = [
+  { id: 'welcome', chapter: 'First impression', heading: 'A warm first impression', detail: 'A simple welcome sets the tone before shopping begins.' },
+  { id: 'login-loader', chapter: 'First impression', heading: 'A clear sign-in moment', detail: 'Immediate visual feedback makes the transition feel effortless.' },
+  { id: 'checkout-01-cart', chapter: 'Checkout journey', heading: 'Make the basket yours', detail: 'Adjust quantities, remove items and see the total update.' },
+  { id: 'checkout-02-delivery', chapter: 'Checkout journey', heading: 'Delivery, made simple', detail: 'Choose an address and a convenient delivery time.' },
+  { id: 'checkout-03-payment', chapter: 'Checkout journey', heading: 'Pay with confidence', detail: 'Explore payment options and review the order.' },
+  { id: 'checkout-04-confirmed', chapter: 'Checkout journey', heading: 'Confirmation without doubt', detail: 'A short loading state resolves into a clear success message.' },
+  { id: 'checkout-05-tracking', chapter: 'Checkout journey', heading: 'Stay in the loop', detail: 'Follow the order from confirmation to delivery tracking.' },
+];
+const pad = (i) => String(i + 1).padStart(2, '0');
+---
+<section class="gs-story" data-grovia-story data-gs-base={mediaBase} aria-labelledby="gs-story-title">
+  <header class="gs-header">
+    <p class="gs-eyebrow">INTERACTION DESIGN</p>
+    <h2 id="gs-story-title">Grovia in motion</h2>
+    <p class="gs-lead">From the first hello to delivery tracking. Seven real interactions, one continuous journey.</p>
+  </header>
+
+  <!-- Desktop: the phone stays in place while the narrative scrolls. -->
+  <div class="gs-desktop" data-gs-desktop>
+    <div class="gs-visual-rail">
+      <div class="gs-visual-sticky">
+        <div class="gs-phone" aria-hidden="true">
+          <div class="gs-screen">
+            <video data-gs-desktop-video muted playsinline loop preload="metadata"
+              poster={`${mediaBase}/welcome-poster.jpg`}>
+              <source src={`${mediaBase}/welcome.mp4`} type="video/mp4" />
+            </video>
+          </div>
+          <img class="gs-frame" src={`${mediaBase}/iphone-frame.png`} alt="" loading="lazy" draggable="false" />
+        </div>
+      </div>
+    </div>
+    <div class="gs-narrative" aria-label="Grovia interaction journey">
+      {scenes.map((scene, i) => (
+        <article class:list={['gs-scene', { 'is-active': i === 0 }]} data-gs-scene data-gs-id={scene.id}>
+          <p class="gs-meta"><span>{pad(i)} / 07</span><span class="gs-meta-divider" aria-hidden="true"></span><span>{scene.chapter}</span></p>
+          <h3>{scene.heading}</h3>
+          <p class="gs-detail">{scene.detail}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <!-- Mobile/tablet: no sticky UI, no clicks, each scene has its own phone. -->
+  <div class="gs-mobile" data-gs-mobile>
+    {scenes.map((scene, i) => (
+      <article class="gs-mobile-scene" data-gs-mobile-scene>
+        <div class="gs-mobile-copy">
+          <p class="gs-meta"><span>{pad(i)} / 07</span><span class="gs-meta-divider" aria-hidden="true"></span><span>{scene.chapter}</span></p>
+          <h3>{scene.heading}</h3>
+          <p class="gs-detail">{scene.detail}</p>
+        </div>
+        <div class="gs-phone" aria-hidden="true">
+          <div class="gs-screen">
+            <video data-gs-mobile-video data-gs-id={scene.id} muted playsinline loop preload="none"
+              poster={`${mediaBase}/${scene.id}-poster.jpg`} data-gs-src={`${mediaBase}/${scene.id}.mp4`}></video>
+          </div>
+          <img class="gs-frame" src={`${mediaBase}/iphone-frame.png`} alt="" loading="lazy" draggable="false" />
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .gs-story {
+    box-sizing: border-box;
+    width: 100%; max-width: var(--hk-shell-max, 1440px);
+    margin-inline: auto;
+    padding: clamp(72px, 8vw, 112px) var(--hk-shell-pad, 64px);
+    color: var(--hk-ink, #151515);
+    font-family: var(--hk-font-body, 'Nunito Sans', sans-serif);
+  }
+  .gs-story *, .gs-story *::before, .gs-story *::after { box-sizing: border-box; }
+  .gs-header { max-width: var(--hk-content-max, 760px); margin-bottom: clamp(24px, 4vw, 48px); }
+  .gs-eyebrow {
+    margin: 0 0 16px; font-family: var(--hk-font-body, 'Nunito Sans', sans-serif);
+    color: var(--hk-accent, #00909e); font-size: var(--hk-meta-sm, 13px);
+    font-weight: 600; letter-spacing: .045em; line-height: 1.3;
+  }
+  .gs-header h2 {
+    margin: 0 0 18px; font-family: var(--hk-font-display, 'Instrument Serif', Georgia, serif);
+    font-size: var(--hk-h2, 48px); font-weight: 400; line-height: 1.05; letter-spacing: -.02em;
+    color: var(--hk-ink, #151515);
+  }
+  .gs-lead { margin: 0; font-size: var(--hk-body, 18px); line-height: 1.55; color: var(--hk-ink-2, #6f6f6a); }
+
+  .gs-desktop { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(48px, 7vw, 128px); }
+  .gs-visual-rail { min-width: 0; position: relative; }
+  .gs-visual-sticky {
+    position: sticky; top: var(--hk-header-h, 76px);
+    min-height: calc(100svh - var(--hk-header-h, 76px));
+    display: flex; align-items: center; justify-content: center;
+  }
+  .gs-phone {
+    position: relative; aspect-ratio: 777 / 1581; flex: none;
+    height: min(70svh, 700px); max-width: 100%;
+    filter: drop-shadow(0 18px 24px rgba(0, 0, 0, .14));
+    isolation: isolate;
+  }
+  .gs-screen {
+    position: absolute; z-index: 0;
+    /* Matches iphone-frame.png's actual transparent cutout, measured in
+       source pixels (777x1581): left 41px, right 39px, top 36px, bottom
+       34px. The frame isn't vertically symmetric, so top and bottom use
+       different values — using 2.53%/2.53% for both (as before) left a
+       ~4px gap at the top and ~6px at the bottom where the card
+       background showed through the frame's real cutout. */
+    left: 5.277%; right: 5.019%; top: 2.277%; bottom: 2.151%;
+    overflow: hidden; border-radius: 10.5% / 5.1%; background: #e8e7e2;
+  }
+  .gs-screen video { display: block; width: 100%; height: 100%; object-fit: fill; }
+  .gs-frame {
+    position: absolute; z-index: 1; inset: 0; display: block;
+    width: 100%; height: 100%; pointer-events: none; user-select: none;
+  }
+  .gs-narrative { min-width: 0; }
+  .gs-scene {
+    position: relative; min-height: clamp(410px, 67svh, 680px);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 54px 0 54px clamp(18px, 2.5vw, 32px);
+    border-bottom: 1px solid var(--hk-hairline, rgba(21,21,21,.08));
+  }
+  .gs-scene:last-child { border-bottom: none; }
+  .gs-scene::before {
+    content: ''; position: absolute; left: 0; top: 36%; bottom: 36%; width: 2px;
+    background: var(--hk-accent, #00909e); opacity: 0;
+    transition: opacity .25s ease;
+  }
+  .gs-scene.is-active::before { opacity: 1; }
+  .gs-meta {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+    margin: 0 0 20px; color: var(--hk-ink-3-text, #6e6e68);
+    font-size: var(--hk-meta-sm, 13px); font-weight: 600;
+    letter-spacing: .02em; line-height: 1.4;
+  }
+  .gs-meta-divider { display: inline-block; width: 20px; height: 1px; background: var(--hk-hairline-3, rgba(21,21,21,.18)); }
+  .gs-scene h3, .gs-mobile-scene h3 {
+    margin: 0 0 16px; max-width: 430px;
+    font-family: var(--hk-font-body, 'Nunito Sans', sans-serif);
+    font-size: var(--hk-h3, 28px); font-weight: 700;
+    line-height: 1.15; letter-spacing: -.015em;
+    color: var(--hk-ink, #151515);
+  }
+  .gs-detail { max-width: 450px; margin: 0; color: var(--hk-ink-2, #6f6f6a); font-size: var(--hk-body, 18px); line-height: 1.55; }
+  .gs-mobile { display: none; }
+
+  @media (max-width: 900px) {
+    .gs-desktop { display: none; }
+    .gs-mobile { display: block; }
+    .gs-header { margin-bottom: 12px; }
+    .gs-mobile-scene {
+      display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center;
+      gap: 32px; padding: clamp(48px, 7vw, 72px) 0;
+      border-bottom: 1px solid var(--hk-hairline, rgba(21,21,21,.08));
+    }
+    .gs-mobile-scene:last-child { border-bottom: none; }
+    .gs-mobile-copy { width: 100%; }
+    .gs-mobile .gs-phone { height: min(72svh, 620px); }
+  }
+  @media (max-width: 600px) {
+    .gs-story { padding-block: 72px; }
+    .gs-header h2 { font-size: var(--hk-h2, 34px); }
+    .gs-mobile-scene { gap: 28px; padding-block: 48px; }
+    .gs-mobile .gs-phone { height: min(69svh, 565px); }
+    .gs-meta { margin-bottom: 14px; }
+    .gs-mobile-scene h3 { margin-bottom: 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .gs-scene::before { transition: none; }
+  }
+</style>
+
+<script>
+  /** Uses native scroll events and visibility checks. No libraries, no user controls. */
+  function initGroviaStory() {
+    document.querySelectorAll('[data-grovia-story]').forEach((root) => {
+      if (root.dataset.gsReady === 'true') return;
+      root.dataset.gsReady = 'true';
+
+      const desktop = root.querySelector('[data-gs-desktop]');
+      const desktopVideo = root.querySelector('[data-gs-desktop-video]');
+      const scenes = [...root.querySelectorAll('[data-gs-scene]')];
+      const mobileVideos = [...root.querySelectorAll('[data-gs-mobile-video]')];
+      const base = root.dataset.gsBase;
+      const breakpoint = window.matchMedia('(min-width: 901px)');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const allVideos = [desktopVideo, ...mobileVideos];
+      let currentId = 'welcome';
+      let frame = 0;
+      let disposed = false;
+
+      const pauseAll = () => allVideos.forEach((video) => video.pause());
+      const viewportHeight = () => window.innerHeight || document.documentElement.clientHeight;
+      const overlapsViewport = (element) => {
+        const r = element.getBoundingClientRect();
+        return r.bottom > 0 && r.top < viewportHeight() && r.right > 0 && r.left < window.innerWidth;
+      };
+      const canPlay = () => !disposed && !document.hidden && !reducedMotion.matches;
+      const playSafe = (video) => {
+        if (!canPlay() || video.readyState < 2) return;
+        const attempt = video.play();
+        if (attempt && typeof attempt.catch === 'function') attempt.catch(() => {});
+      };
+
+      const updateDesktopSource = (id) => {
+        if (currentId === id && desktopVideo.dataset.gsLoaded === 'true') return;
+        currentId = id;
+        desktopVideo.pause();
+        desktopVideo.poster = `${base}/${id}-poster.jpg`;
+        desktopVideo.src = `${base}/${id}.mp4`;
+        desktopVideo.dataset.gsLoaded = 'true';
+        desktopVideo.load();
+      };
+
+      const updateDesktop = () => {
+        mobileVideos.forEach((video) => video.pause());
+        if (!overlapsViewport(desktop)) { desktopVideo.pause(); return; }
+        const target = viewportHeight() * .52;
+        let nearest = scenes[0];
+        let best = Infinity;
+        scenes.forEach((scene) => {
+          const rect = scene.getBoundingClientRect();
+          const dist = Math.abs(rect.top + rect.height / 2 - target);
+          if (dist < best) { best = dist; nearest = scene; }
+        });
+        scenes.forEach((scene) => scene.classList.toggle('is-active', scene === nearest));
+        updateDesktopSource(nearest.dataset.gsId);
+        if (canPlay()) playSafe(desktopVideo); else desktopVideo.pause();
+      };
+
+      const updateMobile = () => {
+        desktopVideo.pause();
+        let bestVideo = null;
+        let bestRatio = 0;
+        const vh = viewportHeight();
+        mobileVideos.forEach((video) => {
+          const rect = video.closest('.gs-phone').getBoundingClientRect();
+          const visible = Math.max(0, Math.min(rect.bottom, vh) - Math.max(rect.top, 0));
+          const ratio = visible / Math.min(rect.height, vh);
+          if (ratio > bestRatio) { bestRatio = ratio; bestVideo = video; }
+        });
+        mobileVideos.forEach((video) => {
+          if (video !== bestVideo || bestRatio < .28 || !canPlay()) { video.pause(); return; }
+          if (video.dataset.gsLoaded !== 'true') {
+            video.src = video.dataset.gsSrc;
+            video.dataset.gsLoaded = 'true';
+            video.load();
+          }
+          playSafe(video);
+        });
+      };
+
+      const update = () => {
+        frame = 0;
+        if (disposed) return;
+        if (reducedMotion.matches || document.hidden) { pauseAll(); return; }
+        if (breakpoint.matches) updateDesktop(); else updateMobile();
+      };
+      const schedule = () => {
+        if (frame || disposed) return;
+        frame = window.requestAnimationFrame(update);
+      };
+      const onReady = () => schedule();
+      const onMotionChange = () => { pauseAll(); schedule(); };
+      const cleanup = () => {
+        disposed = true;
+        if (frame) window.cancelAnimationFrame(frame);
+        pauseAll();
+        window.removeEventListener('scroll', schedule);
+        window.removeEventListener('resize', schedule);
+        document.removeEventListener('visibilitychange', schedule);
+        breakpoint.removeEventListener('change', onMotionChange);
+        reducedMotion.removeEventListener('change', onMotionChange);
+        allVideos.forEach((video) => video.removeEventListener('canplay', onReady));
+        document.removeEventListener('astro:before-swap', cleanup);
+        root.dataset.gsReady = 'false';
+      };
+
+      allVideos.forEach((video) => video.addEventListener('canplay', onReady));
+      window.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', schedule);
+      document.addEventListener('visibilitychange', schedule);
+      breakpoint.addEventListener('change', onMotionChange);
+      reducedMotion.addEventListener('change', onMotionChange);
+      document.addEventListener('astro:before-swap', cleanup, { once: true });
+      schedule();
+    });
+  }
+  initGroviaStory();
+  document.addEventListener('astro:page-load', initGroviaStory);
+</script>

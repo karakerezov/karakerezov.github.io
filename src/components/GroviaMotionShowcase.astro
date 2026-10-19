@@ -1,0 +1,133 @@
+---
+/**
+ * Grovia animation showcase — local preview integration.
+ * Copy media/ into public/grovia-motion/ and this component into src/components/.
+ * One video element is used so only one animation can play at a time.
+ */
+const mediaBase = '/grovia-motion';
+const clips = [
+  { id: 'welcome', group: 'entry', label: 'Welcome', heading: 'A welcoming first impression', detail: 'A gentle introduction to the Grovia experience.' },
+  { id: 'login-loader', group: 'entry', label: 'Login & Loader', heading: 'Feedback that feels immediate', detail: 'Clear response while the app completes the sign-in transition.' },
+  { id: 'checkout-01-cart', group: 'checkout', label: 'Cart', heading: 'Edit the basket before checkout', detail: 'Increase a quantity, remove a product and review the updated total before Checkout.' },
+  { id: 'checkout-02-delivery', group: 'checkout', label: 'Delivery', heading: 'Choose delivery details', detail: 'A guided step for address and delivery time.' },
+  { id: 'checkout-03-payment', group: 'checkout', label: 'Payment', heading: 'Choose a payment method', detail: 'Payment options followed by order review.' },
+  { id: 'checkout-04-confirmed', group: 'checkout', label: 'Confirmed', heading: 'A clear moment of success', detail: 'A brief loading state resolves into order confirmation and the next step.' },
+  { id: 'checkout-05-tracking', group: 'checkout', label: 'Tracking', heading: 'Track your order after checkout', detail: 'Tap Track Your Delivery to open My Profile and see the order status.' },
+];
+---
+<section class="grovia-motion" aria-labelledby="grovia-motion-title" data-grovia-motion>
+  <div class="gm-head">
+    <p class="gm-eyebrow">INTERACTION DESIGN</p>
+    <h2 id="grovia-motion-title">Grovia in motion</h2>
+    <p>From the first welcome to delivery tracking — a closer look at the interactions behind the screens.</p>
+  </div>
+  <div class="gm-groups" role="group" aria-label="Animation collection">
+    <button class="gm-group" type="button" data-gm-group="entry" aria-pressed="false">Welcome & login</button>
+    <button class="gm-group is-active" type="button" data-gm-group="checkout" aria-pressed="true">Checkout flow</button>
+  </div>
+  <div class="gm-stage">
+    <div class="gm-device">
+      <div class="gm-screen">
+        <video data-gm-video muted playsinline loop preload="metadata"
+          poster={`${mediaBase}/checkout-01-cart-poster.jpg`}
+          aria-label="Grovia cart editing and checkout interaction animation">
+          <source src={`${mediaBase}/checkout-01-cart.mp4`} type="video/mp4" />
+        </video>
+      </div>
+      <img src={`${mediaBase}/iphone-frame.png`} alt="" class="gm-frame" draggable="false" loading="lazy" />
+    </div>
+    <div class="gm-content">
+      <p class="gm-counter" data-gm-counter>01 / 05</p>
+      <h3 data-gm-heading>Edit the basket before checkout</h3>
+      <p data-gm-detail>Increase a quantity, remove a product and review the updated total before Checkout.</p>
+      <div class="gm-steps" role="group" aria-label="Choose an interaction">
+        {clips.map((clip, i) => (
+          <button type="button" class:list={['gm-step', { 'is-active': i === 2 }]} data-gm-id={clip.id} data-gm-group-id={clip.group}
+            data-gm-heading-value={clip.heading} data-gm-detail-value={clip.detail}
+            data-gm-label={clip.label} aria-pressed={i === 2 ? 'true' : 'false'}
+            hidden={clip.group !== 'checkout'}>{clip.label}</button>
+        ))}
+      </div>
+      <div class="gm-controls">
+        <button type="button" data-gm-prev aria-label="Previous interaction">← Previous</button>
+        <button type="button" data-gm-toggle aria-label="Pause animation">Pause</button>
+        <button type="button" data-gm-replay aria-label="Replay animation">↻ Replay</button>
+        <button type="button" data-gm-next aria-label="Next interaction">Next →</button>
+      </div>
+      <p class="gm-note">Original interface recording. Animations play silently and can be paused at any time.</p>
+    </div>
+  </div>
+</section>
+<style>
+  .grovia-motion{width:100%;max-width:1200px;margin:clamp(60px,8vw,120px) auto;padding:0 clamp(16px,3vw,32px);color:inherit}
+  .gm-head{max-width:800px;margin-bottom:30px}
+  .gm-eyebrow{font-size:11px;letter-spacing:.13em;font-weight:700;opacity:.55;margin:0 0 12px}
+  .gm-head h2{font:inherit;font-size:clamp(36px,5vw,64px);line-height:1.07;margin:0 0 20px}
+  .gm-head>p:last-child{font-size:clamp(16px,2vw,19px);line-height:1.6;opacity:.7;margin:0}
+  .gm-groups{display:flex;gap:10px;flex-wrap:wrap;margin:28px 0 16px}
+  .gm-group,.gm-step,.gm-controls button{font:inherit;color:inherit;cursor:pointer;border:1px solid currentColor;background:transparent;border-radius:100px;transition:background .15s,color .15s}
+  .gm-group{padding:11px 18px;font-size:14px;opacity:.7}
+  .gm-group.is-active{opacity:1;background:color-mix(in srgb,currentColor 12%,transparent)}
+  .gm-stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,6vw,90px);align-items:center;border:1px solid color-mix(in srgb,currentColor 16%,transparent);border-radius:24px;padding:clamp(18px,4vw,54px);background:color-mix(in srgb,currentColor 3%,transparent)}
+  .gm-device{position:relative;width:min(100%,400px);aspect-ratio:777 / 1581;margin:auto;isolation:isolate;filter:drop-shadow(0 20px 20px rgba(0,0,0,.16))}
+  .gm-screen{position:absolute;left:5.277%;right:5.019%;top:calc(2.53% - 2px);bottom:2.53%;border-radius:10.5% / 5.1%;overflow:hidden;background:#e7e6e1}
+  .gm-screen video{display:block;width:100%;height:100%;object-fit:fill}
+  .gm-frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;user-select:none}
+  .gm-counter{font-size:12px;letter-spacing:.08em;opacity:.5;margin:0 0 20px}
+  .gm-content h3{font:inherit;font-size:clamp(26px,3vw,42px);line-height:1.15;margin:0 0 16px}
+  .gm-content>p:not(.gm-counter):not(.gm-note){font-size:17px;line-height:1.6;opacity:.7;margin:0 0 24px}
+  .gm-steps{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+  .gm-step{padding:9px 13px;font-size:13px;opacity:.7}
+  .gm-step.is-active{opacity:1;background:color-mix(in srgb,currentColor 12%,transparent)}
+  .gm-step[hidden]{display:none!important}
+  .gm-controls{display:flex;flex-wrap:wrap;gap:8px}
+  .gm-controls button{padding:10px 13px;font-size:13px}
+  .gm-controls button:hover,.gm-step:hover,.gm-group:hover{background:color-mix(in srgb,currentColor 9%,transparent)}
+  .gm-controls button:focus-visible,.gm-step:focus-visible,.gm-group:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+  .gm-note{font-size:12px;line-height:1.5;opacity:.5;margin:20px 0 0}
+  @media(max-width:780px){.gm-stage{grid-template-columns:1fr}.gm-device{width:min(100%,340px)}.gm-content{max-width:500px}.gm-head h2{font-size:clamp(36px,8vw,52px)}}
+  @media(max-width:430px){.gm-stage{padding:16px;border-radius:18px}.gm-device{width:min(100%,310px)}.gm-controls button{font-size:12px;padding:9px 10px}}
+  @media(prefers-reduced-motion:reduce){.gm-group,.gm-step,.gm-controls button{transition:none}}
+</style>
+<script>
+  function initGroviaMotion(){
+    document.querySelectorAll<HTMLElement>('[data-grovia-motion]').forEach(root=>{
+      if(root.dataset.gmReady==='true')return;
+      root.dataset.gmReady='true';
+      const video=root.querySelector<HTMLVideoElement>('[data-gm-video]')!;
+      const source=video.querySelector('source')!;
+      const groups=[...root.querySelectorAll<HTMLButtonElement>('[data-gm-group]')];
+      const steps=[...root.querySelectorAll<HTMLButtonElement>('[data-gm-id]')];
+      const heading=root.querySelector<HTMLElement>('[data-gm-heading]')!;
+      const detail=root.querySelector<HTMLElement>('[data-gm-detail]')!;
+      const counter=root.querySelector<HTMLElement>('[data-gm-counter]')!;
+      const toggle=root.querySelector<HTMLButtonElement>('[data-gm-toggle]')!;
+      const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let group='checkout';let active=steps.find(s=>s.dataset.gmId==='checkout-01-cart')!;let visible=false;let userPaused=reduced;
+      const groupSteps=()=>steps.filter(s=>s.dataset.gmGroupId===group);
+      const updateToggle=()=>{toggle.textContent=video.paused?'Play':'Pause';toggle.setAttribute('aria-label',video.paused?'Play animation':'Pause animation')};
+      const maybePlay=()=>{if(!userPaused&&visible&&!document.hidden){video.play().catch(()=>{userPaused=true;updateToggle()})}else video.pause()};
+      const activate=(step:HTMLButtonElement)=>{
+        active=step;group=step.dataset.gmGroupId!;
+        groups.forEach(b=>{const on=b.dataset.gmGroup===group;b.classList.toggle('is-active',on);b.setAttribute('aria-pressed',String(on))});
+        steps.forEach(b=>{const on=b===step;b.hidden=b.dataset.gmGroupId!==group;b.classList.toggle('is-active',on);b.setAttribute('aria-pressed',String(on))});
+        const index=groupSteps().indexOf(step);counter.textContent=`${String(index+1).padStart(2,'0')} / ${String(groupSteps().length).padStart(2,'0')}`;
+        heading.textContent=step.dataset.gmHeadingValue||'';detail.textContent=step.dataset.gmDetailValue||'';
+        const id=step.dataset.gmId!;video.pause();source.src=`/grovia-motion/${id}.mp4`;video.poster=`/grovia-motion/${id}-poster.jpg`;
+        video.setAttribute('aria-label',`Grovia ${step.dataset.gmLabel} interaction animation`);video.load();maybePlay();updateToggle();
+      };
+      groups.forEach(b=>b.addEventListener('click',()=>activate(steps.find(s=>s.dataset.gmGroupId===b.dataset.gmGroup)!)));
+      steps.forEach(b=>b.addEventListener('click',()=>activate(b)));
+      root.querySelector('[data-gm-prev]')!.addEventListener('click',()=>{const list=groupSteps();activate(list[(list.indexOf(active)-1+list.length)%list.length])});
+      root.querySelector('[data-gm-next]')!.addEventListener('click',()=>{const list=groupSteps();activate(list[(list.indexOf(active)+1)%list.length])});
+      root.querySelector('[data-gm-replay]')!.addEventListener('click',()=>{video.currentTime=0;userPaused=false;maybePlay()});
+      toggle.addEventListener('click',()=>{userPaused=!video.paused?true:false;maybePlay();updateToggle()});
+      video.addEventListener('play',updateToggle);video.addEventListener('pause',updateToggle);
+      document.addEventListener('visibilitychange',maybePlay);
+      const observer=new IntersectionObserver(entries=>{visible=entries[0]?.isIntersecting??false;maybePlay()},{threshold:.25});observer.observe(root);
+      updateToggle();
+    });
+  }
+  initGroviaMotion();
+  document.addEventListener('astro:page-load',initGroviaMotion);
+</script>
